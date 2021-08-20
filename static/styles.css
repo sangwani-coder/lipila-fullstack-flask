@@ -1,3 +1,9 @@
+nav li {
+    color: black;
+    font-size: large;
+    font-weight: bold;
+}
+
 nav .navbar-brand {
     /* size for brand */
     font-size: xx-large;
@@ -12,6 +18,7 @@ nav .navbar-brand .blue {
 
 nav .navbar-brand .red {
     color: #ea433b;
+    font-weight: bold;
 }
 
 nav .navbar-brand .yellow {
@@ -30,6 +37,7 @@ main .form-control {
 }
 
 main {
+    background-color: #69af7f;
     /* scroll horizontally as needed */
     overflow-x: auto;
     /* center contents */
@@ -117,12 +125,16 @@ tr:hover {
     top: 420px;
 }
 
-#cover-skool img {
-    width: 1200px;
+#login-form {
     display: flex;
-    background-color: #4CAF50;
 }
 
-.login-form.div {
-    background-color: #4CAF50;
+#login-form img {
+    margin: 10px 50px;
+}
+
+.card {
+    text-align: center;
+    background-color: rgb(219, 218, 218);
+    margin: auto;
 }
