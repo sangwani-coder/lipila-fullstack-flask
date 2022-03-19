@@ -6,15 +6,15 @@ School Fee Collection System
 
 ## Usage Linux:
 **Set ENV Variables**
-- $ cd SKOOLPAY
-- $ export FLASK_ENV=development
-- $ export FLASK_APP=app
-- $ flask run
+$ cd SKOOLPAY
+$ export FLASK_ENV=development
+$ export FLASK_APP=app
+$ flask run
 
 ## Usage Windows:
-- cd SKOOLPAY
-- > python app.py
--
+cd SKOOLPAY
+$ python app.py
+
 ## Language
 - Python3
 ## Framework
