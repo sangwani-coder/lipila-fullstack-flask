@@ -35,11 +35,20 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
         <div class="collapse navbar-collapse" id="navbar">
-            {% if session == "show" %}
+            {% if session == "schools" %}
             <ul class="navbar-nav mr-auto mt-2" id="head">
-                <li class="nav-item"><a class="nav-link" href="/quote">Quote</a></li>
-                <li class="nav-item"><a class="nav-link" href="/buy">Buy</a></li>
-                <li class="nav-item"><a class="nav-link" href="/sell">Sell</a></li>
+                <li class="nav-item"><a class="nav-link" href="/week">This week</a></li>
+                <li class="nav-item"><a class="nav-link" href="/month">This Month</a></li>
+                <li class="nav-item"><a class="nav-link" href="/term">This Term</a></li>
+                <li class="nav-item"><a class="nav-link" href="/report">Report</a></li>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-2">
+                <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+            </ul>
+            {% elif session == "payments" %}
+            <ul class="navbar-nav mr-auto mt-2" id="head">
+                <li class="nav-item"><a class="nav-link" href="/promise">Promise</a></li>
+                <li class="nav-item"><a class="nav-link" href="/pay">Pay</a></li>
                 <li class="nav-item"><a class="nav-link" href="/history">History</a></li>
                 <li class="nav-item"><a class="nav-link" href="/deposit">DEPOSIT</a></li>
             </ul>
