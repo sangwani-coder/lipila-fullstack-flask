@@ -24,12 +24,6 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says hello
-    @app.route('/', methods = ['GET', 'POST'])
-    def homepage():
-        # return "Index"
-        return render_template('payment/payment.html')
-
 
     @app.route('/skoolpay/<task>', methods = ['GET', 'POST'])
     def index(task):

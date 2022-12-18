@@ -30,18 +30,18 @@ Sqlite in developmeent and MySQL in production
 - Print reports
 
 ## Run The Application
-Now you can run your application using the flask command. From the terminal, tell Flask where to find your application, then run it in debug mode. Remember, you should still be in the top-level directory, not the SKOOLPAY package.
+Now you can run your application using the flask command. From the terminal, tell Flask where to find your application, then run it in debug mode. Remember, you should still be in the top-level directory, not the skoolpay package.
 
 Debug mode shows an interactive debugger whenever a page raises an exception, and restarts the server whenever you make changes to the code. You can leave it running and just reload the browser page as you follow the tutorial.
 
-$ flask --app SKOOLPAY --debug run
+$ flask --app skoolpay --debug run
 
 ## Initialize the Database File
 You initialize the database by calling the init-db method that has been registered with the app, it can be called using the flask command, similar to the run command from the previous page.
 
 Run the init-db command:
 
-$ flask --app SKOOLPAY init-db
+$ flask --app skoolpay init-db
 
 Initialized the database.
 
