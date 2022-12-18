@@ -26,7 +26,13 @@ def create_app(test_config=None):
 
     # a simple page that says hello
     @app.route('/', methods = ['GET', 'POST'])
-    def index():
+    def homepage():
+        # return "Index"
+        return render_template('payment/payment.html')
+
+
+    @app.route('/skoolpay/<task>', methods = ['GET', 'POST'])
+    def index(task):
         # return "Index"
         return render_template('index.html')
     
@@ -37,5 +43,8 @@ def create_app(test_config=None):
     # register auth blueprint
     from . import auth
     app.register_blueprint(auth.bp)
+
+    from . import skoolpay
+    app.register_blueprint(skoolpay.bp)
 
     return app

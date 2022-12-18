@@ -35,30 +35,33 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
         <div class="collapse navbar-collapse" id="navbar">
-            {% if session == "schools" %}
+            {% if session['user'] == "schools" %}
             <ul class="navbar-nav mr-auto mt-2" id="head">
-                <li class="nav-item"><a class="nav-link" href="/week">This week</a></li>
-                <li class="nav-item"><a class="nav-link" href="/month">This Month</a></li>
-                <li class="nav-item"><a class="nav-link" href="/term">This Term</a></li>
-                <li class="nav-item"><a class="nav-link" href="/report">Report</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">This week</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">This Month</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">This Term</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Report</a></li>
             </ul>
             <ul class="navbar-nav ml-auto mt-2">
-                <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
-            </ul>
-            {% elif session == "payments" %}
-            <ul class="navbar-nav mr-auto mt-2" id="head">
-                <li class="nav-item"><a class="nav-link" href="/promise">Promise</a></li>
-                <li class="nav-item"><a class="nav-link" href="/pay">Pay</a></li>
-                <li class="nav-item"><a class="nav-link" href="/history">History</a></li>
-                <li class="nav-item"><a class="nav-link" href="/deposit">DEPOSIT</a></li>
+                <li class="nav-item">User {{session['email']}}</li>
             </ul>
             <ul class="navbar-nav ml-auto mt-2">
-                <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{url_for('auth.logout')}}">Log Out</a></li>
+            </ul>
+            {% elif session['user'] == "payments" %}
+            <ul class="navbar-nav mr-auto mt-2" id="head">
+                <li class="nav-item"><a class="nav-link" href="#">Promise</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Pay</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">History</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">DEPOSIT</a></li>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-2">
+                <li class="nav-item"><a class="nav-link" href="{{url_for('auth.logout')}}">Log Out</a></li>
             </ul>
             {% else %}
             <ul class="navbar-nav ml-auto mt-2">
-                <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
-                <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{url_for('index', task='register')}}">Register</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{url_for('index', task='login')}}">Log In</a></li>
             </ul>
             {% endif %}
         </div>

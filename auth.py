@@ -36,7 +36,7 @@ def register(user):
             
         if user == 'schools':
             # admin other detaild
-            user_status = request.form['job']
+            job = request.form['job']
             school = request.form['school']
             reg_number = request.form['reg_number']
 
@@ -54,20 +54,23 @@ def register(user):
                 error = 'Firstname is required.'
             elif not reg_number:
                 error = 'Registration number is required.'
-            elif not user_status:
+            elif not job:
                 error = 'Job description is required.'
 
         if error is None:
             try:
                 db.execute(
-                    "INSERT INTO user (email, password) VALUES (?, ?)",
-                    (email, generate_password_hash(password)),
+                    "INSERT INTO school (job, school, email, mobile,\
+                         reg_number, firstname, lastname, password)\
+                             VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                    (job, school, email, mobile, reg_number, firstname,
+                    lastname, generate_password_hash(password)),
                 )
                 db.commit()
             except db.IntegrityError:
                 error = f"User {email} is already registered."
             else:
-                return redirect(url_for("auth.login"))
+                return redirect(url_for("auth.login", user='schools'))
 
         flash(error)
 
@@ -77,32 +80,45 @@ def register(user):
         return render_template('auth/register_school.html')
 
 
-@bp.route('/login', methods=('GET', 'POST'))
-def login():
+@bp.route('/login/<users>', methods=('GET', 'POST'))
+def login(users):
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        users = request.method.get('user')
         db = get_db()
         error = None
-        user = db.execute(
-            'SELECT * FROM user WHERE email = ?', (email,)
-        ).fetchone()
+        # login student user
+        if users == 'users':
+            user = db.execute(
+                'SELECT * FROM school WHERE email = ?', (email,)
+            ).fetchone()
 
-        if user is None:
-            error = 'Incorrect email.'
-        elif not check_password_hash(user['password'], password):
-            error = 'Incorrect password.'
+            if user is None:
+                error = 'Incorrect email.'
+            elif not check_password_hash(user['password'], password):
+                error = 'Incorrect password.'
+
+        # login admin user
+        elif users == 'schools':
+            user = db.execute(
+                'SELECT * FROM school WHERE email = ?', (email,)
+            ).fetchone()
+
+            print('this is the user', user)
+            if user is None or not check_password_hash(user['password'], password):
+                error = 'Incorrect credentials. Please check your details'
 
         if error is None:
             session.clear()
+            flash('Logged in')
+            session['user'] = users
             session['user_id'] = user['id']
-            return redirect(url_for('dashboard', user=users))
+            session['email'] = user['email']
+            return redirect(url_for('skoolpay.dashboard'))
 
         flash(error)
 
-    return render_template('auth/login.html')
-
+    return render_template('index.html')
 
 @bp.before_app_request
 def load_logged_in_user():
@@ -118,7 +134,8 @@ def load_logged_in_user():
 @bp.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    flash('Logged out')
+    return redirect(url_for('index', task='login'))
 
 def login_required(view):
     @functools.wraps(view)

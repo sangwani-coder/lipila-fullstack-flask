@@ -41,7 +41,7 @@ You initialize the database by calling the init-db method that has been register
 
 Run the init-db command:
 
-$ flask --app flaskr init-db
+$ flask --app SKOOLPAY init-db
 
 Initialized the database.
 

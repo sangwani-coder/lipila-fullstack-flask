@@ -1,0 +1,17 @@
+{% extends "layout.html" %} {% block title %} homepage {% endblock %} {% block main %}
+<h1>Welcome to SkooPay</h1>
+<div id="login-form">
+    <img src="../../static/images/skool.jpg" alt="school-image">
+
+    <form action="" method="post" class="card">
+        <h3>Make a payment</h3>
+        <div class="form-group">
+            <input autocomplete="off" autofocus class="form-control" name="student" placeholder="Student code" type="number">
+        </div>
+        <button class="btn btn-primary" type="submit">Next</button>
+    </form>
+</div>
+<div class="small text-center text-muted">
+    <h6><a href="#" target="blank">Terms and Conditions</a> <a href="#" target="blank">Privacy Policy</a></h6>
+</div>
+{% endblock %}

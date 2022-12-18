@@ -3,7 +3,7 @@
 <div id="login-form">
     <img src="../../static/images/skool.jpg" alt="school-image">
 
-    <form action="/login" method="post" class="card">
+    <form action="{{url_for('auth.login', users='users')}}" method="post" class="card">
         <h3>Parent Login</h3>
         <div class="form-group">
             <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Username" type="text">
@@ -13,7 +13,7 @@
         </div>
         <button class="btn btn-primary" type="submit">Log In</button>
     </form>
-    <form action="/login" method="post" class="card">
+    <form action="{{url_for('auth.login', users='schools')}}" method="post" class="card">
         <h3>School Login</h3>
         <div class="form-group">
             <input autocomplete="off" autofocus class="form-control" name="schoolname" placeholder="Username" type="text">
