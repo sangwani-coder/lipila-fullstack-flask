@@ -3,8 +3,8 @@
 <div class="scroll-left">
     <h5>No more spending hours in bank Queues, Send your child's payment faster, Receive students fees quicker</h5>
 </div>
-<h4>If you do not have an account <a href="{{url_for(auth.register, user='user')}}">parents register here</a>
-    </br><a href="{{url_for(auth.register, user='schools')}}">for schools register here</a></h4>
+<h4>If you do not have an account <a href="{{ url_for('auth.register', user='users') }}">parents register here</a>
+    </br><a href="{{ url_for('auth.register', user='schools') }}">for schools register here</a></h4>
 <div id="login-form">
     <img src="../../static/images/skool.jpg" alt="school-image">
 

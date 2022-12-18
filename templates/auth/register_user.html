@@ -3,26 +3,26 @@
 <div class="scroll-left">
     <h5>No more spending hours in bank Queues, Send your child's payment faster</h5>
 </div>
-<h4><a href="/signup">Schools register here</a>
+<h4><a href="{{ url_for('auth.register', user='schools') }}">Schools register here</a>
     <div id="login-form">
         <img src="../../static/images/skool.jpg" alt="school-image">
 
-        <form action="/register" method="post" class="card">
+        <form action="{{ url_for('auth.register', user='users') }}" method="post" class="card">
             <h3>Register</h3>
             <div class="form-group">
-                <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Email" type="text">
+                <input autocomplete="off" autofocus class="form-control" name="email" placeholder="Email" type="text">
             </div>
             <div class="form-group">
-                <input autocomplete="off" autofocus class="form-control" name="fullname" placeholder="Full names" type="text">
+                <input autocomplete="off" autofocus class="form-control" name="mobile" placeholder="0969662255" type="text">
             </div>
             <div class="form-group">
-                <input autocomplete="off" autofocus class="form-control" name="mobile" placeholder="Mobile" type="text">
+                <input autocomplete="off" autofocus class="form-control" name="firstname" placeholder="firstname" type="text">
+            </div>
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="lastname" placeholder="lastname" type="text">
             </div>
             <div class="form-group">
                 <input class="form-control" name="password" placeholder="Password" type="password">
-            </div>
-            <div class="form-group">
-                <input class="form-control" name="confirm" placeholder="Confirm Password" type="password">
             </div>
             <button class="btn btn-primary" type="submit">Signup</button>
         </form>

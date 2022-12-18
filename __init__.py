@@ -27,6 +27,7 @@ def create_app(test_config=None):
     # a simple page that says hello
     @app.route('/', methods = ['GET', 'POST'])
     def index():
+        # return "Index"
         return render_template('index.html')
     
     # rgister init_app
@@ -36,6 +37,5 @@ def create_app(test_config=None):
     # register auth blueprint
     from . import auth
     app.register_blueprint(auth.bp)
-
 
     return app

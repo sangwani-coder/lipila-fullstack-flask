@@ -3,11 +3,11 @@
 <div class="scroll-left">
     <h5>Receive students fees quicker</h5>
 </div>
-<h4><a href="/register">Parents register here</a>
+<h4><a href="{{ url_for('auth.register', user='users') }}">Parents register here</a>
     <div id="login-form">
         <img src="../../static/images/skool.jpg" alt="school-image">
 
-        <form action="/signup" method="post" class="card">
+        <form action="{{ url_for('auth.register', user='schools') }}" method="post" class="card">
             <h3>Register as:</h3>
             <select name="job" id="job" class="form-group">
                 <option value="admin" class="form-control">Administrator</option>
@@ -15,25 +15,25 @@
                 <option value="acct" class="form-control">Accountant</option>
             </select>
             <div class="form-group">
-                <input autocomplete="off" autofocus class="form-control" name="fullname" placeholder="Full names" type="text">
+                <input autocomplete="off" autofocus class="form-control" name="school" placeholder="School name" type="text">
             </div>
             <div class="form-group">
-                <input autocomplete="off" autofocus class="form-control" name="schoolname" placeholder="School name" type="text">
+                <input autocomplete="off" autofocus class="form-control" name="reg_number" placeholder="School Registration number" type="text">
             </div>
             <div class="form-group">
-                <input autocomplete="off" autofocus class="form-control" name="schoolnumber" placeholder="Registration number" type="text">
+                <input autocomplete="off" autofocus class="form-control" name="email" placeholder="Email" type="text">
             </div>
             <div class="form-group">
-                <input autocomplete="off" autofocus class="form-control" name="mobile" placeholder="Mobile" type="text">
+                <input class="form-control" name="mobile" placeholder="06963225566" type="text">
             </div>
             <div class="form-group">
-                <input autocomplete="off" autofocus class="form-control" name="username" placeholder="Email" type="text">
+                <input autocomplete="off" autofocus class="form-control" name="firstname" placeholder="User firstname" type="text">
+            </div>
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="lastname" placeholder="User lastname" type="text">
             </div>
             <div class="form-group">
                 <input class="form-control" name="password" placeholder="Password" type="password">
-            </div>
-            <div class="form-group">
-                <input class="form-control" name="confirm" placeholder="Confirm Password" type="password">
             </div>
             <button class="btn btn-primary" type="submit">Signup</button>
         </form>
