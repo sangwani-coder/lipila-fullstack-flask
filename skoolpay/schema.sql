@@ -22,13 +22,13 @@ CREATE TABLE student (
 
 CREATE TABLE school (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  job TEXT UNIQUE NOT NULL,
+  job TEXT NOT NULL,
   school TEXT UNIQUE NOT NULL,
   email TEXT UNIQUE NOT NULL,
-  mobile TEXT UNIQUE NOT NULL,
+  mobile TEXT NOT NULL,
   reg_number TEXT UNIQUE NOT NULL,
-  firstname TEXT UNIQUE NOT NULL,
-  lastname TEXT UNIQUE NOT NULL,
+  firstname TEXT NOT NULL,
+  lastname TEXT NOT NULL,
   password TEXT NOT NULL
 );
 

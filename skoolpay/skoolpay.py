@@ -13,7 +13,7 @@ bp = Blueprint('skoolpay', __name__, url_prefix='/skoolpay')
 @bp.route('/', methods = ['GET', 'POST'])
 def homepage():
     # return "Index"
-    return render_template('payment/payment.html')
+    return render_template('payment/index.html')
 
 @bp.route('/dashboard', methods=('GET', 'POST'))
 @login_required

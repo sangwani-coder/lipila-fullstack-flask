@@ -30,6 +30,7 @@ def create_app(test_config=None):
         # return "Index"
         return render_template('index.html')
     
+
     # rgister init_app
     from . import db
     db.init_app(app)

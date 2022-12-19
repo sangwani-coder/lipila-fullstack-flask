@@ -68,9 +68,9 @@ def register(user):
                 )
                 db.commit()
             except db.IntegrityError:
-                error = f"User {email} is already registered."
+                error = "already registered."
             else:
-                return redirect(url_for("auth.login", user='schools'))
+                return redirect(url_for("auth.login", users='schools'))
 
         flash(error)
 
@@ -104,7 +104,6 @@ def login(users):
                 'SELECT * FROM school WHERE email = ?', (email,)
             ).fetchone()
 
-            print('this is the user', user)
             if user is None or not check_password_hash(user['password'], password):
                 error = 'Incorrect credentials. Please check your details'
 
