@@ -1,22 +1,19 @@
 {% extends "layout.html" %} {% block title %} homepage {% endblock %} {% block main %}
-<h1>Confirm</h1>
+<h4>Confirm student information</h4>
+    <div class="form-group">
+        <lable>School Name: {{school}}</lable><br>
+        <lable>Student Name: {{student.firstname}} {{student.lastname}}</lable>
+    </div>
 <div id="login-form">
-    <img src="../../static/images/skool.jpg" alt="school-image">
-
-        <div class="form-group">
-            <p>Make payment for</p>
-            {{student.firstname}}
-            {{student.lastname}}
-            {{school}}
-        </div>
-    <form action="{{url_for('skoolpay.confirmed')}}" method="post" class="card">
+    <form action="{{url_for('skoolpay.confirmed')}}" method="post" class="">
         <div>
-            <label for="amount">enter amount</label>
-            <input type="number" name="amount" placeholder="1000"><br>
-            <label for="mobile">Enter mobile number</label>
-            <input type="text" name="mobile" placeholder="0969663366 or 9671552233">
+            <label for="amount" class="confirm-text" >Enter amount:</label>
+            <input type="number" autofocus name="amount" placeholder="1000"><span></span>
+            <label for="mobile" class="confirm-text" >Enter momo number:</label>
+            <input type="text" name="mobile" placeholder="">
+            <input class="btn-primary" type="submit" value="Confirm">
         </div>
-        <button class="btn btn-primary" type="submit">Confirm</button>
+        
     </form>
 </div>
 <div class="small text-center text-muted">

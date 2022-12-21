@@ -6,4 +6,4 @@ AUTH_KEY = ''
 
 class MTN(Momo):
     def make_payment(self, account, amount):
-        return 'success'
+        return True

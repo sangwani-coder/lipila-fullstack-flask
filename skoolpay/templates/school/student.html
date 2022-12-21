@@ -1,7 +1,18 @@
-{% extends "layout.html" %} {% block title %} Dashboard {% endblock %} {% block main %}
-<h1>Students</h1>
-{% for student in students %}
-<p>{{student.firstname}} {{student.lastname}} {{student.school}} {{student.tuition}}</p> 
+{% extends "layout.html" %} {% block title %} Students {% endblock %} {% block main %}
+<h4>{{session['school']}} Students</h4>
+<table style="width:100%">
+    <tr>
+        <th>Names</th>
+        <th>Code</th>
+        <th>tuition</th>
+    </tr>
+    {% for student in students %}
+    <tr>
+        <td>{{student.firstname}} {{student.lastname}}</td>
+        <td>{{student.id}}</td>
+        <td>{{student.tuition}}</td>
+    </tr>
 {% endfor %}
+</table>
 
 {% endblock %}

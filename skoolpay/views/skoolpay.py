@@ -6,7 +6,8 @@ from flask import (
 from skoolpay.db import get_db
 
 from skoolpay.momo.momo import Momo
-from skoolpay.momo import mtn_momo, airtel_momo 
+from skoolpay.momo.mtn_momo import MTN
+from skoolpay.momo.airtel_momo import Airtel
 
 bp = Blueprint('skoolpay', __name__, url_prefix='/skoolpay')
 
@@ -40,6 +41,7 @@ def get_student_data(id):
             session['lastname'] = student['lastname']
             session['school'] = school['school']
             session['tuition'] = student['tuition']
+            session['student'] = student['firstname'] + ' ' + student['lastname']
 
             return render_template('payment/confirm.html', student=student, school=school['school'])
     flash(error)
@@ -91,6 +93,8 @@ def payment():
     acct = session['account']
     user = session['user-id']
     amount = session['amount']
+
+    error =  None
         
     if request.method == 'GET':
         net = Momo().get_network(acct)
@@ -105,25 +109,26 @@ def payment():
         return render_template('payment/payment.html')
     
     if session['net'] == 'mtn':
-        sp = mtn_momo.MTN()
+        sp = MTN()
         payment = sp.make_payment(acct, amount)
-        if payment == 'Success':
+        if payment:
             db = get_db()
-        
-            db.execute("INSERT INTO payment (student_id, amount, account_number) \
-                VALUES(?,?,?)",(user, amount, acct),
+            db.execute("INSERT INTO payment (student_id, amount, school, account_number) \
+                VALUES(?,?,?,?)",(user, amount, str(user), acct),
                 )
+            flash('success')
     
     elif session['net'] == 'airtel':
-        sp = airtel_momo.Airtel()
+        sp = Airtel()
         payment = sp.make_payment(acct, amount)
-        if payment == 'Success':
+        if payment:
             db = get_db()
-        
-            db.execute("INSERT INTO payment (student_id, amount, account_number) \
-                VALUES(?,?,?)",(user, amount, acct),
+            db.execute("INSERT INTO payment (student_id, amount, school, account_number) \
+                VALUES(?,?,?,?)",(user, amount, str(user), acct),
                 )
-
-    flash('success')
+            flash('success')
+    else:
+        error = 'error'
+        flash(error)
     return render_template('/payment/index.html')
 

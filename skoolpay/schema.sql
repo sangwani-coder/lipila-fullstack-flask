@@ -45,7 +45,9 @@ CREATE TABLE payment (
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   amount INTEGER NOT NULL,
   account_number TEXT NOT NULL,
-  FOREIGN KEY (student_id) REFERENCES student (id)
+  school TEXT NOT NULL,
+  FOREIGN KEY (student_id) REFERENCES student (id),
+  FOREIGN KEY (school) REFERENCES school (id)
 );
 
 

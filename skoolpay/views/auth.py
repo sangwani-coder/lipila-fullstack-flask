@@ -70,6 +70,7 @@ def register(user):
             except db.IntegrityError:
                 error = "already registered."
             else:
+                flash('registration success')
                 return redirect(url_for("auth.login", users='schools'))
 
         flash(error)

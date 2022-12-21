@@ -1,15 +1,17 @@
 {% extends "layout.html" %} {% block title %} add student {% endblock %} {% block main %}
 <h3>Add student to database</h3>
-<form action="{{url_for('admin.create_student')}}" method="post" class="card">
-    <label for="fn">first name</label>
-    <input type='text' name="firstname" id="fn" placeholder="first name">
-    <label for="ln">lastname name</label>
-    <input type='text' name="lastname" id="ln" placeholder="lastname">
-    <label for="pf" >Program</label>
-    <input type='text' name="program" id="pf" placeholder="grade / course">    
-    <label for="tn" >tuition</label>
-    <input type='number' name="tuition" id="tn" placeholder="tuition fee">
-    <input type="submit" value="Add">
+<form action="{{url_for('admin.create_student')}}" method="post" class="" class="">
+    <div id="">
+        <label for="fn">First Name:</label>
+        <input type='text' name="firstname" id="fn" placeholder="first name"><br>
+        <label for="ln">Last name Name:</lable>
+        <input type='text' name="lastname" id="ln" placeholder="lastname"><br>
+        <label for="pf" >Program:</label>
+        <input type='text' name="program" id="pf" placeholder="course"><br>
+        <label for="tn" >Tuition:</label>
+        <input type='number' name="tuition" id="tn" placeholder="tuition fee">
+    </div>
+    <input type="submit" class="btn-primary" value="Add">
 </form>
 
 {% endblock %}

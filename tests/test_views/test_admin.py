@@ -76,6 +76,25 @@ def test_show_students(client, auth, app):
             "SELECT * FROM student WHERE school =1"
         ).fetchall() is not None
 
+def test_list_payments(client, auth):
+    """ Test ths route to return registered students"""
+    response = auth.login()
+    assert response.headers['Location'] == '/skoolpay/admin/dashboard'
+    with client:
+        response = client.get('/skoolpay/admin/payments')
+        assert response.status_code == 200
+        assert b'Payments' in response.data
+        assert b'<table style="width:100%">' in response.data
+        assert b'<h4>academy Payments</h4>' in response.data
+        assert session['email'] == 'pz@email.com'
+        assert session['user_id'] == 1
+        assert b'2' in response.data # check code
+        assert b'500' in response.data # check amount paid
+        assert b'2022' in response.data # check date
+        # assert b'sepi' in response.data # check student name
+        # assert b'zed' in response.data # check lastname
+        # assert b'300' in response.data # check tuition
+        
 
 def test_update_student(client, auth):
     """ Test the update route and functions"""

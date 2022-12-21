@@ -27,6 +27,24 @@ def show_students():
 
         except Exception as e:
             print(e)
+
+@bp.route('/admin/payments')
+@login_required
+def show_payments():
+    db = get_db()
+    data = db.execute(
+        "SELECT * from payment WHERE school=?",(session['user_id'],)
+    ).fetchall()
+    
+    school = db.execute(
+        "SELECT * from school WHERE id=?",(session['user_id'],)
+    ).fetchone()
+
+    # student = db.execute(
+    #     "SELECT * from student WHERE school=?",(session['user_id'],)
+    # ).fetchall()
+
+    return render_template('school/payments.html', school=school['school'], data=data)
     
 
 @bp.route('/admin/add', methods = ['GET', 'POST'])

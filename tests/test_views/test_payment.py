@@ -61,8 +61,8 @@ def test_confirmed(client, app):
     """ Test the route to return student data"""
     response = client.get('/skoolpay/payment/1')
     assert response.status_code == 200
-    assert b'<input type="number" name="amount" placeholder="1000"><br>' in response.data
-    assert b'<input type="text" name="mobile" placeholder="0969663366 or 9671552233">' in response.data
+    assert b'Enter amount:' in response.data
+    assert b'Enter momo number:' in response.data
 
     with client:
         response = client.get('/skoolpay/confirmed')
@@ -103,7 +103,6 @@ def test_payment_correct_mtn(client, app):
         assert client.post('/skoolpay/payment').status_code == 200
     
     with client:
-        created = datetime.now()
         response = client.post('/skoolpay/payment')
         assert response.status_code == 200
         assert b'success' in response.data
@@ -112,8 +111,9 @@ def test_payment_correct_mtn(client, app):
                 "SELECT * FROM payment WHERE student_id = '1'",
             ).fetchone()
             assert payment is not None
-            assert payment['amount'] == 300
+            assert payment['amount'] == 500
             assert payment['student_id'] == 1
+            assert payment['school'] == '1'
             assert session['account'] == '0969620939'
             assert session['amount'] == 200
             assert isinstance(payment['created'], datetime)
@@ -143,7 +143,7 @@ def test_payment_wrong_details(client, app):
     with client:
         response = client.post('/skoolpay/payment')
         assert response.status_code == 200
-        assert b'success' in response.data
+        assert b'error' in response.data
         with app.app_context():
             payment = get_db().execute(
                 "SELECT * FROM payment WHERE student_id = '2'",
@@ -185,6 +185,7 @@ def test_payment_correct_airtel(client, app):
             assert payment is not None
             assert payment['amount'] != 400
             assert payment['student_id'] == 2
+            assert payment['school'] == '2'
             assert session['account'] == '0971893155'
             assert session['amount'] == 400
             assert isinstance(payment['created'], datetime)

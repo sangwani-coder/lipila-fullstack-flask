@@ -9,8 +9,8 @@ VALUES
   ('pita', 'zed', 1, 'IT', 300),
   ('sangwa', 'zed', 2, 'MED', 300);
 
-  INSERT INTO payment(student_id, amount, account_number)
+  INSERT INTO payment(student_id, amount, school, account_number)
 VALUES 
-  (1, 300, '06969854'),
-  (2, 500, '06969854'),
-  (3, 300, '06969854');
+  (1, 500, 1, '06969854'),
+  (2, 500, 2, '06969854'),
+  (3, 500, 2, '06969854');
