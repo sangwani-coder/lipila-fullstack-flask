@@ -16,7 +16,9 @@ bp = Blueprint('skoolpay', __name__, url_prefix='/skoolpay')
 @bp.route('/', methods = ['GET', 'POST'])
 def homepage():
     # return "Index"
+    session.clear()
     if request.method == 'POST':
+        session.clear()
         student = request.form['student']
         return redirect(url_for('skoolpay.get_student_data', id=student))
     return render_template('payment/index.html')
@@ -42,6 +44,7 @@ def get_student_data(id):
             session['school'] = school['school']
             session['tuition'] = student['tuition']
             session['student'] = student['firstname'] + ' ' + student['lastname']
+            session['school-id'] = school_id['school']
 
             return render_template('payment/confirm.html', student=student, school=school['school'])
     flash(error)
@@ -106,7 +109,9 @@ def payment():
             flash('Failed to verify account')
             student = {'firstname':session['firstname'], 'lastname':session['lastname']}
             return render_template('payment/confirm.html', student=student, school=session['school'])
-        return render_template('payment/payment.html')
+        student = {'firstname':session['firstname'], 'lastname':session['lastname']}
+        return render_template('payment/confirm.html', student=student, school=session['school'])
+        # return render_template('payment/payment.html')
     
     if session['net'] == 'mtn':
         sp = MTN()
@@ -114,9 +119,24 @@ def payment():
         if payment:
             db = get_db()
             db.execute("INSERT INTO payment (student_id, amount, school, account_number) \
-                VALUES(?,?,?,?)",(user, amount, str(user), acct),
+                VALUES(?,?,?,?)",(user, amount, session['school-id'], acct),
                 )
-            flash('success')
+
+            school = session['school-id']
+            payment = db.execute(
+                "SELECT * FROM payment WHERE student_id=?",(user,)
+            ).fetchone()
+
+            student = db.execute(
+                "SELECT * FROM student WHERE id=?",(user,)
+            ).fetchone()
+            db.commit()
+
+            names =  student['firstname'] + ' ' + student['lastname']
+
+            msg = 'success payment of' + ' ' + str(payment['amount']) + ' for' + ' ' + names
+            
+            flash(msg)
     
     elif session['net'] == 'airtel':
         sp = Airtel()
@@ -124,11 +144,36 @@ def payment():
         if payment:
             db = get_db()
             db.execute("INSERT INTO payment (student_id, amount, school, account_number) \
-                VALUES(?,?,?,?)",(user, amount, str(user), acct),
+                VALUES(?,?,?,?)",(user, amount, session['school-id'], acct),
                 )
-            flash('success')
+            school = session['school-id']
+            payment = db.execute(
+                "SELECT * FROM payment WHERE student_id=?",(user,)
+            ).fetchone()
+
+            student = db.execute(
+                "SELECT * FROM student WHERE id=?",(user,)
+            ).fetchone()
+            db.commit()
+            names =  student['firstname'] + ' ' + student['lastname']
+
+            msg = 'success payment of' + ' ' + str(payment['amount']) + ' for' + ' ' + names
+            
+            flash(msg)
     else:
         error = 'error'
         flash(error)
-    return render_template('/payment/index.html')
+    return redirect(url_for('skoolpay.show_history'))
 
+@bp.route('/admin/history', methods=('GET', 'POST'))
+def show_history():
+    db = get_db()
+
+    school = session['school-id']
+    user = session['user-id']
+
+    payment = get_db().execute(
+        "SELECT * FROM payment WHERE student_id=?",(user,)
+    ).fetchall()
+
+    return render_template('payment/history.html', school=session['school'], data=payment)

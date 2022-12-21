@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS payment;
-DROP TABLE IF EXISTS student;
-DROP TABLE IF EXISTS school;
+-- DROP TABLE IF EXISTS student;
+-- DROP TABLE IF EXISTS school;
 
 -- Create user table to store a students information
 CREATE TABLE user (
@@ -15,7 +15,7 @@ CREATE TABLE user (
 
 -- Create school table to store admin user details and 
 -- Details of the school
-CREATE TABLE school (
+CREATE TABLE IF NOT EXISTS school (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   job TEXT NOT NULL,
   school TEXT UNIQUE NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE school (
 
 -- Create student table to store a
 -- students information
-CREATE TABLE student (
+CREATE TABLE IF NOT EXISTS student (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   firstname TEXT NOT NULL,
   lastname TEXT NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE payment (
   created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   amount INTEGER NOT NULL,
   account_number TEXT NOT NULL,
-  school TEXT NOT NULL,
+  school INTEGER NOT NULL,
   FOREIGN KEY (student_id) REFERENCES student (id),
   FOREIGN KEY (school) REFERENCES school (id)
 );

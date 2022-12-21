@@ -1,9 +1,9 @@
-{% extends "layout.html" %} {% block title %} Payments {% endblock %} {% block main %}
+{% extends "layout.html" %} {% block title %} History {% endblock %} {% block main %}
 <h4>{{school}} Payments</h4>
 <table style="width:100%">
     <tr>
         <th>Names</th>
-        <th>Received</th>
+        <th>Date</th>
         <th>Student Code</th>
         <th>tuition</th>
         <th>Paid</th>
@@ -11,8 +11,8 @@
     </tr>
     {% for student in data %}
     <tr>
-        <td>{{student.student_id}}</td>
-        <td >{{student.created}}</td>
+        <td>{{session['firstname']}} {{session['lastname']}}</td>
+        <td>{{student.created}}</td>
         <td>{{student.student_id}}</td>
         <td>{{student.tuition}}</td>
         <td>{{student.amount}}</td>

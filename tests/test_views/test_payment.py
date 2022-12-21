@@ -100,12 +100,13 @@ def test_payment_correct_mtn(client, app):
     
         assert client.get('/skoolpay/payment').status_code == 200
         assert session['net'] == 'mtn'
-        assert client.post('/skoolpay/payment').status_code == 200
+        res = client.post('/skoolpay/payment')
+        assert res.headers['Location'] == '/skoolpay/admin/history'
     
     with client:
         response = client.post('/skoolpay/payment')
-        assert response.status_code == 200
-        assert b'success' in response.data
+        assert response.headers['Location'] == '/skoolpay/admin/history'
+        # assert b'success payment of 500 for sepi zed' in response.data
         with app.app_context():
             payment = get_db().execute(
                 "SELECT * FROM payment WHERE student_id = '1'",
@@ -113,7 +114,7 @@ def test_payment_correct_mtn(client, app):
             assert payment is not None
             assert payment['amount'] == 500
             assert payment['student_id'] == 1
-            assert payment['school'] == '1'
+            assert payment['school'] == 1
             assert session['account'] == '0969620939'
             assert session['amount'] == 200
             assert isinstance(payment['created'], datetime)
@@ -138,12 +139,13 @@ def test_payment_wrong_details(client, app):
     
         assert client.get('/skoolpay/payment').status_code == 200
         assert session['net'] == None
-        assert client.post('/skoolpay/payment').status_code == 200
+        res = client.post('/skoolpay/payment')
+        assert res.headers['Location'] == '/skoolpay/admin/history'
     
     with client:
         response = client.post('/skoolpay/payment')
-        assert response.status_code == 200
-        assert b'error' in response.data
+        assert response.headers['Location'] == '/skoolpay/admin/history'
+        # assert b'error' in response.data
         with app.app_context():
             payment = get_db().execute(
                 "SELECT * FROM payment WHERE student_id = '2'",
@@ -172,12 +174,13 @@ def test_payment_correct_airtel(client, app):
     
         assert client.get('/skoolpay/payment').status_code == 200
         assert session['net'] == 'airtel'
-        assert client.post('/skoolpay/payment').status_code == 200
+        res = client.post('/skoolpay/payment')
+        assert res.headers['Location'] == '/skoolpay/admin/history'
     
     with client:
         response = client.post('/skoolpay/payment')
-        assert response.status_code == 200
-        assert b'success' in response.data
+        assert response.headers['Location'] == '/skoolpay/admin/history'
+        # assert b'success payment of 500 for sepi zed' in response.data
         with app.app_context():
             payment = get_db().execute(
                 "SELECT * FROM payment WHERE student_id = '2'",
@@ -185,7 +188,7 @@ def test_payment_correct_airtel(client, app):
             assert payment is not None
             assert payment['amount'] != 400
             assert payment['student_id'] == 2
-            assert payment['school'] == '2'
+            assert payment['school'] == 2
             assert session['account'] == '0971893155'
             assert session['amount'] == 400
             assert isinstance(payment['created'], datetime)
