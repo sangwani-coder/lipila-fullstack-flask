@@ -1,7 +1,7 @@
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
-from werkzeug.security import check_password_hash, generate_password_hash
+
 
 from skoolpay.db import get_db
 
@@ -17,7 +17,6 @@ def homepage():
     # return "Index"
     if request.method == 'POST':
         student = request.form['student']
-        print(student)
         return redirect(url_for('skoolpay.get_student_data', id=student))
     return render_template('payment/index.html')
 
@@ -66,8 +65,12 @@ def confirmed():
     account = request.form['mobile']
     if not amount:
         flash('amount missing')
+        student = {'firstname':session['firstname'], 'lastname':session['lastname']}
+        return render_template('payment/confirm.html', student=student, school=session['school'])
     elif not account:
         flash('account missing')
+        student = {'firstname':session['firstname'], 'lastname':session['lastname']}
+        return render_template('payment/confirm.html', student=student, school=session['school'])
     else:
         nets = Momo()
         net = nets.get_network(account)
@@ -97,7 +100,9 @@ def payment():
         else:
             session['net'] = None
             flash('Failed to verify account')
-        return render_template('/payment/payment.html')
+            student = {'firstname':session['firstname'], 'lastname':session['lastname']}
+            return render_template('payment/confirm.html', student=student, school=session['school'])
+        return render_template('payment/payment.html')
     
     if session['net'] == 'mtn':
         sp = mtn_momo.MTN()
