@@ -1,0 +1,7 @@
+{% extends "layout.html" %} {% block title %} Dashboard {% endblock %} {% block main %}
+<h1>Students</h1>
+{% for student in students %}
+<p>{{student.firstname}} {{student.lastname}} {{student.school}} {{student.tuition}}</p> 
+{% endfor %}
+
+{% endblock %}

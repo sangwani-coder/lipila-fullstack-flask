@@ -1,0 +1,21 @@
+<!-- {% extends "layout.html" %} {% block title %} Confirmation{% endblock %} {% block main %}
+<h1>Confirmation</h1>
+<div id="login-form">
+    <img src="../../static/images/skool.jpg" alt="school-image">
+
+        <div class="form-group">
+            <lable>firstname: {{data['fname']}}</lable><br/>
+            <lable>lastname: {{data['lname']}}</lable><br/>
+            <lable>school: {{data['school']}}</lable><br/>
+            <lable>account: {{data['account']}}</lable><br/>
+            <lable>amount: {{data['amount']}}</lable>
+        </div>
+        <form action="{{url_for('skoolpay.confirmed')}}" method="post">
+            <input type="submit" value="Submit">
+        </form>
+</div>
+<div class="small text-center text-muted">
+    <h6><a href="#" target="blank">Terms and Conditions</a> <a href="#" target="blank">Privacy Policy</a></h6>
+</div>
+{% endblock %}
+ -->

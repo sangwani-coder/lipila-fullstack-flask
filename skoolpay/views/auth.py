@@ -5,7 +5,7 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from .db import get_db
+from skoolpay.db import get_db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -113,7 +113,7 @@ def login(users):
             session['user'] = users
             session['user_id'] = user['id']
             session['email'] = user['email']
-            return redirect(url_for('skoolpay.dashboard'))
+            return redirect(url_for('admin.dashboard'))
 
         flash(error)
 

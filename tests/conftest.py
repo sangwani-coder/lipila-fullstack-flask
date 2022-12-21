@@ -5,6 +5,7 @@ import pytest
 from skoolpay import create_app
 from skoolpay.db import get_db, init_db
 
+from skoolpay.momo.momo import Momo
 
 class AuthActions(object):
     def __init__(self, client):
@@ -55,4 +56,9 @@ def client(app):
 @pytest.fixture
 def runner(app):
     return app.test_cli_runner()
+
+
+@pytest.fixture
+def momo():
+    return Momo()
 

@@ -3,10 +3,19 @@
 <div id="login-form">
     <img src="../../static/images/skool.jpg" alt="school-image">
 
-    <form action="{{url_for('skool.confirm')}}" method="post" class="card">
-        <h3>Confirm details</h3>
+    <h3>Confirm details</h3>
         <div class="form-group">
             <p>Make payment for</p>
+            {{student.firstname}}
+            {{student.lastname}}
+            {{school}}
+        </div>
+    <form action="{{url_for('skoolpay.confirmed')}}" method="post" class="card">
+        <div>
+            <label for="amount">enter amount</label>
+            <input type="number" name="amount" placeholder="1000"><br>
+            <label for="mobile">Enter mobile number</label>
+            <input type="text" name="mobile" placeholder="0969663366 or 9671552233">
         </div>
         <button class="btn btn-primary" type="submit">Confirm</button>
     </form>

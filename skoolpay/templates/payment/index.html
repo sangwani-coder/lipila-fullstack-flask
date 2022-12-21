@@ -1,13 +1,11 @@
 {% extends "layout.html" %} {% block title %} homepage {% endblock %} {% block main %}
 <h1>Welcome to SkooPay</h1>
-<div id="login-form">
+<div id="std-form">
     <img src="../../static/images/skool.jpg" alt="school-image">
 
-    <form action="" method="post" class="card">
+    <form action="{{url_for('skoolpay.homepage')}}" method="post" class="card">
         <h3>Make a payment</h3>
-        <div class="form-group">
-            <input autocomplete="off" autofocus class="form-control" name="student" placeholder="Student code" type="number">
-        </div>
+        <input autocomplete="off" name="student" placeholder="Student code" type="number">
         <button class="btn btn-primary" type="submit">Next</button>
     </form>
 </div>

@@ -1,3 +1,7 @@
+"""
+    Test the Authentication view
+    Auth: Peter S. Zyambo
+"""
 import pytest
 from flask import g, session
 from skoolpay.db import get_db
@@ -37,12 +41,13 @@ def test_register_validate_input(
             'lastname':lastname, 'password':password}
     )
     assert message in response.data
+    assert response.status_code == 200
 
 # test login route
 def test_login(client, auth):
     assert client.get('/auth/login/schools').status_code == 200
     response = auth.login()
-    assert response.headers["Location"] == "/skoolpay/dashboard"
+    assert response.headers["Location"] == "/skoolpay/admin/dashboard"
 
     with client:
         client.get('/auth/login/schools')

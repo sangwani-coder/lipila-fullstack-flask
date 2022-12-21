@@ -32,14 +32,19 @@ def create_app(test_config=None):
     
 
     # rgister init_app
-    from . import db
+    from skoolpay import db
     db.init_app(app)
     
     # register auth blueprint
-    from . import auth
+    from skoolpay.views import auth
     app.register_blueprint(auth.bp)
 
-    from . import skoolpay
+    # register skoolpay blueprint
+    from skoolpay.views import skoolpay
     app.register_blueprint(skoolpay.bp)
+
+    # register admin blueprint
+    from skoolpay.views import admin
+    app.register_blueprint(admin.bp)
 
     return app

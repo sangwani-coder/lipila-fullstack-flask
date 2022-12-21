@@ -37,8 +37,8 @@
         <div class="collapse navbar-collapse" id="navbar">
             {% if session['user'] == "schools" %}
             <ul class="navbar-nav mr-auto mt-2" id="head">
-                <li class="nav-item"><a class="nav-link" href="#">This week</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">This Month</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{url_for('admin.create_student')}}">Add Student</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{url_for('admin.show_students')}}">Students</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">This Term</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Report</a></li>
             </ul>
