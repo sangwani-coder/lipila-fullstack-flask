@@ -160,7 +160,6 @@ class MTN(Momo):
             }
 
             response = requests.post(url, headers=headers, data=payload)
-            print(response)
             return response
         except ValueError:
             return "BAD_REQUEST"

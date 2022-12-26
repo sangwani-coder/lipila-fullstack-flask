@@ -114,6 +114,7 @@ def login(users):
             session['user'] = users
             session['user_id'] = user['id']
             session['email'] = user['email']
+            session['school'] = user['school']
             return redirect(url_for('admin.dashboard'))
 
         flash(error)

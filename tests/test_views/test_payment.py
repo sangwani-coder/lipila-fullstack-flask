@@ -57,7 +57,7 @@ def test_get__student_data_validate_input(client):
         assert response.status_code == 200
         assert b'No student found!' in response.data
 
-def test_confirmed(client, app):
+def test_confirmed(client):
     """ Test the route to return student data"""
     response = client.get('/skoolpay/payment/1')
     assert response.status_code == 200
@@ -175,7 +175,6 @@ def test_payment_correct_airtel(client, app):
         assert client.get('/skoolpay/payment').status_code == 200
         assert session['net'] == 'airtel'
         res = client.post('/skoolpay/payment')
-        assert res.headers['Location'] == '/skoolpay/history'
     
     with client:
         response = client.post('/skoolpay/payment')

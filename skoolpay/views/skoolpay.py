@@ -1,10 +1,11 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for,
-    send_file
+    Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 
+import json
 import os
-from skoolpay.db import get_db, current_app
+from skoolpay.db import get_db
+from skoolpay.db import current_app
 from skoolpay.helpers import generate_pdf
 
 from skoolpay.momo.momo import Momo
@@ -20,7 +21,6 @@ def homepage():
     # return "Index"
     session.clear()
     if request.method == 'POST':
-        session.clear()
         student = request.form['student']
         return redirect(url_for('skoolpay.get_student_data', id=student))
     return render_template('payment/index.html')
@@ -37,7 +37,6 @@ def get_student_data(id):
         if student is None:
             error = 'No student found!'
         if error is None:
-            flash('Confirm student details')
             school_id = db.execute('SELECT school FROM student WHERE id=?',(id,)).fetchone()
             school = db.execute('SELECT school FROM school WHERE id=?',(school_id['school'],)).fetchone()
 
@@ -96,10 +95,10 @@ def confirmed():
 @bp.route('/payment', methods=['GET', 'POST'])
 def payment():
 
-    partyId = str(session['account'])
-    user = str(session['user-id'])
+    partyId = session['account']
+    user = session['user-id']
     amount = str(session['amount'])
-    externalId = '12346'
+    externalId = '1234'
 
     error =  None
         
@@ -113,59 +112,64 @@ def payment():
             flash('Failed to verify account')
             student = {'firstname':session['firstname'], 'lastname':session['lastname']}
             return render_template('payment/confirm.html', student=student, school=session['school'])
-        student = {'firstname':session['firstname'], 'lastname':session['lastname']}
-        return render_template('payment/confirm.html', student=student, school=session['school'])
+        return render_template('payment/payment.html')
     
     if session['net'] == 'mtn':
         sp = MTN()
+        # create momo api sandbox user
+        api_user = sp.create_api_user()
+        api_key = sp.get_api_key()
+        api_token = sp.get_api_token()
         payment = sp.request_to_pay(amount, partyId, externalId)
-        if payment.status_code == 200:
+        if payment.status_code == 202:
             db = get_db()
-            db.execute("INSERT INTO payment (student_id, amount, school, account_number) \
-                VALUES(?,?,?,?)",(user, amount, session['school-id'], partyId),
-                )
+            try:
+                db.execute("INSERT INTO payment (student_id, amount, school, account_number) \
+                    VALUES(?,?,?,?)",(user, amount, session['school-id'], partyId),
+                    )
+                db.commit()
+                student = db.execute(
+                    "SELECT * FROM student WHERE id=?",(user,)
+                ).fetchone()
+                
+                names =  student['firstname'] + ' ' + student['lastname']
 
-            payment = db.execute(
-                "SELECT * FROM payment WHERE student_id=?",(user,)
-            ).fetchone()
-
-            student = db.execute(
-                "SELECT * FROM student WHERE id=?",(user,)
-            ).fetchone()
-            db.commit()
-
-            names =  student['firstname'] + ' ' + student['lastname']
-
-            msg = 'success payment of' + ' ' + str(payment['amount']) + ' for' + ' ' + names
+                msg = 'success payment of' + ' ' + str(session['amount']) + ' for' + ' ' + names
             
-            flash(msg)
+                flash(msg)
+            except TypeError as e:
+                print(e)
+                flash('error')
     
     elif session['net'] == 'airtel':
         sp = Airtel()
-        payment = sp.make_payment(amount, partyId)
-        if payment.status_code == 200:
+        payment = sp.make_payment(partyId, amount)
+        if payment:
             db = get_db()
-            db.execute("INSERT INTO payment (student_id, amount, school, account_number) \
-                VALUES(?,?,?,?)",(user, amount, session['school-id'], partyId),
-                )
-                
-            payment = db.execute(
-                "SELECT * FROM payment WHERE student_id=?",(user,)
-            ).fetchone()
+            try:
+                db.execute("INSERT INTO payment (student_id, amount, school, account_number) \
+                    VALUES(?,?,?,?)",(user, amount, session['school-id'], partyId),
+                    )
+                payment = db.execute(
+                    "SELECT * FROM payment WHERE student_id=?",(user,)
+                    ).fetchone()
+                db.commit()
+                student = db.execute(
+                    "SELECT * FROM student WHERE id=?",(user,)
+                ).fetchone()
 
-            student = db.execute(
-                "SELECT * FROM student WHERE id=?",(user,)
-            ).fetchone()
-            db.commit()
-            names =  student['firstname'] + ' ' + student['lastname']
+                names =  student['firstname'] + ' ' + student['lastname']
 
-            msg = 'success payment of' + ' ' + str(payment['amount']) + ' for' + ' ' + names
+                msg = 'success payment of' + ' ' + str(payment['amount']) + ' for' + ' ' + names
             
-            flash(msg)
+                flash(msg)
+            except Exception as e:
+                flash('exception')
     else:
-        error = 'An Error occured! Failed to Make Payment'
+        error = 'error occured'
         flash(error)
     return redirect(url_for('skoolpay.show_history'))
+
 
 @bp.route('/history', methods=['GET', 'POST'])
 def show_history():

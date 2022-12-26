@@ -6,7 +6,7 @@
     <form action="{{url_for('skoolpay.homepage')}}" method="post" class="card">
         <h4>Make a payment</h4>
         <div class="form-group">
-            <input autocomplete="off" class="form-group" autofocus name="student" placeholder="Student code" type="number">
+            <input autocomplete="off" class="form-group" required autofocus name="student" placeholder="Student code" type="number">
         </div>
         <button class="btn btn-primary" type="submit">Next</button>
     </form>

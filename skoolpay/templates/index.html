@@ -1,14 +1,14 @@
 {% extends "layout.html" %} {% block title %} homepage {% endblock %} {% block main %}
 <h1>Welcome to SkooPay</h1>
 <div class="scroll-left">
-    <h5>No more spending hours in bank Queues, Send your child's payment faster, Receive students fees quicker</h5>
+    <h5>Receive students fees faster, quicker and safer</h5>
 </div>
-<h4>If you do not have an account <a href="{{ url_for('auth.register', user='users') }}">parents register here</a>
-    </br><a href="{{ url_for('auth.register', user='schools') }}">for schools register here</a></h4>
+<!-- <h4>If you do not have an account <a href="{{ url_for('auth.register', user='users') }}">parents register here</a>
+    </br><a href="{{ url_for('auth.register', user='schools') }}">for schools register here</a></h4> -->
 <div id="login-form">
     <img src="../../static/images/skool.jpg" alt="school-image">
 
-    <form action="{{url_for('auth.login', users='users')}}" method="post" class="card">
+    <!-- <form action="{{url_for('auth.login', users='users')}}" method="post" class="card">
         <h3>Parent Login</h3>
         <div class="form-group">
             <input autocomplete="off" autofocus class="form-control" name="email" placeholder="Username" type="text">
@@ -17,7 +17,7 @@
             <input class="form-control" name="password" placeholder="Password" type="password">
         </div>
         <button class="btn btn-primary" type="submit">Log In</button>
-    </form>
+    </form> -->
     <form action="{{url_for('auth.login', users='schools')}}" method="post" class="card">
         <h3>School Login</h3>
         <div class="form-group">

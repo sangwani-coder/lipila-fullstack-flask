@@ -43,7 +43,7 @@
                 <li class="nav-item"><a class="nav-link" href="#">Report</a></li>
             </ul>
             <ul class="navbar-nav ml-auto mt-2">
-                <li class="nav-item">User {{session['email']}}</li>
+                <li class="nav-item">{{session['school']}}</li>
             </ul>
             <ul class="navbar-nav ml-auto mt-2">
                 <li class="nav-item"><a class="nav-link" href="{{url_for('auth.logout')}}">Log Out</a></li>
@@ -67,7 +67,7 @@
             </ul>
             {% else %}
             <ul class="navbar-nav ml-auto mt-2">
-                <li class="nav-item"><a class="nav-link" href="{{url_for('index', task='register')}}">Register</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.register', user='schools')}}">Register</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{url_for('index', task='login')}}">Log In</a></li>
             </ul>
             {% endif %}
