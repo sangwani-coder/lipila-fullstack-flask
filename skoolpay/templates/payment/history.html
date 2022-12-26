@@ -8,16 +8,21 @@
         <th>tuition</th>
         <th>Paid</th>
         <th>Paid from</th>
+        <!-- <th>Actions</th> -->
     </tr>
     {% for student in data %}
-    <tr>
-        <td>{{session['firstname']}} {{session['lastname']}}</td>
-        <td>{{student.created}}</td>
-        <td>{{student.student_id}}</td>
-        <td>{{student.tuition}}</td>
-        <td>{{student.amount}}</td>
-        <td>{{student.account_number}}</td>
-    </tr>
+    <form action="/skoolpay/download/{{student.id}}">
+        <tr>
+            <input type="hidden", name="receipt" value={{student.id}}>
+            <td>{{session['firstname']}} {{session['lastname']}}</td>
+            <td>{{student.created}}</td>
+            <td>{{student.student_id}}</td>
+            <td>{{student.tuition}}</td>
+            <td>{{student.amount}}</td>
+            <td>{{student.account_number}}</td>
+            <!-- <td><input type="submit" value="download receipt"> -->
+        </tr>
+    </form>
     {% endfor %}
 </table>
 

@@ -1,9 +1,11 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, g, redirect, render_template, request, session, url_for,
+    send_file
 )
 
-
-from skoolpay.db import get_db
+import os
+from skoolpay.db import get_db, current_app
+from skoolpay.helpers import generate_pdf
 
 from skoolpay.momo.momo import Momo
 from skoolpay.momo.mtn_momo import MTN
@@ -35,6 +37,7 @@ def get_student_data(id):
         if student is None:
             error = 'No student found!'
         if error is None:
+            flash('Confirm student details')
             school_id = db.execute('SELECT school FROM student WHERE id=?',(id,)).fetchone()
             school = db.execute('SELECT school FROM school WHERE id=?',(school_id['school'],)).fetchone()
 
@@ -93,14 +96,15 @@ def confirmed():
 @bp.route('/payment', methods=['GET', 'POST'])
 def payment():
 
-    acct = session['account']
-    user = session['user-id']
-    amount = session['amount']
+    partyId = str(session['account'])
+    user = str(session['user-id'])
+    amount = str(session['amount'])
+    externalId = '12346'
 
     error =  None
         
     if request.method == 'GET':
-        net = Momo().get_network(acct)
+        net = Momo().get_network(partyId)
 
         if net == 'mtn' or net == 'airtel':
             session['net'] = net
@@ -111,18 +115,16 @@ def payment():
             return render_template('payment/confirm.html', student=student, school=session['school'])
         student = {'firstname':session['firstname'], 'lastname':session['lastname']}
         return render_template('payment/confirm.html', student=student, school=session['school'])
-        # return render_template('payment/payment.html')
     
     if session['net'] == 'mtn':
         sp = MTN()
-        payment = sp.make_payment(acct, amount)
-        if payment:
+        payment = sp.request_to_pay(amount, partyId, externalId)
+        if payment.status_code == 200:
             db = get_db()
             db.execute("INSERT INTO payment (student_id, amount, school, account_number) \
-                VALUES(?,?,?,?)",(user, amount, session['school-id'], acct),
+                VALUES(?,?,?,?)",(user, amount, session['school-id'], partyId),
                 )
 
-            school = session['school-id']
             payment = db.execute(
                 "SELECT * FROM payment WHERE student_id=?",(user,)
             ).fetchone()
@@ -140,13 +142,13 @@ def payment():
     
     elif session['net'] == 'airtel':
         sp = Airtel()
-        payment = sp.make_payment(acct, amount)
-        if payment:
+        payment = sp.make_payment(amount, partyId)
+        if payment.status_code == 200:
             db = get_db()
             db.execute("INSERT INTO payment (student_id, amount, school, account_number) \
-                VALUES(?,?,?,?)",(user, amount, session['school-id'], acct),
+                VALUES(?,?,?,?)",(user, amount, session['school-id'], partyId),
                 )
-            school = session['school-id']
+                
             payment = db.execute(
                 "SELECT * FROM payment WHERE student_id=?",(user,)
             ).fetchone()
@@ -161,19 +163,32 @@ def payment():
             
             flash(msg)
     else:
-        error = 'error'
+        error = 'An Error occured! Failed to Make Payment'
         flash(error)
     return redirect(url_for('skoolpay.show_history'))
 
-@bp.route('/admin/history', methods=('GET', 'POST'))
+@bp.route('/history', methods=['GET', 'POST'])
 def show_history():
     db = get_db()
 
-    school = session['school-id']
     user = session['user-id']
 
-    payment = get_db().execute(
+    payment = db.execute(
         "SELECT * FROM payment WHERE student_id=?",(user,)
     ).fetchall()
 
     return render_template('payment/history.html', school=session['school'], data=payment)
+
+
+@bp.route('/download/<receipt>', methods=['GET', 'POST'])
+def download(receipt):
+    """ downloads a pdf receipt"""
+    db = get_db()
+    path = current_app.root_path
+
+    data = db.execute('SELECT * FROM payment WHERE id=?',(receipt,)).fetchone()
+    rec = generate_pdf(data)
+    file_path = os.path.join(path, rec).replace('\\', '/')
+  
+
+    return render_template('payment/download.html', id=receipt, file_path=file_path)

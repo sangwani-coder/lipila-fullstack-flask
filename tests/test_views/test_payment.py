@@ -101,11 +101,11 @@ def test_payment_correct_mtn(client, app):
         assert client.get('/skoolpay/payment').status_code == 200
         assert session['net'] == 'mtn'
         res = client.post('/skoolpay/payment')
-        assert res.headers['Location'] == '/skoolpay/admin/history'
+        assert res.headers['Location'] == '/skoolpay/history'
     
     with client:
         response = client.post('/skoolpay/payment')
-        assert response.headers['Location'] == '/skoolpay/admin/history'
+        assert response.headers['Location'] == '/skoolpay/history'
         # assert b'success payment of 500 for sepi zed' in response.data
         with app.app_context():
             payment = get_db().execute(
@@ -140,11 +140,11 @@ def test_payment_wrong_details(client, app):
         assert client.get('/skoolpay/payment').status_code == 200
         assert session['net'] == None
         res = client.post('/skoolpay/payment')
-        assert res.headers['Location'] == '/skoolpay/admin/history'
+        assert res.headers['Location'] == '/skoolpay/history'
     
     with client:
         response = client.post('/skoolpay/payment')
-        assert response.headers['Location'] == '/skoolpay/admin/history'
+        assert response.headers['Location'] == '/skoolpay/history'
         # assert b'error' in response.data
         with app.app_context():
             payment = get_db().execute(
@@ -175,11 +175,11 @@ def test_payment_correct_airtel(client, app):
         assert client.get('/skoolpay/payment').status_code == 200
         assert session['net'] == 'airtel'
         res = client.post('/skoolpay/payment')
-        assert res.headers['Location'] == '/skoolpay/admin/history'
+        assert res.headers['Location'] == '/skoolpay/history'
     
     with client:
         response = client.post('/skoolpay/payment')
-        assert response.headers['Location'] == '/skoolpay/admin/history'
+        assert response.headers['Location'] == '/skoolpay/history'
         # assert b'success payment of 500 for sepi zed' in response.data
         with app.app_context():
             payment = get_db().execute(

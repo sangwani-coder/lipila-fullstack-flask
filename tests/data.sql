@@ -11,6 +11,6 @@ VALUES
 
   INSERT INTO payment(student_id, amount, school, account_number)
 VALUES 
-  (1, 500, 1, '06969854'),
+  (1, 500, 1, '0971892260'),
   (2, 500, 2, '06969854'),
   (3, 500, 2, '06969854');

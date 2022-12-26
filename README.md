@@ -33,6 +33,7 @@ The application supports the following features for student/parent users:
 - HTML / CSS
 - Database: Sqlite3 in development and Postgresql in production
 - pytest
+- reportlab: creating pdf invoinces
 
 ## Project Layout
 |file / directory | description |
@@ -72,6 +73,11 @@ Now you can run your application using the flask command. From the terminal, tel
 Debug mode shows an interactive debugger whenever a page raises an exception, and restarts the server whenever you make changes to the code.
 
 **$ flask --app skoolpay --debug run**
+
+## MTN API
+In order to use the MTN momo API you must signup for the service at [momodeveloper](https://momodeveloper.mtn.com)
+After creating an account you should subscribe to the collections product.
+Checkout my tutorial on how to use the mtn momo api on [medium]()
 
 ### contributors
 Sangwani Peter Zyambo zyambo@icloud.com
