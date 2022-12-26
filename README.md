@@ -38,21 +38,21 @@ The application supports the following features for student/parent users:
 ## Project Layout
 |file / directory | description |
 |-------------------------|----------------|
-|[skoolpay/](/.skoolpay)|package containing project files|
-|[skoolpay/momo](/.skoolpay/momo)|package with modules for quering third party mobile money API's|
-|[skoolpay/momo/airtel_momo.py](/.skoolpay/momo/airtel_momo.py)|module that queries the Airtel momo API.|
-|[skoolpay/momo/mtn_momo.py](/.skoolpay/momo/mtn_momo.py)|module that queries the MTN momo API.|
-|[skoolpay/momo/momo](/.skoolpay/momo/momo)|module with Momo base class definition|
-|[skoolpay/static](/.skoolpay/static)|directory with css static files|
-|[skoolpay/templates](/.skoolpay/templates)|directory with html template files|
-|[skoolpay/views](/.skoolpay/views)|package with application views|
-|[skoolpay/views/admin](/.skoolpay/views/admin)|module with views that handle admin functions eg. adding new users|
-|[skoolpay/views/auth](/.skoolpay/views/auth)|module with views that handle authentication|
-|[skoolpay/views/skoolpay](/.skoolpay/views/skoolpay)|module with views to handle student payments|
-|[skoolpay/__init__.py](/.skoolpay/__init__.py)| project factory, the entry point to the project|
-|[skoolpay/db.py](/.skoolpay/db.py)| contains functions to initialize the database and creating database connections|
-|[skoolpay/schema.sql](/.skoolpay/schema.sql)| file defining the database tables|
-|[skoolpay/tests](/.skoolpay/tests)| package containing unittests|
+|[skoolpay/](./skoolpay)|package containing project files|
+|[skoolpay/momo](./skoolpay/momo)|package with modules for quering third party mobile money API's|
+|[skoolpay/momo/airtel_momo.py](./skoolpay/momo/airtel_momo.py)|module that queries the Airtel momo API.|
+|[skoolpay/momo/mtn_momo.py](./skoolpay/momo/mtn_momo.py)|module that queries the MTN momo API.|
+|[skoolpay/momo/momo](./skoolpay/momo/momo)|module with Momo base class definition|
+|[skoolpay/static](./skoolpay/static)|directory with css static files|
+|[skoolpay/templates](./skoolpay/templates)|directory with html template files|
+|[skoolpay/views](./skoolpay/views)|package with application views|
+|[skoolpay/views/admin](./skoolpay/views/admin)|module with views that handle admin functions eg. adding new users|
+|[skoolpay/views/auth](./skoolpay/views/auth)|module with views that handle authentication|
+|[skoolpay/views/skoolpay](./skoolpay/views/skoolpay)|module with views to handle student payments|
+|[skoolpay/__init__.py](./skoolpay/__init__.py)| project factory, the entry point to the project|
+|[skoolpay/db.py](./skoolpay/db.py)| contains functions to initialize the database and creating database connections|
+|[skoolpay/schema.sql](./skoolpay/schema.sql)| file defining the database tables|
+|[skoolpay/tests](./skoolpay/tests)| package containing unittests|
 
 ## Running The Application Locally
 Clone this repo and cd into `SKOOLPAY` the top-level directory.
