@@ -16,9 +16,6 @@ def test_dashboard(client, auth):
         assert session['user_id'] == 1
         assert g.user['email'] == 'pz@email.com'
         assert b'academy' in res.data
-        assert b'Log Out' in res.data
-        assert b'<h1>DASHBOARD</h1>' in res.data
-
 
 def test_create_student(client, auth, app):
     """ test the add_student route and methods"""
@@ -33,8 +30,7 @@ def test_create_student(client, auth, app):
             'program':'b', 'tuition':300,
             }
     )
-    # assert response.headers['Location'] == '/skoolpay/admin/dashboard'
-    assert b'student added successfully.' in response.data
+    assert response.headers['Location'] == '/skoolpay/admin/add'
 
     with app.app_context():
         assert get_db().execute(
@@ -90,10 +86,6 @@ def test_list_payments(client, auth):
         assert b'2' in response.data # check code
         assert b'500' in response.data # check amount paid
         assert b'2022' in response.data # check date
-        # assert b'sepi' in response.data # check student name
-        # assert b'zed' in response.data # check lastname
-        # assert b'300' in response.data # check tuition
-        
 
 def test_update_student(client, auth):
     """ Test the update route and functions"""
