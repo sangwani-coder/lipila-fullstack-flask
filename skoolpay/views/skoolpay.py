@@ -134,7 +134,7 @@ def payment():
                 
                 names =  student['firstname'] + ' ' + student['lastname']
 
-                msg = 'success payment of' + ' ' + str(session['amount']) + ' for' + ' ' + names
+                msg = 'success payment for' + ' ' + names
             
                 flash(msg)
             except TypeError as e:
@@ -160,7 +160,7 @@ def payment():
 
                 names =  student['firstname'] + ' ' + student['lastname']
 
-                msg = 'success payment of' + ' ' + str(payment['amount']) + ' for' + ' ' + names
+                msg = 'success payment for' + ' ' + names
             
                 flash(msg)
             except Exception as e:

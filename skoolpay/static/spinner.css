@@ -1,0 +1,72 @@
+/* Code provided by https://www.codeinwp.com/blog/author/louis-lazaris/ */
+
+/* This is the submit button styles */
+button {
+    display: block;
+    margin: 0 auto;
+    padding: .6em .8em;
+    /* Font-size is the root value that determines size of spinner parts. 
+  Change this to whatever you want and spinner elements will size to match. */
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: .4em;
+    border: none;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    transition: all 1s;
+  }
+  
+  /* focus/disabled styles, you can change this for accessibility */
+  button:focus, button:disabled {
+    outline: none;
+    background: brown;
+  }
+  
+  /* This is the space for the spinner to appear, applied to the button */
+  .spin {
+    padding-left: 2.5em;
+    display: block;
+  }
+  
+  /* position of the spinner when it appears, you might have to change these values */
+  .spin .spinner {
+    left: -.6em;
+    top: .4em;
+    width: 2.5em;
+    display: block;
+    position: absolute;
+  }
+  
+  /* spinner animation */
+  @keyframes spinner {
+    0% {
+      transform: rotate(0deg);
+    }
+    
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  /* The actual spinner element is a pseudo-element */
+  .spin .spinner::before {
+    content: "";
+    width: 1.5em; /* Size of the spinner */
+    height: 1.5em; /* Change as desired */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    border: solid .35em yellow; /* Thickness/color of spinner track */
+    border-bottom-color: #555; /* Color of variant spinner piece */
+    animation: .8s linear infinite spinner; /* speed of spinner */
+    transform: translate(-50%, -50%);
+    will-change: transform;
+  }
+  
+  /* optional, but it will affect the size if changed */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  

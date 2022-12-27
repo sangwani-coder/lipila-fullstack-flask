@@ -1,4 +1,5 @@
 {% extends "layout.html" %} {% block title %} homepage {% endblock %} {% block main %}
+
 <h1>Welcome to SkooPay</h1>
 <div id="login-form">
     <img src="../../static/images/skool.jpg" alt="school-image">
@@ -8,7 +9,7 @@
         <div class="form-group">
             <input autocomplete="off" class="form-group" required autofocus name="student" placeholder="Student code" type="number">
         </div>
-        <button class="btn btn-primary" type="submit">Next</button>
+        <button class="btn-primary">Next<span class="spinner"></span></button>
     </form>
 </div>
 <div class="small text-center text-muted">

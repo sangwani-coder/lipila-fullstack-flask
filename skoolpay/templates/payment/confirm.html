@@ -8,10 +8,10 @@
     <form action="{{url_for('skoolpay.confirmed')}}" method="post" class="">
         <div>
             <label for="amount" class="confirm-text" >Enter amount:</label>
-            <input type="number" autofocus name="amount" placeholder="1000" required><span></span>
+            <input type="number" autofocus name="amount" placeholder="1000" required>
             <label for="mobile" class="confirm-text" >Enter momo number:</label>
             <input type="text" name="mobile" placeholder="" required>
-            <input class="btn-primary" type="submit" value="Confirm">
+            <input type="submit" class="btn-primary" value="Confirm"><span class="spinner"></span>
         </div>
         
     </form>
