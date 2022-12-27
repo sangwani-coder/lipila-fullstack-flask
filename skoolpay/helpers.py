@@ -5,10 +5,10 @@ from reportlab.pdfgen import canvas
 import os
 from flask import render_template
 
-from skoolpay.db import current_app
+from skoolpay.db import current_app, get_db
 
 def generate_pdf(data):
-    """helper function to generate"""
+    """helper function to generate pdf"""
     directory = os.path.join(current_app.root_path, 'receipts').replace('\\','/')
     filename = "receipt-{}.pdf".format(data['id'])
     file_path = os.path.join(directory, filename).replace('\\', '/')
@@ -45,3 +45,89 @@ def apology(message, code=400):
             s = s.replace(old, new)
         return s
     return render_template("apology.html", top=code, bottom=escape(message)), code
+
+
+def calculate_amount(period, id):
+    """ 
+        Calculates the total payments made for each period
+    """
+    db = get_db()
+    total = 0
+
+    if period == "all":
+        pays = db.execute(
+            "SELECT amount FROM payment WHERE school=?",(id,)
+        ).fetchall()
+        size = len(pays)
+        for i in range(size):
+            total = total + pays[i]['amount']
+
+    elif period == "month":
+        data_month = db.execute(
+        "SELECT * FROM payment WHERE school=? AND created=date('now')",(id,)
+    ).fetchall()
+        size = len(data_month)
+        for i in range(size):
+            total = total + data_month[i]['amount']
+
+    elif period == "week":
+         data_week = db.execute(
+        "SELECT * FROM payment WHERE school=? AND created=date('now')",(id,)
+    ).fetchall()
+         size = len(data_week)
+         for i in range(size):
+            total = total + data_week[i]['amount']
+
+    elif period == "day":
+        data_day = db.execute(
+            "SELECT * FROM payment WHERE school=? AND created=date('now')",(id,)
+    ).fetchall()
+        size = len(data_day)
+        for i in range(size):
+            total = total + data_day[i]['amount']
+
+    return total
+
+def calculate_payments(period, id):
+    """ 
+        calculates the total amount paid for each given period
+    """
+    db = get_db()
+
+    if period == "all":
+        pays = db.execute(
+            "SELECT * FROM payment WHERE school=?",(id,)
+        ).fetchall()
+        return len(pays)
+
+    if period == "month":
+        pays = db.execute(
+            "SELECT * FROM payment WHERE school=? AND created=date('now')",(id,)
+        ).fetchall()
+        return len(pays)
+
+    elif period == "week":
+        pays = db.execute(
+            "SELECT * FROM payment WHERE school=? AND created=date('now')",(id,)
+        ).fetchall()
+        return len(pays)
+
+    elif period == "day":
+        pays = db.execute(
+            "SELECT * FROM payment WHERE school=? AND created=date('now')",(id,)
+        ).fetchall()
+        return len(pays)
+
+def show_recent(id):
+    """ Show recent payments"""
+    db = get_db()
+    school = db.execute(
+            "SELECT * from school WHERE id=?",(id,)
+        ).fetchone()
+
+    id = str(school['id'])
+    payment = db.execute(
+            "SELECT * FROM payment WHERE school=?",(id,)
+        ).fetchall()
+
+    return payment

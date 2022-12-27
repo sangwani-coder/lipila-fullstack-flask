@@ -5,6 +5,9 @@ from flask import (
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from skoolpay.db import get_db
+import datetime as DT
+
+from skoolpay.helpers import calculate_amount, calculate_payments, show_recent
 
 bp = Blueprint('admin', __name__, url_prefix='/skoolpay')
 
@@ -12,7 +15,31 @@ bp = Blueprint('admin', __name__, url_prefix='/skoolpay')
 @bp.route('/admin/dashboard', methods=('GET', 'POST'))
 @login_required
 def dashboard():
-    return render_template('admin/dashboard.html')
+    db = get_db()
+    this_month = (DT.date(DT.date.today().isocalendar()[0], 1, 1))
+    this_week = (DT.date(DT.date.today().isocalendar()[0], 1, 1))
+    this_day = (DT.date(DT.date.today().isocalendar()[0], 1, 1))
+
+    data = show_recent(session['user_id'])
+    # select year payments
+    data_all = calculate_payments('all', session['user_id'])
+    amount_all = calculate_amount('all', session['user_id'])
+
+    # select month payments
+    data_month = calculate_payments('month', session['user_id'])
+    amount_month = calculate_amount('month', session['user_id'])
+
+    #select week payments
+    data_week = calculate_payments('week', session['user_id'])
+    amount_week = calculate_amount('week', session['user_id'])
+
+    #select day payments
+    data_day = calculate_payments('day', session['user_id'])
+    amount_day = calculate_amount('day', session['user_id'])
+    
+    payments = {'year':data_all, 'month':data_month, 'week':data_week, 'day':data_day}
+    total = {'year':amount_all, 'month':amount_month, 'week':amount_week, 'day':amount_day}
+    return render_template('admin/dashboard.html', data=data, total=total, payments=payments)
 
 @bp.route('/admin/students', methods=('GET', 'POST'))
 @login_required
