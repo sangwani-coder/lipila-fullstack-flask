@@ -21,6 +21,8 @@ def create_app(test_config=None):
     # ensure the instance folder exists
     try:
         os.makedirs(app.instance_path)
+        if not os.environ.get("SUB_KEY"):
+            raise RuntimeError("SUB_KEY not set")
     except OSError:
         pass
 

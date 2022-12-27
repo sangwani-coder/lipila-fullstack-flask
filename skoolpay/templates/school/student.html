@@ -1,13 +1,16 @@
 {% extends "layout.html" %} {% block title %} Students {% endblock %} {% block main %}
 <h4>{{session['school']}} Students</h4>
-<table style="width:100%">
-    <tr>
-        <th>Names</th>
-        <th>Code</th>
-        <th>tuition</th>
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for student..">
+<table style="width:100%" id="myTable">
+    <tr class="header">
+        <th scope="col">#</th>
+        <th scope="col">Names</th>
+        <th scope="col">Code</th>
+        <th scope="col">tuition</th>
     </tr>
     {% for student in students %}
     <tr>
+        <th scope="row">{{loop.index}}</th>
         <td>{{student.firstname}} {{student.lastname}}</td>
         <td>{{student.id}}</td>
         <td>{{student.tuition}}</td>

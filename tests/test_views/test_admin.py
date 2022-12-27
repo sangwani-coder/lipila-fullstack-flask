@@ -84,7 +84,6 @@ def test_list_payments(client, auth):
         response = client.get('/skoolpay/admin/payments')
         assert response.status_code == 200
         assert b'Payments' in response.data
-        assert b'<table style="width:100%">' in response.data
         assert b'<h4>academy Payments</h4>' in response.data
         assert session['email'] == 'pz@email.com'
         assert session['user_id'] == 1

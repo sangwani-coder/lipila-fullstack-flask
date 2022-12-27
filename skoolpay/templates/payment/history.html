@@ -1,23 +1,19 @@
 {% extends "layout.html" %} {% block title %} History {% endblock %} {% block main %}
 <h4>{{school}} Payments</h4>
-<table style="width:100%">
-    <tr>
-        <th>Names</th>
-        <th>Date</th>
-        <th>Student Code</th>
-        <th>tuition</th>
-        <th>Paid</th>
-        <th>Paid from</th>
+<table style="width:100%" id="myTable">
+    <tr class="header">
+        <th scope="col" style="width:40%;">#</th>
+        <th scope="col" style="width:40%;">Date</th>
+        <th scope="col" style="width:40%;">Paid</th>
+        <th scope="col" style="width:40%;">Account number</th>
         <!-- <th>Actions</th> -->
     </tr>
     {% for student in data %}
-    <form action="/skoolpay/download/{{student.id}}">
+    <form action="/skoolpay/download/{{student.id}}" class="form-group">
         <tr>
             <input type="hidden", name="receipt" value={{student.id}}>
-            <td>{{session['firstname']}} {{session['lastname']}}</td>
+            <th scope="">{{loop.index}}</th>
             <td>{{student.created}}</td>
-            <td>{{student.student_id}}</td>
-            <td>{{student.tuition}}</td>
             <td>{{student.amount}}</td>
             <td>{{student.account_number}}</td>
             <!-- <td><input type="submit" value="download receipt"> -->

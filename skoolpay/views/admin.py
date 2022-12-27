@@ -12,7 +12,7 @@ bp = Blueprint('admin', __name__, url_prefix='/skoolpay')
 @bp.route('/admin/dashboard', methods=('GET', 'POST'))
 @login_required
 def dashboard():
-    return render_template('school/dashboard.html')
+    return render_template('admin/dashboard.html')
 
 @bp.route('/admin/students', methods=('GET', 'POST'))
 @login_required
@@ -42,7 +42,7 @@ def show_payments():
         payment = db.execute(
                 "SELECT * FROM payment WHERE school=?",(id,)
             ).fetchall()
-
+        
         return render_template('school/payments.html', school=school['school'], data=payment)
     
 
@@ -78,8 +78,8 @@ def create_student():
             except db.IntegrityError:
                 error = "already registered."
             else:
-                flash('student added successfully.')
-                return render_template('school/dashboard.html')
+                flash('student added successfully. Add another')
+                return redirect(url_for('admin.create_student'))
 
         flash(error)
     return render_template('school/create.html')

@@ -56,9 +56,10 @@ def test_request_to_pay_raise_value_error():
     amount = '500'
     partyId = ''
     externalId = 'tuition'
-    with pytest.raises(ValueError) as e:
-        mtn.request_to_pay(amount, partyId, externalId)
-        mtn.request_to_pay('10', '0969620939', externalId)
+    val = mtn.request_to_pay(amount, partyId, externalId)
+    assert val == 'error'
+    vall = mtn.request_to_pay('10', '0969620939', externalId)
+    assert vall == 'error'
 
 def test_request_to_pay_raise_type_error():
     """ Test the request to pay method

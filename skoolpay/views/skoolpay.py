@@ -6,7 +6,7 @@ import json
 import os
 from skoolpay.db import get_db
 from skoolpay.db import current_app
-from skoolpay.helpers import generate_pdf
+from skoolpay.helpers import generate_pdf, apology
 
 from skoolpay.momo.momo import Momo
 from skoolpay.momo.mtn_momo import MTN
@@ -121,6 +121,8 @@ def payment():
         api_key = sp.get_api_key()
         api_token = sp.get_api_token()
         payment = sp.request_to_pay(amount, partyId, externalId)
+        if payment == "error":
+            return apology('Amount must be greater than 20', 403)
         if payment.status_code == 202:
             db = get_db()
             try:

@@ -42,7 +42,7 @@
                 <li class="nav-item"><a class="nav-link" href="{{url_for('admin.create_student')}}">Add Student</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{url_for('admin.show_students')}}">Students</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{url_for('admin.show_payments')}}">Payments</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Report</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{url_for('admin.dashboard')}}">Dashboard</a></li>
             </ul>
             <ul class="navbar-nav ml-auto mt-2">
                 <li class="nav-item">{{session['school']}}</li>
@@ -65,7 +65,7 @@
                 <li class="nav-item"><a class="nav-link" href="{{url_for('skoolpay.show_history')}}">Payment History</a></li>
             </ul>
             <ul class="navbar-nav ml-auto mt-2">
-                <li class="nav-item"><a class="nav-link" href="#">{{session['school']}}</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{url_for('index', task='login')}}">{{session['school']}}</a></li>
             </ul>
             {% else %}
             <ul class="navbar-nav ml-auto mt-2">
@@ -93,7 +93,7 @@
             © ZTECH 2021. ALL RIGHTS RESERVED Created By <a href="https://zteche.pythonanywhere.com" target="blank">Peter Zyambo | ztech</a>
         </div>
     </footer>
-    <script src="{{ url_for('static', filename='spinner.js') }}"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 
 </html>

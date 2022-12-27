@@ -1,20 +1,18 @@
 {% extends "layout.html" %} {% block title %} Payments {% endblock %} {% block main %}
 <h4>{{school}} Payments</h4>
-<table style="width:100%">
-    <tr>
-        <th>Names</th>
-        <th>Received</th>
-        <th>Student Code</th>
-        <th>tuition</th>
-        <th>Paid</th>
-        <th>Paid from</th>
+<table style="width:100%" id="myTable">
+    <tr class="header">
+        <th scope="col">#</th>
+        <th scope="col" style="width:40%;">Received</th>
+        <th scope="col" style="width:40%;">Student Code</th>
+        <th scope="col" style="width:40%;">Paid</th>
+        <th scope="col" style="width:40%;">Paid from</th>
     </tr>
     {% for student in data %}
     <tr>
-        <td>{{student.student_id}}</td>
+        <th scope="row">{{loop.index}}</th>
         <td >{{student.created}}</td>
         <td>{{student.student_id}}</td>
-        <td>{{student.tuition}}</td>
         <td>{{student.amount}}</td>
         <td>{{student.account_number}}</td>
     </tr>

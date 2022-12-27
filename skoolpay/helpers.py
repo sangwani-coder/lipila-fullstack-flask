@@ -1,8 +1,9 @@
-""" Create and generate pdf invoice"""
+""" HELPER METHODS"""
 
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 import os
+from flask import render_template
 
 from skoolpay.db import current_app
 
@@ -31,3 +32,16 @@ def generate_pdf(data):
     my_canvas.save()
 
     return file_path
+
+def apology(message, code=400):
+    """Render message as an apology to user."""
+    def escape(s):
+        """
+        Escape special characters.
+        https://github.com/jacebrowning/memegen#special-characters
+        """
+        for old, new in [("-", "--"), (" ", "-"), ("_", "__"), ("?", "~q"),
+                         ("%", "~p"), ("#", "~h"), ("/", "~s"), ("\"", "''")]:
+            s = s.replace(old, new)
+        return s
+    return render_template("apology.html", top=code, bottom=escape(message)), code

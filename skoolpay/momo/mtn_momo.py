@@ -1,13 +1,16 @@
 """ MTN momo api handler"""
 
 from skoolpay.momo.momo import Momo
+from skoolpay.helpers import apology
 
 import requests
 import json
 import os
 
 API_KEY = ''
-SUB_KEY = os.environ.get('SUB_KEY')
+
+if not os.environ.get("SUB_KEY"):
+    raise RuntimeError("SUB_KEY not set")
 
 
 class MTN(Momo):
@@ -16,7 +19,7 @@ class MTN(Momo):
     basic = 'Basic NjM1OWNhM2EtN2M1NC00M2I3LWJlN2MtNGRjZDY1NTBmMGE2OmRjNjNjZDNmMjI4ODQwYWJiMDY0ZmY1YTdiYTUyNjNj'
     # Global authentication headers
     def __init__(self):
-        self.subscription_key = SUB_KEY
+        self.subscription_key = os.environ.get('SUB_KEY')
         self.x_target_environment = 'sandbox'
         self.content_type = 'application/json'
         self.x_reference_id = ''
@@ -127,7 +130,7 @@ class MTN(Momo):
     def request_to_pay(self, amount, partyId, externalId ):
         """ Request to pay"""
         if len(partyId) != 10 or int(amount) < 20:
-            raise ValueError("PartyId must be 10 digits and Amount value should be greater than 100")
+            return "error"
              
         if not isinstance(amount, str):
             raise TypeError("Amount must be string great than 100")
