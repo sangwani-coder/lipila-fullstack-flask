@@ -13,12 +13,10 @@ def test_homepage_get(client):
 def test_download(client):
     response = client.get('/skoolpay/download/1')
     assert response.status_code == 200
-    assert b'<input type="button" class="btn-primary" value="download">' in response.data
     assert b'receipt no# 1' in response.data
 
     response = client.get('/skoolpay/download/2')
     assert response.status_code == 200
-    assert b'<input type="button" class="btn-primary" value="download">' in response.data
     assert b'receipt no# 2' in response.data
     assert b'download' in response.data
 

@@ -106,7 +106,6 @@ def test_payment_correct_mtn(client, app):
     with client:
         response = client.post('/skoolpay/payment')
         assert response.headers['Location'] == '/skoolpay/history'
-        # assert b'success payment of 500 for sepi zed' in response.data
         with app.app_context():
             payment = get_db().execute(
                 "SELECT * FROM payment WHERE student_id = '1'",
