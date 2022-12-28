@@ -1,12 +1,8 @@
 # lipila
-Online Fee collection system for Zambian Schools.
+Lipila is an Online Fees Collection System suitable for educational institutes of all sizes. Lipila is a powerful combination of Fee Management Software + Online Payment Gateway by which you can collect fees from your students online & manage everything like a Pro!
+
 ### Description 
-This web application supports payments of various fees to lerning institutions. The student/parent makes payments to the school using either MTN or airtel mobile money. The web app can be used by:
-- Universities
-- Colleges
-- Primary Schools
-- Secondary Schools
-- Tuition centers
+Lipila is software focused to provide solutions to schools, colleges, universities, coaching institutes, academies, etc.
 
 ### benefits
 - fast and secure payments
