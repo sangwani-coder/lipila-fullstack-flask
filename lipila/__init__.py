@@ -1,7 +1,6 @@
 import os
 
 from flask import Flask, render_template
-from flask_mail import Mail, Message
 
 def create_app(test_config=None):
     # create and configure the app
@@ -34,6 +33,11 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
+
+    @app.route('/', methods = ['GET', 'POST'])
+    def landing():
+        return render_template('homepage.html')
+
 
     @app.route('/lipila/<task>', methods = ['GET', 'POST'])
     def index(task):

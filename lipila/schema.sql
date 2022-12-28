@@ -8,7 +8,7 @@ CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   email TEXT UNIQUE NOT NULL,
   mobile TEXT NOT NULL,
-  firsname TEXT NOT NULL,
+  firstname TEXT NOT NULL,
   lastname TEXT NOT NULL,
   password TEXT NOT NULL
 );

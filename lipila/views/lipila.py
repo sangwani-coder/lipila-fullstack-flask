@@ -14,12 +14,6 @@ from lipila.momo.airtel_momo import Airtel
 bp = Blueprint('lipila', __name__, url_prefix='/lipila')
 
 
-# a simple page that says hello
-@bp.route('/', methods = ['GET', 'POST'])
-def homepage():
-    return render_template('homepage.html')
-
-# a simple page that says hello
 @bp.route('/home', methods = ['GET', 'POST'])
 def index():
     return render_template('payment/index.html')
