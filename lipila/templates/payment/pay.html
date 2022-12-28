@@ -1,0 +1,14 @@
+{% extends "layout.html" %} {% block title %} lipila {% endblock %} {% block main %} 
+<div id="login-form">
+    <form action="{{url_for('lipila.pay')}}" method="post" class="card">
+        <h4>Make a payment</h4>
+        <div class="form-group">
+            <input autocomplete="off" class="form-group" required autofocus name="student" placeholder="Student code" type="number">
+        </div>
+        <button class="btn-primary">Next<span class="spinner"></span></button>
+    </form>
+</div>
+<div class="small text-center text-muted">
+    <h6><a href="#" target="blank">Terms and Conditions</a> <a href="#" target="blank">Privacy Policy</a></h6>
+</div>
+{% endblock %}

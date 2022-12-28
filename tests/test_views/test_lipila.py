@@ -6,9 +6,7 @@
 def test_homepage_get(client):
     response = client.get('/lipila/')
     assert response.status_code == 200
-    assert b"<h4>Make a payment</h4>" in response.data
-    assert b"<h1>Welcome to SkooPay</h1>" in response.data
-
+    assert b"Collect Fees Online From Students" in response.data
 
 def test_download(client):
     response = client.get('/lipila/download/1')

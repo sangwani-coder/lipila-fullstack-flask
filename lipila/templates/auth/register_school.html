@@ -1,12 +1,12 @@
 {% extends "layout.html" %} {% block title %} Log In {% endblock %} {% block main %}
-<h1>Open a SkooPay Account for your School</h1>
-<div class="scroll-left">
-    <h5>Receive students fees quicker</h5>
+<h1>Are you a School, College or a Coaching Institute?
+    Want to collect fees online from your students?</h1>
+<div class="">
+    <h4>Lipila is an Online Fees Collection System suitable for educational institutes of all sizes.<br>
+        Lipila is a powerful combination of Fee Management Software + Online Payment Gateway <br>
+        by which you can collect fees from your students online & manage everything like a Pro!</h4>
 </div>
-<!-- <h4><a href="{{ url_for('auth.register', user='users') }}">Parents register here</a> -->
     <div id="login-form">
-        <img src="../../static/images/skool.jpg" alt="school-image">
-
         <form action="{{ url_for('auth.register', user='schools') }}" method="post" class="card">
             <h3>Register as:</h3>
             <select name="job" id="job" class="form-group">

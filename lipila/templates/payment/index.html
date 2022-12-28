@@ -1,16 +1,13 @@
-{% extends "layout.html" %} {% block title %} homepage {% endblock %} {% block main %}
+{% extends "layout.html" %} {% block title %} lipila {% endblock %} {% block main %}
 
-<h1>Welcome to SkooPay</h1>
-<div id="login-form">
-    <!-- <img src="../../static/images/skool.jpg" alt="school-image"> -->
-
-    <form action="{{url_for('lipila.homepage')}}" method="post" class="card">
-        <h4>Make a payment</h4>
-        <div class="form-group">
-            <input autocomplete="off" class="form-group" required autofocus name="student" placeholder="Student code" type="number">
-        </div>
-        <button class="btn-primary">Next<span class="spinner"></span></button>
-    </form>
+<h1>Pay your fees without stepping out of home
+    Pay directly from your phone, at your convenience</h1>
+<div class="">
+    <h4>Lipila is an Online Fees Collection System suitable for educational institutes of all sizes.<br>
+        Lipila is a powerful combination of Fee Management Software + Online Payment Gateway <br>
+        by which you can collect fees from your students online & manage everything like a Pro!</h4>
+</div>
+<a class="btn-primary" href="{{ url_for('lipila.pay', user='user')}}">Continue to Make a payment</a> 
 </div>
 <div class="small text-center text-muted">
     <h6><a href="#" target="blank">Terms and Conditions</a> <a href="#" target="blank">Privacy Policy</a></h6>

@@ -17,12 +17,21 @@ bp = Blueprint('lipila', __name__, url_prefix='/lipila')
 # a simple page that says hello
 @bp.route('/', methods = ['GET', 'POST'])
 def homepage():
+    return render_template('homepage.html')
+
+# a simple page that says hello
+@bp.route('/home', methods = ['GET', 'POST'])
+def index():
+    return render_template('payment/index.html')
+    
+@bp.route('/pay', methods = ['GET', 'POST'])
+def pay():
     # return "Index"
     session.clear()
     if request.method == 'POST':
         student = request.form['student']
         return redirect(url_for('lipila.get_student_data', id=student))
-    return render_template('payment/index.html')
+    return render_template('payment/pay.html')
 
 
 @bp.route('payment/<id>', methods = ['GET', 'POST'])

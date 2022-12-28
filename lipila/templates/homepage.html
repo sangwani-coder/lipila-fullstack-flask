@@ -1,0 +1,11 @@
+{% extends "layout.html" %} {% block title %} lipila {% endblock %} {% block main %}
+<h1>Collect Fees Online From Students</h1>
+<h4>Lipila is an Online Fees Collection System suitable for educational institutes of all sizes.<br>
+    Lipila is a powerful combination of Fee Management Software + Online Payment Gateway <br>
+    by which you can collect fees from your students online & manage everything like a Pro!</h4>
+
+    <a class="btn-primary" href="{{ url_for('auth.register', user='schools')}}">For institutes</a> <span></span><a class="btn-primary" href="{{ url_for('lipila.index', user='users')}}">For Parents & Students</a>
+<div class="small text-center text-muted">
+    <h6><a href="#" target="blank">Terms and Conditions</a> <a href="#" target="blank">Privacy Policy</a></h6>
+</div>
+{% endblock %}
