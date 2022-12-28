@@ -23,13 +23,14 @@ The application supports the following features for student/parent users:
 - Check all payments history
 - Make a payment
 
-## Technologies
+## Requirements
 - Python3
 - Flask
 - HTML / CSS
 - Database: Sqlite3 in development and Postgresql in production
 - pytest
 - reportlab: creating pdf invoinces
+- flask mail
 
 ## Project Layout
 |file / directory | description |

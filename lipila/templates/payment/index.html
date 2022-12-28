@@ -1,13 +1,11 @@
 {% extends "layout.html" %} {% block title %} lipila {% endblock %} {% block main %}
 
-<h1>Pay your fees without stepping out of home
-    Pay directly from your phone, at your convenience</h1>
+<h2>Pay your fees without stepping out of home
+    Pay directly from your phone, at your convenience</h2>
 <div class="">
-    <h4>Lipila is an Online Fees Collection System suitable for educational institutes of all sizes.<br>
-        Lipila is a powerful combination of Fee Management Software + Online Payment Gateway <br>
-        by which you can collect fees from your students online & manage everything like a Pro!</h4>
+    <h5>Get your student payment code from your institution</h5>
 </div>
-<a class="btn-primary" href="{{ url_for('lipila.pay', user='user')}}">Continue to Make a payment</a> 
+<a class="btn-primary" href="{{ url_for('lipila.pay', user='user')}}">Already have a code? Continue to Make a payment</a> 
 </div>
 <div class="small text-center text-muted">
     <h6><a href="#" target="blank">Terms and Conditions</a> <a href="#" target="blank">Privacy Policy</a></h6>

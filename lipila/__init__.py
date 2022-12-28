@@ -1,7 +1,7 @@
 import os
 
 from flask import Flask, render_template
-
+from flask_mail import Mail, Message
 
 def create_app(test_config=None):
     # create and configure the app
@@ -10,8 +10,19 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'lipila.sqlite'),
     )
+    app.config['MAIL_SERVER']='smtp.gmail.com'
+    app.config['MAIL_PORT'] = 465
+    app.config['MAIL_USERNAME'] = 'lipila.info@gmail.com'
+    app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+    app.config['MAIL_USE_TLS'] = False
+    app.config['MAIL_USE_SSL'] = True
 
     if test_config is None:
+        if not os.environ.get("SUB_KEY"):
+            raise RuntimeError("SUB_KEY not set")
+        if not os.environ.get("MAIL_PASSWORD"):
+            raise RuntimeError("MAIL_PASSWORD not set")
+
         # load the instance config, if it exists, when not testing
         app.config.from_pyfile('config.py', silent=True)
     else:
@@ -21,11 +32,8 @@ def create_app(test_config=None):
     # ensure the instance folder exists
     try:
         os.makedirs(app.instance_path)
-        if not os.environ.get("SUB_KEY"):
-            raise RuntimeError("SUB_KEY not set")
     except OSError:
         pass
-
 
     @app.route('/lipila/<task>', methods = ['GET', 'POST'])
     def index(task):

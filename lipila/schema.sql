@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS payment;
--- DROP TABLE IF EXISTS student;
--- DROP TABLE IF EXISTS school;
+DROP TABLE IF EXISTS student;
+DROP TABLE IF EXISTS school;
 
 -- Create user table to store a students information
 CREATE TABLE user (

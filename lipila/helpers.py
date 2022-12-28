@@ -131,3 +131,18 @@ def show_recent(id):
         ).fetchall()
 
     return payment
+
+def send_email(email:str, subject:str, body:str, ms:str)-> str:
+    from flask import current_app
+    from flask_mail import Mail, Message
+
+    app = current_app
+    mail = Mail(app)
+    msg = Message(
+        subject,
+        sender ='lipila.info@gmail.com',
+        recipients = [email]
+        )
+    msg.body = body
+    mail.send(msg)
+    return ms

@@ -6,6 +6,7 @@ from flask import (
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from lipila.db import get_db
+from lipila.helpers import send_email
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -67,10 +68,20 @@ def register(user):
                     lastname, generate_password_hash(password)),
                 )
                 db.commit()
+                
+                # send registration confirmation email
+                email = email
+                sub = 'Registration Success'
+                body = '{} {} Welcome to Lipila Online Fee Collection System. You have registered your school {}. Login Credentials \
+                        username:{}' .format(firstname,  lastname, school, email)
+                ms = 'Registration Succesfull. Check your email for more info.'
+
+                msg = send_email(email, sub, body, ms)
+                flash(msg)
+
             except db.IntegrityError:
                 error = "already registered."
             else:
-                flash('registration success')
                 return redirect(url_for("auth.login", users='schools'))
 
         flash(error)

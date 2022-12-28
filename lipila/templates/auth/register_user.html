@@ -1,11 +1,13 @@
 {% extends "layout.html" %} {% block title %} Log In {% endblock %} {% block main %}
-<h1>Open a lipila Account</h1>
-<div class="scroll-left">
-    <h5>No more spending hours in bank Queues, Send your child's payment faster</h5>
+<h2>Are you a School, College or a Coaching Institute?
+    Want to collect fees online from your students?</h2>
+<div class="">
+    <h5>Lipila is an Online Fees Collection System suitable for educational institutes of all sizes.<br>
+        Lipila is a powerful combination of Fee Management Software + Online Payment Gateway <br>
+        by which you can collect fees from your students online & manage everything like a Pro!</h5>
 </div>
 <h4><a href="{{ url_for('auth.register', user='schools') }}">Schools register here</a>
     <div id="login-form">
-        <img src="../../static/images/skool.jpg" alt="school-image">
 
         <form action="{{ url_for('auth.register', user='users') }}" method="post" class="card">
             <h3>Register</h3>
