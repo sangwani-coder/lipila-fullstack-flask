@@ -1,4 +1,4 @@
-from skoolpay.momo import mtn_momo, airtel_momo
+from lipila.momo import mtn_momo, airtel_momo
 
 # test the Momo class
 def test_momo_class_passing_numbers(momo):

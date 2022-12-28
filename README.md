@@ -1,4 +1,4 @@
-# SKOOLPAY
+# lipila
 Online Fee collection system for Zambian Schools.
 ### Description 
 This web application supports payments of various fees to lerning institutions. The student/parent makes payments to the school using either MTN or airtel mobile money. The web app can be used by:
@@ -38,41 +38,41 @@ The application supports the following features for student/parent users:
 ## Project Layout
 |file / directory | description |
 |-------------------------|----------------|
-|[skoolpay/](./skoolpay)|package containing project files|
-|[skoolpay/momo](./skoolpay/momo)|package with modules for quering third party mobile money API's|
-|[skoolpay/momo/airtel_momo.py](./skoolpay/momo/airtel_momo.py)|module that queries the Airtel momo API.|
-|[skoolpay/momo/mtn_momo.py](./skoolpay/momo/mtn_momo.py)|module that queries the MTN momo API.|
-|[skoolpay/momo/momo](./skoolpay/momo/momo)|module with Momo base class definition|
-|[skoolpay/static](./skoolpay/static)|directory with css static files|
-|[skoolpay/templates](./skoolpay/templates)|directory with html template files|
-|[skoolpay/views](./skoolpay/views)|package with application views|
-|[skoolpay/views/admin](./skoolpay/views/admin)|module with views that handle admin functions eg. adding new users|
-|[skoolpay/views/auth](./skoolpay/views/auth)|module with views that handle authentication|
-|[skoolpay/views/skoolpay](./skoolpay/views/skoolpay)|module with views to handle student payments|
-|[skoolpay/__init__.py](./skoolpay/__init__.py)| project factory, the entry point to the project|
-|[skoolpay/db.py](./skoolpay/db.py)| contains functions to initialize the database and creating database connections|
-|[skoolpay/schema.sql](./skoolpay/schema.sql)| file defining the database tables|
-|[skoolpay/tests](./skoolpay/tests)| package containing unittests|
+|[lipila/](./lipila)|package containing project files|
+|[lipila/momo](./lipila/momo)|package with modules for quering third party mobile money API's|
+|[lipila/momo/airtel_momo.py](./lipila/momo/airtel_momo.py)|module that queries the Airtel momo API.|
+|[lipila/momo/mtn_momo.py](./lipila/momo/mtn_momo.py)|module that queries the MTN momo API.|
+|[lipila/momo/momo](./lipila/momo/momo)|module with Momo base class definition|
+|[lipila/static](./lipila/static)|directory with css static files|
+|[lipila/templates](./lipila/templates)|directory with html template files|
+|[lipila/views](./lipila/views)|package with application views|
+|[lipila/views/admin](./lipila/views/admin)|module with views that handle admin functions eg. adding new users|
+|[lipila/views/auth](./lipila/views/auth)|module with views that handle authentication|
+|[lipila/views/lipila](./lipila/views/lipila)|module with views to handle student payments|
+|[lipila/__init__.py](./lipila/__init__.py)| project factory, the entry point to the project|
+|[lipila/db.py](./lipila/db.py)| contains functions to initialize the database and creating database connections|
+|[lipila/schema.sql](./lipila/schema.sql)| file defining the database tables|
+|[lipila/tests](./lipila/tests)| package containing unittests|
 
 ## Running The Application Locally
-Clone this repo and cd into `SKOOLPAY` the top-level directory.
+Clone this repo and cd into `lipila` the top-level directory.
 
 ### Initializing the Database
 You initialize the database by calling the init-db method that has been registered with the app, it can be called using the flask command.
 
 Run the init-db command:
 
-**$ flask --app skoolpay init-db**
+**$ flask --app lipila init-db**
 Initialized the database.
 
-There will now be a skoolpay.sqlite file in the instance folder in your project.
+There will now be a lipila.sqlite file in the instance folder in your project.
 
 ## Starting the web server
-Now you can run your application using the flask command. From the terminal, tell Flask where to find your application, then run it in debug mode. Remember, you should still be in the top-level directory, not the skoolpay package.
+Now you can run your application using the flask command. From the terminal, tell Flask where to find your application, then run it in debug mode. Remember, you should still be in the top-level directory, not the lipila package.
 
 Debug mode shows an interactive debugger whenever a page raises an exception, and restarts the server whenever you make changes to the code.
 
-**$ flask --app skoolpay --debug run**
+**$ flask --app lipila --debug run**
 
 ## MTN API
 In order to use the MTN momo API you must signup for the service at [momodeveloper](https://momodeveloper.mtn.com)

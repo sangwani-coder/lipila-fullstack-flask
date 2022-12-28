@@ -1,7 +1,7 @@
 """ MTN momo api handler"""
 
-from skoolpay.momo.momo import Momo
-from skoolpay.helpers import apology
+from lipila.momo.momo import Momo
+from lipila.helpers import apology
 
 import requests
 import json
@@ -151,7 +151,7 @@ class MTN(Momo):
                 "partyIdType": "MSISDN",
                 "partyId": partyId
                 },
-                "payerMessage": "Pay to skoolpay",
+                "payerMessage": "Pay to lipila",
                 "payeeNote": "Termly Fees"
             })
             headers = {

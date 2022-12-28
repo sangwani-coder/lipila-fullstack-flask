@@ -4,15 +4,15 @@ from flask import (
 
 import json
 import os
-from skoolpay.db import get_db
-from skoolpay.db import current_app
-from skoolpay.helpers import generate_pdf, apology
+from lipila.db import get_db
+from lipila.db import current_app
+from lipila.helpers import generate_pdf, apology
 
-from skoolpay.momo.momo import Momo
-from skoolpay.momo.mtn_momo import MTN
-from skoolpay.momo.airtel_momo import Airtel
+from lipila.momo.momo import Momo
+from lipila.momo.mtn_momo import MTN
+from lipila.momo.airtel_momo import Airtel
 
-bp = Blueprint('skoolpay', __name__, url_prefix='/skoolpay')
+bp = Blueprint('lipila', __name__, url_prefix='/lipila')
 
 
 # a simple page that says hello
@@ -22,7 +22,7 @@ def homepage():
     session.clear()
     if request.method == 'POST':
         student = request.form['student']
-        return redirect(url_for('skoolpay.get_student_data', id=student))
+        return redirect(url_for('lipila.get_student_data', id=student))
     return render_template('payment/index.html')
 
 
@@ -90,7 +90,7 @@ def confirmed():
         session['amount'] = int(amount)
         
 
-    return redirect(url_for('skoolpay.payment'))
+    return redirect(url_for('lipila.payment'))
 
 @bp.route('/payment', methods=['GET', 'POST'])
 def payment():
@@ -170,7 +170,7 @@ def payment():
     else:
         error = 'error occured'
         flash(error)
-    return redirect(url_for('skoolpay.show_history'))
+    return redirect(url_for('lipila.show_history'))
 
 
 @bp.route('/history', methods=['GET', 'POST'])

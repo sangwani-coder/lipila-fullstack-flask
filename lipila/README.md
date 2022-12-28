@@ -1,1 +1,1 @@
-# skoolpay package directory
+# lipila package directory

@@ -4,12 +4,12 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from skoolpay.db import get_db
+from lipila.db import get_db
 import datetime as DT
 
-from skoolpay.helpers import calculate_amount, calculate_payments, show_recent
+from lipila.helpers import calculate_amount, calculate_payments, show_recent
 
-bp = Blueprint('admin', __name__, url_prefix='/skoolpay')
+bp = Blueprint('admin', __name__, url_prefix='/lipila')
 
 
 @bp.route('/admin/dashboard', methods=('GET', 'POST'))

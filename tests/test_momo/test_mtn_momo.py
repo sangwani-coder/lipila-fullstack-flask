@@ -1,5 +1,5 @@
 """module that test the mtn_momo class and methods"""
-from skoolpay.momo.mtn_momo import MTN
+from lipila.momo.mtn_momo import MTN
 import pytest
 
 

@@ -9,7 +9,7 @@
         <!-- <th>Actions</th> -->
     </tr>
     {% for student in data %}
-    <form action="/skoolpay/download/{{student.id}}" class="form-group">
+    <form action="/lipila/download/{{student.id}}" class="form-group">
         <tr>
             <input type="hidden", name="receipt" value={{student.id}}>
             <th scope="">{{loop.index}}</th>

@@ -3,7 +3,7 @@
     Auth: Peter S. Zyambo
 """
 import pytest
-from skoolpay.db import get_db
+from lipila.db import get_db
 from flask import g, session
 from datetime import datetime
 
@@ -11,7 +11,7 @@ def test_get_student_data(client):
     """ Test the route to return student data"""
 
     with client:
-        response = client.get('/skoolpay/payment/1')
+        response = client.get('/lipila/payment/1')
 
         assert response.status_code == 200
         assert b'sepi' in response.data
@@ -25,7 +25,7 @@ def test_get_student_data(client):
         assert session['tuition'] == 300
 
         # Start a new payment session
-        response = client.get('/skoolpay/payment/3')
+        response = client.get('/lipila/payment/3')
         assert response.status_code == 200
         assert b'sangwa' in response.data
         assert b'a' in response.data
@@ -38,7 +38,7 @@ def test_get_student_data(client):
         assert session['tuition'] == 300
 
         # Create new sessions with different id
-        response = client.get('/skoolpay/payment/2')
+        response = client.get('/lipila/payment/2')
 
         assert response.status_code == 200
         assert b'pita' in response.data
@@ -53,19 +53,19 @@ def test_get_student_data(client):
 
 def test_get__student_data_validate_input(client):
     with client:
-        response = client.get('/skoolpay/payment/5')
+        response = client.get('/lipila/payment/5')
         assert response.status_code == 200
         assert b'No student found!' in response.data
 
 def test_confirmed(client):
     """ Test the route to return student data"""
-    response = client.get('/skoolpay/payment/1')
+    response = client.get('/lipila/payment/1')
     assert response.status_code == 200
     assert b'Enter amount:' in response.data
     assert b'Enter momo number:' in response.data
 
     with client:
-        response = client.get('/skoolpay/confirmed')
+        response = client.get('/lipila/confirmed')
         assert response.status_code == 200
         assert b'Confirmation' in response.data
         assert b'sepi' in response.data
@@ -73,24 +73,24 @@ def test_confirmed(client):
         assert b'academy' in response.data
 
         response = client.post(
-            '/skoolpay/confirmed',
+            '/lipila/confirmed',
             data={
                 'amount':200,
                 'mobile':'0969620939'
             }
         )
-        assert response.headers['Location'] == '/skoolpay/payment'
+        assert response.headers['Location'] == '/lipila/payment'
 
 def test_payment_correct_mtn(client, app):
     """ test the payment route"""
     with client:
-        res = client.get('/skoolpay/payment/1')
+        res = client.get('/lipila/payment/1')
         assert res.status_code == 200
         assert session['user-id'] == 1
 
-        assert client.get('/skoolpay/confirmed').status_code == 200
+        assert client.get('/lipila/confirmed').status_code == 200
         response = client.post(
-            '/skoolpay/confirmed',
+            '/lipila/confirmed',
             data={
                 'amount':200,
                 'mobile':'0969620939'
@@ -98,14 +98,14 @@ def test_payment_correct_mtn(client, app):
         )
         assert session['account'] == '0969620939'
     
-        assert client.get('/skoolpay/payment').status_code == 200
+        assert client.get('/lipila/payment').status_code == 200
         assert session['net'] == 'mtn'
-        res = client.post('/skoolpay/payment')
-        assert res.headers['Location'] == '/skoolpay/history'
+        res = client.post('/lipila/payment')
+        assert res.headers['Location'] == '/lipila/history'
     
     with client:
-        response = client.post('/skoolpay/payment')
-        assert response.headers['Location'] == '/skoolpay/history'
+        response = client.post('/lipila/payment')
+        assert response.headers['Location'] == '/lipila/history'
         with app.app_context():
             payment = get_db().execute(
                 "SELECT * FROM payment WHERE student_id = '1'",
@@ -121,14 +121,14 @@ def test_payment_correct_mtn(client, app):
 def test_payment_wrong_details(client, app):
     """ test the payment route"""
     with client:
-        res = client.get('/skoolpay/payment/2')
+        res = client.get('/lipila/payment/2')
         assert res.status_code == 200
         assert session['user-id'] == 2
 
         mobile = '0959620939'
-        assert client.get('/skoolpay/confirmed').status_code == 200
+        assert client.get('/lipila/confirmed').status_code == 200
         response = client.post(
-            '/skoolpay/confirmed',
+            '/lipila/confirmed',
             data={
                 'amount':200,
                 'mobile': mobile
@@ -136,14 +136,14 @@ def test_payment_wrong_details(client, app):
         )
         assert session['account'] == 'None'
     
-        assert client.get('/skoolpay/payment').status_code == 200
+        assert client.get('/lipila/payment').status_code == 200
         assert session['net'] == None
-        res = client.post('/skoolpay/payment')
-        assert res.headers['Location'] == '/skoolpay/history'
+        res = client.post('/lipila/payment')
+        assert res.headers['Location'] == '/lipila/history'
     
     with client:
-        response = client.post('/skoolpay/payment')
-        assert response.headers['Location'] == '/skoolpay/history'
+        response = client.post('/lipila/payment')
+        assert response.headers['Location'] == '/lipila/history'
         # assert b'error' in response.data
         with app.app_context():
             payment = get_db().execute(
@@ -157,13 +157,13 @@ def test_payment_wrong_details(client, app):
 def test_payment_correct_airtel(client, app):
     """ test the payment route"""
     with client:
-        res = client.get('/skoolpay/payment/2')
+        res = client.get('/lipila/payment/2')
         assert res.status_code == 200
         assert session['user-id'] == 2
 
-        assert client.get('/skoolpay/confirmed').status_code == 200
+        assert client.get('/lipila/confirmed').status_code == 200
         response = client.post(
-            '/skoolpay/confirmed',
+            '/lipila/confirmed',
             data={
                 'amount':400,
                 'mobile':'0971893155'
@@ -171,13 +171,13 @@ def test_payment_correct_airtel(client, app):
         )
         assert session['account'] == '0971893155'
     
-        assert client.get('/skoolpay/payment').status_code == 200
+        assert client.get('/lipila/payment').status_code == 200
         assert session['net'] == 'airtel'
-        res = client.post('/skoolpay/payment')
+        res = client.post('/lipila/payment')
     
     with client:
-        response = client.post('/skoolpay/payment')
-        assert response.headers['Location'] == '/skoolpay/history'
+        response = client.post('/lipila/payment')
+        assert response.headers['Location'] == '/lipila/history'
         # assert b'success payment of 500 for sepi zed' in response.data
         with app.app_context():
             payment = get_db().execute(

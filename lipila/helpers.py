@@ -5,7 +5,7 @@ from reportlab.pdfgen import canvas
 import os
 from flask import render_template
 
-from skoolpay.db import current_app, get_db
+from lipila.db import current_app, get_db
 
 def generate_pdf(data):
     """helper function to generate pdf"""

@@ -4,7 +4,7 @@
 """
 import pytest
 from flask import g, session
-from skoolpay.db import get_db
+from lipila.db import get_db
 
 # test register route
 def test_register(client, app):
@@ -47,7 +47,7 @@ def test_register_validate_input(
 def test_login(client, auth):
     assert client.get('/auth/login/schools').status_code == 200
     response = auth.login()
-    assert response.headers["Location"] == "/skoolpay/admin/dashboard"
+    assert response.headers["Location"] == "/lipila/admin/dashboard"
 
     with client:
         client.get('/auth/login/schools')

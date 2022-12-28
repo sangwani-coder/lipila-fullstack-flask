@@ -2,10 +2,10 @@ import os
 import tempfile
 
 import pytest
-from skoolpay import create_app
-from skoolpay.db import get_db, init_db
+from lipila import create_app
+from lipila.db import get_db, init_db
 
-from skoolpay.momo.momo import Momo
+from lipila.momo.momo import Momo
 
 class AuthActions(object):
     def __init__(self, client):
