@@ -2,7 +2,6 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
 
-import json
 import os
 from lipila.db import get_db
 from lipila.db import current_app
