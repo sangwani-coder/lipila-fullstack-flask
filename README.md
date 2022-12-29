@@ -26,11 +26,12 @@ The application supports the following features for student/parent users:
 ## Requirements
 - Python3
 - Flask
+- pytest
+- reportlab
+- flask mail
 - HTML / CSS
 - Database: Sqlite3 in development and Postgresql in production
-- pytest
-- reportlab: creating pdf invoinces
-- flask mail
+
 
 ## Project Layout
 |file / directory | description |

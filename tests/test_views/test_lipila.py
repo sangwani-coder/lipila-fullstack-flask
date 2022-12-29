@@ -3,8 +3,8 @@
     Auth: Peter S. Zyambo
 """
 
-def test_homepage_get(client):
-    response = client.get('/lipila/')
+def test_landing_page(client):
+    response = client.get('/')
     assert response.status_code == 200
     assert b"Collect Fees Online From Students" in response.data
 
