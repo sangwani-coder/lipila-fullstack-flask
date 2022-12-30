@@ -14,7 +14,7 @@ def test_dashboard(client, auth):
     with client:
         res = client.get('/lipila/admin/dashboard')
         assert session['user_id'] == 1
-        assert g.user['email'] == 'pz@email.com'
+        assert session['email'] == 'pz@email.com'
         assert b'academy' in res.data
 
 def test_create_student(client, auth, app):
@@ -33,9 +33,12 @@ def test_create_student(client, auth, app):
     assert response.headers['Location'] == '/lipila/admin/add'
 
     with app.app_context():
-        assert get_db().execute(
+        conn = get_db()
+        db = conn.cursor()
+        db.execute(
             "SELECT * FROM student WHERE firstname = 'ab'",
-        ).fetchone() is not None
+        )
+        assert db.fetchone() is not None
 
 
 @pytest.mark.parametrize((
@@ -68,9 +71,12 @@ def test_show_students(client, auth, app):
         assert session['email'] == 'pz@email.com'
 
     with app.app_context():
-        assert get_db().execute(
+        conn = get_db()
+        db = conn.cursor()
+        db.execute(
             "SELECT * FROM student WHERE school =1"
-        ).fetchall() is not None
+        )
+        assert db.fetchall() is not None
 
 def test_list_payments(client, auth):
     """ Test ths route to return registered students"""
@@ -87,15 +93,4 @@ def test_list_payments(client, auth):
         assert b'500' in response.data # check amount paid
         assert b'2022' in response.data # check date
 
-def test_update_student(client, auth):
-    """ Test the update route and functions"""
-    pass
-
-def test_remove_student(client, auth):
-    """ Test the remove route and functions"""
-    pass
-
-def test_generate_report(client, auth):
-    """ Tets the generate report route"""
-    pass
 

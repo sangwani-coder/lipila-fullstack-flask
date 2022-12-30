@@ -2,7 +2,7 @@
 <h4>Confirm student information</h4>
     <div class="form-group">
         <lable>School Name: {{school}}</lable><br>
-        <lable>Student Name: {{student.firstname}} {{student.lastname}}</lable>
+        <lable>Student Name: {{student[1]}} {{student[2]}}</lable>
     </div>
 <div id="login-form">
     <form action="{{url_for('lipila.confirmed')}}" method="post" class="">

@@ -11,10 +11,10 @@
     {% for student in data %}
     <tr>
         <th scope="row">{{loop.index}}</th>
-        <td >{{student.created}}</td>
-        <td>{{student.student_id}}</td>
-        <td>{{student.amount}}</td>
-        <td>{{student.account_number}}</td>
+        <td >{{student[2]}}</td>
+        <td>{{student[1]}}</td>
+        <td>{{student[3]}}</td>
+        <td>{{student[4]}}</td>
     </tr>
     {% endfor %}
 </table>

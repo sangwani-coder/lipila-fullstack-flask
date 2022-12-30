@@ -5,16 +5,18 @@ from flask import Flask, render_template
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
-    app.config.from_mapping(
-        SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'lipila.sqlite'),
-    )
+    if not os.environ.get('PGDATABASE'):
+        app.config.from_mapping(
+            SECRET_KEY='dev',
+            DATABASE=os.path.join(app.instance_path, 'lipila.sqlite'),
+        )
     app.config['MAIL_SERVER']='smtp.gmail.com'
     app.config['MAIL_PORT'] = 465
     app.config['MAIL_USERNAME'] = 'lipila.info@gmail.com'
     app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
     app.config['MAIL_USE_TLS'] = False
     app.config['MAIL_USE_SSL'] = True
+    app.secret_key = "my_secret_key"
 
     if test_config is None:
         if not os.environ.get("SUB_KEY"):
