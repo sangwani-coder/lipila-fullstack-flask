@@ -10,4 +10,4 @@ dist/
 build/
 pytestdebug.log
 postgres
-receipts/
+lipila/receipts/receipt-1.pdf
