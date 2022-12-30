@@ -15,7 +15,9 @@ bp = Blueprint('admin', __name__, url_prefix='/lipila')
 @bp.route('/admin/dashboard', methods=('GET', 'POST'))
 @login_required
 def dashboard():
-    db = get_db()
+    conn = get_db()
+    db = conn.cursor()
+    
     this_month = (DT.date(DT.date.today().isocalendar()[0], 1, 1))
     this_week = (DT.date(DT.date.today().isocalendar()[0], 1, 1))
     this_day = (DT.date(DT.date.today().isocalendar()[0], 1, 1))
@@ -44,12 +46,14 @@ def dashboard():
 @bp.route('/admin/students', methods=('GET', 'POST'))
 @login_required
 def show_students():
-    db = get_db()
+    conn = get_db()
+    db = conn.cursor()
     if request.method == 'GET':
         try:
-            students = db.execute(
-                "SELECT * from student WHERE school=?",(session['user_id'],)
-            ).fetchall()
+            db.execute(
+                "SELECT * from student WHERE school=%s",(session['user_id'],)
+            )
+            students = db.fetchall()
             return render_template('school/student.html', students=students)
 
         except Exception as e:
@@ -58,19 +62,23 @@ def show_students():
 @bp.route('/admin/payments', methods=('GET', 'POST'))
 @login_required
 def show_payments():
-    db = get_db()
+    conn = get_db()
+    db = conn.cursor()
 
     if request.method == 'GET':
-        school = db.execute(
-            "SELECT * from school WHERE id=?",(session['user_id'],)
-        ).fetchone()
+        db.execute(
+            "SELECT * from school WHERE id=%s",(session['user_id'],)
+        )
+        school = db.fetchone()
 
-        id = str(school['id'])
-        payment = db.execute(
-                "SELECT * FROM payment WHERE school=?",(id,)
-            ).fetchall()
+        id = str(school[0])
+        db.execute(
+                "SELECT * FROM payment WHERE school=%s",(id,)
+            )
+        payment = db.fetchall()
+        print(payment)
         
-        return render_template('school/payments.html', school=school['school'], data=payment)
+        return render_template('school/payments.html', school=school[2], data=payment)
     
 
 @bp.route('/admin/add', methods = ['GET', 'POST'])
@@ -83,7 +91,8 @@ def create_student():
         tuition = request.form.get('tuition')
         program = 'nursing'
 
-        db = get_db()
+        conn = get_db()
+        db = conn.cursor()
         error = None
 
         if not firstname:
@@ -98,10 +107,11 @@ def create_student():
                 db.execute(
                     "INSERT INTO student (firstname, lastname, school, program,\
                          tuition)\
-                             VALUES (?, ?, ?, ?, ?)",
+                             VALUES (%s, %s, %s, %s, %s)",
                     (firstname, lastname, school, program, tuition),
                 )
-                db.commit()
+                conn.commit()
+
             except db.IntegrityError:
                 error = "already registered."
             else:

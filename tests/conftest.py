@@ -31,21 +31,29 @@ with open(os.path.join(os.path.dirname(__file__), 'data.sql'), 'rb') as f:
 
 @pytest.fixture
 def app():
-    db_fd, db_path = tempfile.mkstemp()
-
-    app = create_app({
-        'TESTING': True,
-        'DATABASE': db_path,
-    })
+    if os.environ.get('PGDATABASE') != "postgres":
+        db_fd, db_path = tempfile.mkstemp()
+        app = create_app({
+            'TESTING': True,
+            'DATABASE': db_path,
+        })
+    else:
+        app = create_app({
+            'TESTING': True,
+            'DATABASE': os.environ.get('PGDATABASE'),
+        })
 
     with app.app_context():
         init_db()
-        get_db().executescript(_data_sql)
+        conn = get_db()
+        db = conn.cursor()
+        db.execute(_data_sql)
+        conn.commit()
 
     yield app
 
-    os.close(db_fd)
-    os.unlink(db_path)
+    # os.close(db_fd)
+    # os.unlink(db_path)
 
 
 @pytest.fixture

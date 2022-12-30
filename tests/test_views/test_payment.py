@@ -57,30 +57,6 @@ def test_get__student_data_validate_input(client):
         assert response.status_code == 200
         assert b'No student found!' in response.data
 
-def test_confirmed(client):
-    """ Test the route to return student data"""
-    response = client.get('/lipila/payment/1')
-    assert response.status_code == 200
-    assert b'Enter amount:' in response.data
-    assert b'Enter momo number:' in response.data
-
-    with client:
-        response = client.get('/lipila/confirmed')
-        assert response.status_code == 200
-        assert b'Confirmation' in response.data
-        assert b'sepi' in response.data
-        assert b'zed' in response.data
-        assert b'academy' in response.data
-
-        response = client.post(
-            '/lipila/confirmed',
-            data={
-                'amount':200,
-                'mobile':'0969620939'
-            }
-        )
-        assert response.headers['Location'] == '/lipila/payment'
-
 def test_payment_correct_mtn(client, app):
     """ test the payment route"""
     with client:
@@ -107,16 +83,19 @@ def test_payment_correct_mtn(client, app):
         response = client.post('/lipila/payment')
         assert response.headers['Location'] == '/lipila/history'
         with app.app_context():
-            payment = get_db().execute(
+            conn = get_db()
+            db = conn.cursor()
+            db.execute(
                 "SELECT * FROM payment WHERE student_id = '1'",
-            ).fetchone()
+            )
+            payment = db.fetchone()
             assert payment is not None
-            assert payment['amount'] == 500
-            assert payment['student_id'] == 1
-            assert payment['school'] == 1
+            assert payment[3] == 500
+            assert payment[1] == 1
+            assert payment[5] == 1
             assert session['account'] == '0969620939'
             assert session['amount'] == 200
-            assert isinstance(payment['created'], datetime)
+            assert isinstance(payment[2], datetime)
 
 def test_payment_wrong_details(client, app):
     """ test the payment route"""
@@ -146,10 +125,13 @@ def test_payment_wrong_details(client, app):
         assert response.headers['Location'] == '/lipila/history'
         # assert b'error' in response.data
         with app.app_context():
-            payment = get_db().execute(
+            conn = get_db()
+            db = conn.cursor()
+            db.execute(
                 "SELECT * FROM payment WHERE student_id = '2'",
-            ).fetchone()
-            assert payment['amount'] == 500
+            )
+            payment = db.fetchone()
+            assert payment[3] == 500
             assert session['account'] == 'None'
             assert session['amount'] == 200
 
@@ -180,13 +162,16 @@ def test_payment_correct_airtel(client, app):
         assert response.headers['Location'] == '/lipila/history'
         # assert b'success payment of 500 for sepi zed' in response.data
         with app.app_context():
-            payment = get_db().execute(
+            conn = get_db()
+            db = conn.cursor()
+            db.execute(
                 "SELECT * FROM payment WHERE student_id = '2'",
-            ).fetchone()
+            )
+            payment = db.fetchone()
             assert payment is not None
-            assert payment['amount'] != 400
-            assert payment['student_id'] == 2
-            assert payment['school'] == 2
+            assert payment[3] != 400
+            assert payment[1] == 2
+            assert payment[5] == 2
             assert session['account'] == '0971893155'
             assert session['amount'] == 400
-            assert isinstance(payment['created'], datetime)
+            assert isinstance(payment[2], datetime)

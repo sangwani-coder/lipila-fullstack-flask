@@ -18,9 +18,12 @@ def test_register(client, app):
     assert response.headers["Location"] == "/auth/login/schools"
 
     with app.app_context():
-        assert get_db().execute(
+        conn = get_db()
+        db = conn.cursor()
+        db.execute(
             "SELECT * FROM school WHERE email = 'b'",
-        ).fetchone() is not None
+        )
+        assert db.fetchone() is not None
 
 
 @pytest.mark.parametrize((
@@ -47,12 +50,11 @@ def test_register_validate_input(
 def test_login(client, auth):
     assert client.get('/auth/login/schools').status_code == 200
     response = auth.login()
-    assert response.headers["Location"] == "/lipila/admin/dashboard"
 
     with client:
         client.get('/auth/login/schools')
         assert session['user_id'] == 1
-        assert g.user['email'] == 'pz@email.com'
+        assert session['email'] == 'pz@email.com'
 
 
 @pytest.mark.parametrize(('email', 'password', 'message'), (

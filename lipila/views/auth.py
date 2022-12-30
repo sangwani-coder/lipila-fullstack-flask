@@ -60,14 +60,16 @@ def register(user):
 
         if error is None:
             try:
+                conn = get_db()
+                db = conn.cursor()
                 db.execute(
                     "INSERT INTO school (job, school, email, mobile,\
                          reg_number, firstname, lastname, password)\
-                             VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)",
                     (job, school, email, mobile, reg_number, firstname,
                     lastname, generate_password_hash(password)),
                 )
-                db.commit()
+                conn.commit()
                 
                 # send registration confirmation email
                 email = email
@@ -79,7 +81,7 @@ def register(user):
                 msg = send_email(email, sub, body, ms)
                 flash(msg)
 
-            except db.IntegrityError:
+            except Exception as e:
                 error = "already registered."
             else:
                 return redirect(url_for("auth.login", users='schools'))
@@ -97,35 +99,38 @@ def login(users):
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        db = get_db()
+        conn = get_db()
+        db = conn.cursor()
         error = None
         # login student user
         if users == 'users':
-            user = db.execute(
-                'SELECT * FROM school WHERE email = ?', (email,)
-            ).fetchone()
+            db.execute(
+                'SELECT * FROM school WHERE email = %s', (email,)
+            )
+            user = db.fetchone()
 
             if user is None:
                 error = 'Incorrect email.'
-            elif not check_password_hash(user['password'], password):
+            elif not check_password_hash(user[8], password):
                 error = 'Incorrect password.'
 
         # login admin user
         elif users == 'schools':
-            user = db.execute(
-                'SELECT * FROM school WHERE email = ?', (email,)
-            ).fetchone()
+            db.execute(
+                'SELECT * FROM school WHERE email = %s', (email,)
+            )
+            user = db.fetchone()
 
-            if user is None or not check_password_hash(user['password'], password):
+            if user is None or not check_password_hash(user[8], password):
                 error = 'Incorrect credentials. Please check your details'
 
         if error is None:
             session.clear()
             flash('Logged in')
             session['user'] = users
-            session['user_id'] = user['id']
-            session['email'] = user['email']
-            session['school'] = user['school']
+            session['user_id'] = user[0]
+            session['email'] = user[3]
+            session['school'] = user[2]
             return redirect(url_for('admin.dashboard'))
 
         flash(error)
@@ -139,9 +144,12 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     else:
-        g.user = get_db().execute(
-            'SELECT * FROM school WHERE id = ?', (user_id,)
-        ).fetchone()
+        conn = get_db()
+        db = conn.cursor()
+        db.execute(
+            'SELECT * FROM school WHERE id = %s', (user_id,)
+        )
+        g.user = db.fetchone()
 
 @bp.route('/logout')
 def logout():

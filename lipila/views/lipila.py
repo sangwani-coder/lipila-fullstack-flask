@@ -30,27 +30,32 @@ def pay():
 
 @bp.route('payment/<id>', methods = ['GET', 'POST'])
 def get_student_data(id):
-    db = get_db()
+    conn = get_db()
+    db = conn.cursor()
     error = None
 
     if request.method == 'GET':
-        student =  db.execute('SELECT * FROM student WHERE id=?',(id,)).fetchone()
+        db.execute('SELECT * FROM student WHERE id=%s',(id,))
+        student = db.fetchone()
 
         if student is None:
             error = 'No student found!'
         if error is None:
-            school_id = db.execute('SELECT school FROM student WHERE id=?',(id,)).fetchone()
-            school = db.execute('SELECT school FROM school WHERE id=?',(school_id['school'],)).fetchone()
+            db.execute('SELECT school FROM student WHERE id=%s',(id,))
+            school_id = db.fetchone()
+
+            db.execute('SELECT school FROM school WHERE id=%s',(school_id[0],))
+            school = db.fetchone()
 
             session['user-id'] = int(id)
-            session['firstname'] = student['firstname']
-            session['lastname'] = student['lastname']
-            session['school'] = school['school']
-            session['tuition'] = student['tuition']
-            session['student'] = student['firstname'] + ' ' + student['lastname']
-            session['school-id'] = school_id['school']
+            session['firstname'] = student[1]
+            session['lastname'] = student[2]
+            session['school'] = school[0]
+            session['tuition'] = student[5]
+            session['student'] = student[1] + ' ' + student[2]
+            session['school-id'] = school_id[0]
 
-            return render_template('payment/confirm.html', student=student, school=school['school'])
+            return render_template('payment/confirm.html', student=student, school=school)
     flash(error)
     return render_template('payment/index.html')
 
@@ -60,8 +65,6 @@ def confirmed():
     # return "Index"
     if request.method == 'GET':
         data = {
-            # 'amount':session['amount'],
-            # 'account':session['account'],
             'id':session['user-id'],
             'fname':session['firstname'],
             'lname':session['lastname'],
@@ -96,7 +99,8 @@ def confirmed():
 
 @bp.route('/payment', methods=['GET', 'POST'])
 def payment():
-
+    conn = get_db()
+    db = conn.cursor()
     partyId = session['account']
     user = session['user-id']
     amount = str(session['amount'])
@@ -126,17 +130,18 @@ def payment():
         if payment == "error":
             return apology('Amount must be greater than 20', 403)
         if payment.status_code == 202:
-            db = get_db()
             try:
                 db.execute("INSERT INTO payment (student_id, amount, school, account_number) \
-                    VALUES(?,?,?,?)",(user, amount, session['school-id'], partyId),
+                    VALUES(%s,%s,%s,%s)",(user, amount, session['school-id'], partyId),
                     )
-                db.commit()
-                student = db.execute(
-                    "SELECT * FROM student WHERE id=?",(user,)
-                ).fetchone()
+                conn.commit()
                 
-                names =  student['firstname'] + ' ' + student['lastname']
+                db.execute(
+                    "SELECT * FROM student WHERE id=%s",(user,)
+                )
+                student = db.fetchone()
+                
+                names =  student[1] + ' ' + student[2]
 
                 msg = 'success payment for' + ' ' + names
             
@@ -149,20 +154,22 @@ def payment():
         sp = Airtel()
         payment = sp.make_payment(partyId, amount)
         if payment:
-            db = get_db()
             try:
                 db.execute("INSERT INTO payment (student_id, amount, school, account_number) \
-                    VALUES(?,?,?,?)",(user, amount, session['school-id'], partyId),
+                    VALUES(%s,%s,%s,%s)",(user, amount, session['school-id'], partyId),
                     )
-                payment = db.execute(
-                    "SELECT * FROM payment WHERE student_id=?",(user,)
-                    ).fetchone()
-                db.commit()
-                student = db.execute(
-                    "SELECT * FROM student WHERE id=?",(user,)
-                ).fetchone()
+                db.execute(
+                    "SELECT * FROM payment WHERE student_id=%s",(user,)
+                    )
+                payment = db.fetchone()
 
-                names =  student['firstname'] + ' ' + student['lastname']
+                conn.commit()
+                db.execute(
+                    "SELECT * FROM student WHERE id=%s",(user,)
+                )
+                student.fetchone()
+
+                names =  student[1] + ' ' + student[2]
 
                 msg = 'success payment for' + ' ' + names
             
@@ -177,13 +184,15 @@ def payment():
 
 @bp.route('/history', methods=['GET', 'POST'])
 def show_history():
-    db = get_db()
+    conn = get_db()
+    db = conn.cursor()
 
     user = session['user-id']
 
-    payment = db.execute(
-        "SELECT * FROM payment WHERE student_id=?",(user,)
-    ).fetchall()
+    db.execute(
+        "SELECT * FROM payment WHERE student_id=%s",(user,)
+    )
+    payment = db.fetchall()
 
     return render_template('payment/history.html', school=session['school'], data=payment)
 
@@ -191,10 +200,12 @@ def show_history():
 @bp.route('/download/<receipt>', methods=['GET', 'POST'])
 def download(receipt):
     """ downloads a pdf receipt"""
-    db = get_db()
+    conn = get_db()
+    db = conn.cursor()
     path = current_app.root_path
 
-    data = db.execute('SELECT * FROM payment WHERE id=?',(receipt,)).fetchone()
+    db.execute('SELECT * FROM payment WHERE id=%s',(receipt,))
+    data = db.fetchone()
     rec = generate_pdf(data)
     file_path = os.path.join(path, rec).replace('\\', '/')
   
