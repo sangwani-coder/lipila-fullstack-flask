@@ -5,7 +5,9 @@ venv/
 __pycache__/
 instance/
 .pytest_cache/
-
+.env
 dist/
 build/
 pytestdebug.log
+postgres
+receipts/
