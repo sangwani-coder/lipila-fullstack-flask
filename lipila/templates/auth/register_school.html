@@ -1,10 +1,8 @@
-{% extends "layout.html" %} {% block title %} Log In {% endblock %} {% block main %}
+{% extends "layout.html" %} {% block title %} Register {% endblock %} {% block main %}
 <h2>Are you a School, College or a Coaching Institute?
     Want to collect fees online from your students?</h2>
 <div class="">
-    <h5>Lipila is an Online Fees Collection System suitable for educational institutes of all sizes.<br>
-        Lipila is a powerful combination of Fee Management Software + Online Payment Gateway <br>
-        by which you can collect fees from your students online & manage everything like a Pro!</h5>
+    <h5>Create your Schools's FREE account and start receiving payments faster and securely like a Pro!<br></h5>
 </div>
     <div id="login-form">
         <form action="{{ url_for('auth.register', user='schools') }}" method="post" class="card">
@@ -13,6 +11,7 @@
                 <option value="admin" class="form-control">Administrator</option>
                 <option value="dir" class="form-control">Director</option>
                 <option value="acct" class="form-control">Accountant</option>
+                <option value="other" class="form-control">Other</option>
             </select>
             <div class="form-group">
                 <input autocomplete="off" autofocus class="form-control" name="school" placeholder="School name" type="text">

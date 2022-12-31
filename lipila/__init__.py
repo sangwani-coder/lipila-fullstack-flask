@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template
+from flask import Flask, render_template, session
 
 def create_app(test_config=None):
     # create and configure the app
@@ -38,6 +38,7 @@ def create_app(test_config=None):
 
     @app.route('/', methods = ['GET', 'POST'])
     def landing():
+        session.clear()
         return render_template('homepage.html')
 
 

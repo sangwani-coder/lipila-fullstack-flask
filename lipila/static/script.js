@@ -1,15 +1,15 @@
 // function to add a spinner to the button element
 $(document).ready(function(){
   $("button").click(function(){
-    $("button").addClass('spin');
-    $("button").disabled = true;
-    $("button").form.firstElementChild.disabled = true;
+    $("#load").addClass('loader');
+    // $("button").disabled = true;
+    // $("button").form.firstElementChild.disabled = true;
 
     window.setTimeout(function() {
-        $("button").removeClass('spin');
-        $("button").disabled = false;
-        $("button").form.firstElementChild.disabled = false;
-    }, 4000)
+        $("#load").removeClass('loader');
+        // $("button").disabled = false;
+        // $("button").form.firstElementChild.disabled = false;
+    }, 8000)
   });
 });
 
