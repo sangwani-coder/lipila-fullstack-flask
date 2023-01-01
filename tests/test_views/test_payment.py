@@ -160,7 +160,6 @@ def test_payment_correct_airtel(client, app):
     with client:
         response = client.post('/lipila/payment')
         assert response.headers['Location'] == '/lipila/history'
-        # assert b'success payment of 500 for sepi zed' in response.data
         with app.app_context():
             conn = get_db()
             db = conn.cursor()

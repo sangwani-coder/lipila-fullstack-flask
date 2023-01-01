@@ -74,7 +74,7 @@ def register(user):
                 # send registration confirmation email
                 email = email
                 sub = 'Registration Success'
-                body = '{} Welcome to Lipila Online Fee Collection System. Your username \
+                body = '{} Welcome to Lipila Online Fee Collection System. Your \
                         username: {}' .format(school, email)
                 ms = 'Registration Succesfull.'
 

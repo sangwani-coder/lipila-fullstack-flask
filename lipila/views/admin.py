@@ -2,7 +2,7 @@ from .auth import login_required
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
-from lipila.helpers import get_student
+from lipila.helpers import get_student, get_students
 from lipila.db import get_db
 import datetime as DT
 
@@ -71,7 +71,6 @@ def show_payments():
                 "SELECT * FROM payment WHERE school=%s",(id,)
             )
         payment = db.fetchall()
-        print(payment)
         
         return render_template('school/payments.html', school=school[2], data=payment)
     

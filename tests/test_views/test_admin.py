@@ -99,7 +99,7 @@ def test_update_get(client, auth):
     with client:
         response = client.get('/lipila/admin/update/1')
         assert response.status_code == 200
-        assert b'<h3>Update Student details</h3>' in response.data
+        assert b"<h3>Update sepi zed's details</h3>" in response.data
         assert b'sepi' in response.data
         assert b'zed' in response.data
         assert b'IT' in response.data

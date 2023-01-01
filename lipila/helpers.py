@@ -162,6 +162,10 @@ def get_student(id):
 
     return data
 
+def get_students(id):
+    """ get all students information"""
+    pass
+
 def send_email(email:str, subject:str, body:str, ms:str)-> str:
     from flask import current_app
     from flask_mail import Mail, Message

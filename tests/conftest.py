@@ -40,7 +40,7 @@ def app():
     else:
         app = create_app({
             'TESTING': True,
-            'DATABASE': os.environ.get('PGDATABASE'),
+            'DATABASE': os.environ.get('TESTDATABASE'),
         })
 
     with app.app_context():

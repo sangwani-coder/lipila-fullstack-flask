@@ -143,7 +143,7 @@ def payment():
                 
                 names =  student[1] + ' ' + student[2]
 
-                msg = 'success payment for' + ' ' + names
+                msg = 'Success Payment for' + ' ' + names
             
                 flash(msg)
             except TypeError as e:
@@ -167,15 +167,16 @@ def payment():
                 db.execute(
                     "SELECT * FROM student WHERE id=%s",(user,)
                 )
-                student.fetchone()
+                student = db.fetchone()
 
                 names =  student[1] + ' ' + student[2]
 
-                msg = 'success payment for' + ' ' + names
+                msg = 'Success! Payment for' + ' ' + names
             
                 flash(msg)
             except Exception as e:
-                flash('exception')
+                print(e)
+                flash('Exception')
     else:
         error = 'error occured'
         flash(error)
