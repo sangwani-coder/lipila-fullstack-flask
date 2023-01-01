@@ -218,3 +218,5 @@ table, th, td  {
     font-size: 13px;
     color: white;
   }
+
+input.danger { color: #cc2f2e; }

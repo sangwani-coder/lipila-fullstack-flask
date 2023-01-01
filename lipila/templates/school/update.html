@@ -1,21 +1,21 @@
 {% extends "layout.html" %} {% block title %} Update {% endblock %} {% block main %}
-<h3>Update Student details</h3>
-<form method="post" class="card" class="form-group">
+<h3>Update {{student[1]}} {{student[2]}}'s details</h3>
+<form action="{{ url_for('admin.update', id=student[0])}}" method="post" class="card" class="form-group">
     <div class="form-group">
-        <input name="firstname" id="firstname"
+        <input name="firstname" id="firstname" placeholder="Firstname"
                 value="{{request.form['firstname'] or student[1]}}">
-        <input name="lastname" id="lastname"
+        <input name="lastname" id="lastname" placeholder="Lastname"
                 value="{{request.form['lastname'] or student[2]}}">
-        <input name="program" id="program"
-                value="{{request.form['program'] or student[3]}}">
-        <input name="tuition" id="tuition" 
-                value="{{request.form['tuition'] or student[4]}}">
+        <input name="program" id="program" placeholder="Program"
+                value="{{request.form['program'] or student[4]}}">
+        <input name="tuition" id="tuition" placeholder="Tuition"
+                value="{{request.form['tuition'] or student[5]}}">
         <input type="submit" class=" btn btn-primary" value="Update">
     </div>
 </form>
 <hr>
-  <form action="{{ url_for('admin.delete', id=student[0]) }}" method="post">
-    <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+  <form action="{{ url_for('admin.delete', id=student[0]) }}" method="post" >
+    <input class="danger btn btn-primary" type="submit" value="Delete" onclick="return confirm('Are you sure you want to delete student?');">
   </form>
 
 {% endblock %}

@@ -147,6 +147,21 @@ def show_recent(id):
 
     return payment
 
+def get_student(id):
+    """ get a students information"""
+    conn = get_db()
+    db = conn.cursor()
+
+    db.execute(
+        "SELECT * FROM student WHERE id=%s", (id,)
+    )
+    data = db.fetchone()
+
+    if data is None:
+        apology("Student not found", 404)
+
+    return data
+
 def send_email(email:str, subject:str, body:str, ms:str)-> str:
     from flask import current_app
     from flask_mail import Mail, Message

@@ -2,8 +2,7 @@ from .auth import login_required
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
-from werkzeug.security import check_password_hash, generate_password_hash
-
+from lipila.helpers import get_student
 from lipila.db import get_db
 import datetime as DT
 
@@ -49,15 +48,11 @@ def show_students():
     conn = get_db()
     db = conn.cursor()
     if request.method == 'GET':
-        try:
-            db.execute(
-                "SELECT * from student WHERE school=%s",(session['user_id'],)
-            )
-            students = db.fetchall()
-            return render_template('school/student.html', students=students)
-
-        except Exception as e:
-            print(e)
+        db.execute(
+            "SELECT * from student WHERE school=%s",(session['user_id'],)
+        )
+        students = db.fetchall()
+    return render_template('school/student.html', students=students)
 
 @bp.route('/admin/payments', methods=('GET', 'POST'))
 @login_required
@@ -89,7 +84,7 @@ def create_student():
         lastname = request.form.get('lastname')
         school = session['user_id']
         tuition = request.form.get('tuition')
-        program = 'nursing'
+        program = request.form.get('program')
 
         conn = get_db()
         db = conn.cursor()
@@ -112,7 +107,7 @@ def create_student():
                 )
                 conn.commit()
 
-            except db.IntegrityError:
+            except Exception:
                 error = "already registered."
             else:
                 flash('student added successfully. Add another')
@@ -138,3 +133,57 @@ def remove_student(id):
 @login_required
 def report_student():
     return render_template('school/report.html')
+
+
+# Update view
+@bp.route('/admin/update/<int:id>', methods = ['GET', 'POST'])
+def update(id):
+    """
+        Updates a students information
+    """
+    student = get_student(id)
+
+    if request.method == 'POST':
+        firstname = request.form.get('firstname')
+        lastname = request.form.get('lastname')
+        school = session['user_id']
+        tuition = request.form.get('tuition')
+        program = request.form.get('program')
+
+        conn = get_db()
+        db = conn.cursor()
+        error = None
+
+        if not firstname:
+            error = "firstname is required"
+        elif  not lastname:
+            error = "lastname is required"
+        elif not tuition:
+            error = 'tuition is required'
+
+        if error is not None:
+            flash(error)
+        else:
+            db.execute(
+                "UPDATE student SET firstname = %s,\
+                    lastname = %s, school = %s, program = %s,\
+                        tuition = %s" 'WHERE id = %s',
+                        (firstname, lastname, school, program, tuition,id),
+                )
+            conn.commit()
+            flash('Student Updated Successfully')
+            return redirect(url_for('admin.show_students'))
+
+    return render_template('school/update.html', student=student)
+
+# Delete view
+@bp.route('/delete/<int:id>', methods=('POST',))
+@login_required
+def delete(id):
+    get_student(id)
+    conn = get_db()
+    db = conn.cursor()
+    db.execute('DELETE FROM student WHERE id = %s', (id,))
+    conn.commit()
+    flash('Student Deleted Successfully')
+    return redirect(url_for('admin.show_students'))
