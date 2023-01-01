@@ -34,7 +34,7 @@ def test_get_student_data(client):
         assert session['user-id'] == 3
         assert session['firstname'] == 'sangwa'
         assert session['lastname'] == 'zed'
-        assert session['school'] == 'a'
+        assert session['school'] == 'switch academy'
         assert session['tuition'] == 300
 
         # Create new sessions with different id

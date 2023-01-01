@@ -1,11 +1,10 @@
 {% extends "layout.html" %} {% block title %} Login {% endblock %} {% block main %}
-<h1>Welcome to Lipila</h1>
 <div class="scroll-left">
-    <h5>Receive students fees faster, quicker and safer</h5>
+    <h5>Receive students fees faster, quicker and safer like a Pro!</h5>
 </div>
+<h3>Administrator Login</h3>
 <div id="login-form">
     <form action="{{url_for('auth.login', users='schools')}}" method="post" class="card">
-        <h3>School Login</h3>
         <div class="form-group">
             <input autocomplete="off" autofocus class="form-control" name="email" placeholder="Username" type="text">
         </div>
@@ -14,8 +13,5 @@
         </div>
         <button class="btn btn-primary" type="submit">Log In</button>
     </form>
-</div>
-<div class="small text-center text-muted">
-    <h6><a href="#" target="blank">Terms and Conditions</a> <a href="#" target="blank">Privacy Policy</a></h6>
 </div>
 {% endblock %}

@@ -3,9 +3,11 @@ body {
     height: 100%;
 } */
 
+/* Image by <a href="https://www.freepik.com/free-vector/realistic-background-futuristic-style_19256531.htm#query=website%20background&position=49&from_view=keyword">Freepik</a> */
 #body-bk-color {
     align-items: center;
-    background-color: #cfd3d1;
+    background-image: url("images/bg1.jpg");
+    background-color: lightblue;
 }
 
 .scroll-left {

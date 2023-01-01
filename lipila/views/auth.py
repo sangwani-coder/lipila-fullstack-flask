@@ -74,9 +74,9 @@ def register(user):
                 # send registration confirmation email
                 email = email
                 sub = 'Registration Success'
-                body = '{} {} Welcome to Lipila Online Fee Collection System. You have registered your school {}. Login Credentials \
-                        username:{}' .format(firstname,  lastname, school, email)
-                ms = 'Registration Succesfull. Check your email for more info.'
+                body = '{} Welcome to Lipila Online Fee Collection System. Your username \
+                        username: {}' .format(school, email)
+                ms = 'Registration Succesfull.'
 
                 msg = send_email(email, sub, body, ms)
                 flash(msg)

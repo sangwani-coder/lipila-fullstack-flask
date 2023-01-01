@@ -8,7 +8,7 @@ import psycopg2
 
 def get_db():
     if 'db' not in g:
-        if os.environ.get('PGDATABASE') == "postgres":
+        if os.environ.get('LIP_ENV') == "db":
             conn = psycopg2.connect(
                 host=os.environ.get('PGHOST'),
                 database=os.environ.get('PGDATABASE'),

@@ -14,7 +14,7 @@ def test_dashboard(client, auth):
     with client:
         res = client.get('/lipila/admin/dashboard')
         assert session['user_id'] == 1
-        assert session['email'] == 'pz@email.com'
+        assert session['email'] == 'zyambo@icloud.com'
         assert b'academy' in res.data
 
 def test_create_student(client, auth, app):
@@ -68,7 +68,7 @@ def test_show_students(client, auth, app):
     assert response.headers['Location'] == '/lipila/admin/dashboard'
     with client:
         assert client.get('/lipila/admin/students').status_code == 200
-        assert session['email'] == 'pz@email.com'
+        assert session['email'] == 'zyambo@icloud.com'
 
     with app.app_context():
         conn = get_db()
@@ -87,10 +87,10 @@ def test_list_payments(client, auth):
         assert response.status_code == 200
         assert b'Payments' in response.data
         assert b'<h4>academy Payments</h4>' in response.data
-        assert session['email'] == 'pz@email.com'
+        assert session['email'] == 'zyambo@icloud.com'
         assert session['user_id'] == 1
         assert b'2' in response.data # check code
         assert b'500' in response.data # check amount paid
-        assert b'2022' in response.data # check date
+        assert b'2023' in response.data # check date
 
 

@@ -37,11 +37,12 @@ main .form-control {
 }
 
 main {
-    background-color: #69af7f;
+    background-color: #4F0341;
     /* scroll horizontally as needed */
     overflow-x: auto;
     /* center contents */
     text-align: center;
+    color: #FFFFFF;
 }
 
 main img {
@@ -182,4 +183,38 @@ table, th, td  {
   #myTable tr.header, #myTable tr:hover {
     /* Add a grey background color to the table header and on hover */
     background-color: #f1f1f1;
+  }
+
+  /*--------------------------------------------------------------
+# Footer
+--------------------------------------------------------------*/
+.footer {
+    background-image: url("images/footer-bg.jpg");
+    padding: 20px 0;
+    font-size: 14px;
+    transition: all 0.3s;
+  }
+  
+  .footer .copyright {
+    text-align: center;
+    color: white;
+  }
+
+  .footer .credits {
+    padding-top: 5px;
+    text-align: center;
+    font-size: 13px;
+    color: white;
+  }
+
+  .creator {
+    color: #ea433b;
+    font-weight: bold;
+  }
+
+  #privacy {
+    padding-top: 5px;
+    text-align: center;
+    font-size: 13px;
+    color: white;
   }
