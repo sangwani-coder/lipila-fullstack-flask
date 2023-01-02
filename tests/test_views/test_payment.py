@@ -2,7 +2,6 @@
     Test the payment views
     Auth: Peter S. Zyambo
 """
-import pytest
 from lipila.db import get_db
 from flask import g, session
 from datetime import datetime

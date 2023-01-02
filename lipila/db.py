@@ -17,11 +17,12 @@ def get_db():
             g.db = conn
 
         else:
-            g.db = sqlite3.connect(
-            current_app.config['DATABASE'],
-            detect_types=sqlite3.PARSE_DECLTYPES
-        )
-            g.db.row_factory = sqlite3.Row
+            conn = psycopg2.connect(
+                host=os.environ.get('PGHOST'),
+                database=os.environ.get('TESTDATABASE'),
+                user=os.environ['PGUSER'],
+                password=os.environ['PGPASSWORD'])
+            g.db = conn
 
     return g.db
 

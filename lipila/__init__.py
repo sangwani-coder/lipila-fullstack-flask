@@ -5,11 +5,6 @@ from flask import Flask, render_template, session
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
-    if not os.environ.get('PGDATABASE'):
-        app.config.from_mapping(
-            SECRET_KEY='dev',
-            DATABASE=os.path.join(app.instance_path, 'lipila.sqlite'),
-        )
     app.config['MAIL_SERVER']='smtp.gmail.com'
     app.config['MAIL_PORT'] = 465
     app.config['MAIL_USERNAME'] = 'lipila.info@gmail.com'
@@ -24,17 +19,9 @@ def create_app(test_config=None):
         if not os.environ.get("MAIL_PASSWORD"):
             raise RuntimeError("MAIL_PASSWORD not set")
 
-        # load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py', silent=True)
     else:
         # load the test config if passed in
         app.config.from_mapping(test_config)
-
-    # ensure the instance folder exists
-    try:
-        os.makedirs(app.instance_path)
-    except OSError:
-        pass
 
     @app.route('/', methods = ['GET', 'POST'])
     def landing():
@@ -63,5 +50,9 @@ def create_app(test_config=None):
     # register admin blueprint
     from lipila.views import admin
     app.register_blueprint(admin.bp)
+
+    # register site admin blueprint
+    from lipila.views import site_admin
+    app.register_blueprint(site_admin.bp)
 
     return app

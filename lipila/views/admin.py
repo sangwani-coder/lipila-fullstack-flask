@@ -2,11 +2,13 @@ from .auth import login_required
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
-from lipila.helpers import get_student, get_students
+from lipila.helpers import (
+    get_student, get_user, send_email, search_email)
 from lipila.db import get_db
 import datetime as DT
 
 from lipila.helpers import calculate_amount, calculate_payments, show_recent
+from werkzeug.security import generate_password_hash
 
 bp = Blueprint('admin', __name__, url_prefix='/lipila')
 
@@ -136,6 +138,7 @@ def report_student():
 
 # Update view
 @bp.route('/admin/update/<int:id>', methods = ['GET', 'POST'])
+@login_required
 def update(id):
     """
         Updates a students information
@@ -186,3 +189,108 @@ def delete(id):
     conn.commit()
     flash('Student Deleted Successfully')
     return redirect(url_for('admin.show_students'))
+
+@bp.route('/admin/resetpassword', methods = ['GET', 'POST'])
+def reset_password():
+    """
+        returns a from for the user to confirm registration
+    """
+    if request.method == 'POST':
+        error = None
+        email = request.form.get('email')
+        if not email:
+            error = "Email is required"
+        if not error:
+            user = search_email(email)
+            if user is not None:
+                body = "You requested to reset your email"
+                msg = "Check your email for a link to reset your password"
+                send_email(email, 'Password Reset', body, msg, )
+            else:
+                flash("User not found!")
+            return redirect(url_for('landing'))
+    return render_template('admin/reset.html')
+
+
+# Update admin password view
+@bp.route('/admin/changepassword/<int:id>', methods = ['GET', 'POST'])
+@login_required
+def update_password(id):
+    """
+        Resets the users password
+    """
+
+    if request.method == 'POST':
+        password = request.form.get('password')
+
+        conn = get_db()
+        db = conn.cursor()
+        error = None
+
+        if not password:
+            error = "password is required"
+    
+        if error is not None:
+            flash(error)
+        else:
+            db.execute(
+                "UPDATE school SET password = %s" 'WHERE id = %s',
+                        (generate_password_hash(password),id),
+                )
+            conn.commit()
+            flash('Password Changed Successfully')
+            return redirect(url_for('landing'))
+    return render_template('admin/reset_password.html')
+
+@bp.route('/admin/profile', methods = ['GET', 'POST'])
+@login_required
+def profile():
+    """View to edit the users profile"""
+    id = session['user_id']
+    if request.method == 'POST':
+        email = request.form['email']
+        mobile = request.form['mobile']
+        firstname = request.form['firstname']
+        lastname = request.form['lastname']
+    
+        error = None        
+        # admin other detaild
+        job = request.form['job']
+        school = request.form['school']
+        reg_number = request.form['reg_number']
+
+        if not school:
+            error = 'School is required.'
+        elif not mobile:
+            error = 'Mobile is required.'
+        elif not firstname:
+            error = 'Firstname is required.'
+        elif not lastname:
+            error = 'Lastname is required.'
+        elif not email:
+            error = 'Firstname is required.'
+        elif not reg_number:
+            error = 'Registration number is required.'
+        elif not job:
+            error = 'Job description is required.'
+
+        if error is None:
+            conn = get_db()
+            db = conn.cursor()
+            db.execute(
+                "UPDATE school SET job=%s, school=%s, email=%s, mobile=%s,\
+                        reg_number=%s, firstname=%s, lastname=%s" 'WHERE id=%s',
+                        (job, school, email, mobile, reg_number, firstname,
+                lastname, id),
+            )
+            conn.commit()
+            
+            msg = "Profile Updated"
+            flash(msg)
+            session['school'] = school
+            user = get_user(id)
+            return render_template('admin/profile.html', user=user)
+
+        flash(error)
+    user = get_user(id)
+    return render_template('admin/profile.html', user=user)

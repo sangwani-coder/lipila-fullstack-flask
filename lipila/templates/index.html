@@ -2,7 +2,8 @@
 <div class="scroll-left">
     <h5>Receive students fees faster, quicker and safer like a Pro!</h5>
 </div>
-<h3>Administrator Login</h3>
+<img src="{{url_for('static', filename='images/lipila.png')}}" alt="lipila-logo">
+<h3>ADMINISTRATION</h3>
 <div id="login-form">
     <form action="{{url_for('auth.login', users='schools')}}" method="post" class="card">
         <div class="form-group">
@@ -12,7 +13,7 @@
             <input class="form-control" name="password" placeholder="Password" type="password">
         </div>
         <button class="btn btn-primary" type="submit">Log In</button>
-        <a href="#">Forgot Password</a>
+        <a href="{{url_for('admin.reset_password')}}">Forgot Password</a>
     </form>
 </div>
 {% endblock %}

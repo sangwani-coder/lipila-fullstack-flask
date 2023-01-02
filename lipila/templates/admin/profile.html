@@ -1,0 +1,41 @@
+{% extends "layout.html" %} {% block title %} Profile {% endblock %} {% block main %}
+<div class="">
+    <h5>Edit Profile Details<br></h5>
+</div>
+    <div id="login-form">
+        <form action="{{ url_for('admin.profile')}}" method="post" class="card">
+            <label for="job">User Position</label>
+            <select name="job" id="job" class="form-group">
+                <option value="admin" class="form-control">Administrator</option>
+                <option value="dir" class="form-control">Director</option>
+                <option value="acct" class="form-control">Accountant</option>
+                <option value="other" class="form-control">Other</option>
+            </select>
+            <div class="form-group">
+                <label for="school">School name</label><br>
+                <input autocomplete="off" autofocus class="form-control" id="school" name="school" placeholder="School name" value="{{user[2] or request.form['school']}}">
+            </div>
+            <div class="form-group">
+                <label for="reg_number">Reg.Number</label><br>
+                <input autocomplete="off" autofocus class="form-control" id="reg_number" name="reg_number" placeholder="School Registration number" value="{{user[5] or request.form['reg_number']}}">
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label><br>
+                <input autocomplete="off" autofocus class="form-control" id="email" name="email" placeholder="Email" value="{{user[3] or request.form['email']}}">
+            </div>
+            <div class="form-group">
+                <label for="mobile">Mobile</label><br>
+                <input class="form-control" id="mobile" name="mobile" placeholder="06963225566" value="{{user[4] or request.form['mobile']}}">
+            </div>
+            <div class="form-group">
+                <label for="firstname">Firstname</label><br>
+                <input autocomplete="off" autofocus class="form-control" id="firstname" name="firstname" placeholder="User firstname" value="{{user[6] or request.form['firstname']}}">
+            </div>
+            <div class="form-group">
+                <label for="lastname">Lastname</label><br>
+                <input autocomplete="off" autofocus class="form-control" id="lastname" name="lastname" placeholder="User lastname" value="{{user[7] or request.form['lastname']}}">
+            </div>
+            <button class="btn btn-primary" type="submit">Save</button>
+        </form>
+    </div>
+    {% endblock %}

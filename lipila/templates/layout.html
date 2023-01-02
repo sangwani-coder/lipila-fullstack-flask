@@ -45,11 +45,25 @@
                 <li class="nav-item"><a class="nav-link" href="{{url_for('admin.dashboard')}}">Dashboard</a></li>
             </ul>
             <ul class="navbar-nav ml-auto mt-2">
-                <li class="nav-item">{{session['school']}}</li>
+                <li class="nav-item nav-link">{{session['school'].upper()}}</li>
             </ul>
             <ul class="navbar-nav ml-auto mt-2">
                 <li class="nav-item"><a class="nav-link" href="{{url_for('auth.logout')}}">Log Out</a></li>
             </ul>
+            </ul class="navbar-nav ml-auto mt-2">
+                <div class="dropdown">
+                    <button class="dropbtn nav-link">About
+                    <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a class="nav-link" href="{{ url_for('site_admin.about')}}">About</a>
+                        <a class="nav-link" href="{{ url_for('site_admin.contact')}}">Contact</a>
+                        <a class="nav-link" href="{{ url_for('site_admin.privacy')}}">Privacy Policy</a>
+                        <a class="nav-link" href="{{ url_for('site_admin.terms')}}">Ts & Cs</a>
+                        <a class="nav-link" href="{{ url_for('site_admin.features')}}">Features</a>
+                    </div>
+                </div>
+            <ul>
             {% elif session['user'] == "payments" %}
             <ul class="navbar-nav mr-auto mt-2" id="head">
                 <li class="nav-item"><a class="nav-link" href="#">Promise</a></li>
@@ -59,21 +73,57 @@
             </ul>
             <ul class="navbar-nav ml-auto mt-2">
                 <li class="nav-item"><a class="nav-link" href="{{url_for('auth.logout')}}">Log Out</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">About</a></li>
             </ul>
             {% elif session['user-id'] %}
             <ul class="navbar-nav mr-auto mt-2" id="head">
                 <li class="nav-item"><a class="nav-link" href="{{url_for('lipila.show_history')}}">Payment History</a></li>
             </ul>
             <ul class="navbar-nav ml-auto mt-2">
-                <li class="nav-item"><a class="nav-link" href="{{url_for('index', task='login')}}">{{session['school']}}</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{url_for('index', task='login')}}">{{session['school'].upper()}}</a></li>
             </ul>
+            </ul class="navbar-nav ml-auto mt-2">
+                <div class="dropdown">
+                    <button class="dropbtn">About
+                    <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a class="nav-link" href="{{ url_for('site_admin.about')}}">About</a>
+                        <a class="nav-link" href="{{ url_for('site_admin.contact')}}">Contact</a>
+                        <a class="nav-link" href="{{ url_for('site_admin.privacy')}}">Privacy Policy</a>
+                        <a class="nav-link" href="{{ url_for('site_admin.terms')}}">Ts & Cs</a>
+                        <a class="nav-link" href="{{ url_for('site_admin.features')}}">Features</a>
+                    </div>
+                </div>
+            <ul>
             {% else %}
             <ul class="navbar-nav ml-auto mt-2">
-                <li class="nav-item"><a class="nav-link" href="{{url_for('index', task='login')}}">Already on Lipila? Log In</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+                <div class="dropdown">
+                    <button class="dropbtn">Already on Lipila?
+                      <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a class="nav-link" href="{{url_for('index', task='login')}}">Sign In</a>
+                        <a class="nav-link" href="{{ url_for('lipila.pay', user='user')}}">Make a Payment</a>
+                    </div>
+                </div>
             </ul>
+            </ul class="navbar-nav ml-auto mt-2">
+                <div class="dropdown">
+                    <button class="dropbtn">About
+                    <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="dropdown-content">
+                        <a class="nav-link" href="{{ url_for('site_admin.about')}}">About</a>
+                        <a class="nav-link" href="{{ url_for('site_admin.contact')}}">Contact</a>
+                        <a class="nav-link" href="{{ url_for('site_admin.privacy')}}">Privacy Policy</a>
+                        <a class="nav-link" href="{{ url_for('site_admin.terms')}}">Ts & Cs</a>
+                        <a class="nav-link" href="{{ url_for('site_admin.faqs')}}">FAQ's</a>
+                        <a class="nav-link" href="{{ url_for('site_admin.features')}}">Features</a>
+                    </div>
+                </div>
+            <ul>
             {% endif %}
+            
         </div>
     </nav>
 
@@ -95,10 +145,10 @@
                 © PTECH 2023. ALL RIGHTS RESERVED Created By <a class="creator" href="https://zyambo.pythonanywhere.com" target="blank">Peter Zyambo | ptech</a>
             </div>
             <div class="credits">
-                Background Image by <a class="credits" href="https://www.freepik.com/free-vector/realistic-background-futuristic-style_19256531.htm#query=website%20background&position=49&from_view=keyword">Freepik</a> 
+                Background Image by <a class="credits" href="https://www.freepik.com/free-vector/realistic-background-futuristic-style_19256531.htm#query=website%20background&position=49&from_view=keyword" target="blank">Freepik</a> 
             </div>
             <div>
-                <h6 class="credits"><a href="#" target="blank">Terms and Conditions</a> <a href="#" target="blank">Privacy Policy</a></h6>
+                <h6 class="credits"> | <a href="{{url_for('site_admin.terms')}}">Terms and Conditions</a> | <a href="{{url_for('site_admin.privacy')}}">Privacy Policy</a> | <a href="{{url_for('site_admin.faqs')}}">FAQ's</a> |</h6>
             </div>
         </dib>
     </footer>

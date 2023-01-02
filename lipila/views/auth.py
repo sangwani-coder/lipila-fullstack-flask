@@ -20,7 +20,6 @@ def register(user):
         lastname = request.form['lastname']
         password = request.form['password']
     
-        db = get_db()
         error = None
 
         if user == 'users':
@@ -76,9 +75,9 @@ def register(user):
                 sub = 'Registration Success'
                 body = '{} Welcome to Lipila Online Fee Collection System. Your \
                         username: {}' .format(school, email)
-                ms = 'Registration Succesfull.'
+                subject = 'Registration Succesfull.'
 
-                msg = send_email(email, sub, body, ms)
+                msg = send_email(email, sub, body, subject)
                 flash(msg)
 
             except Exception as e:

@@ -2,14 +2,9 @@
 $(document).ready(function(){
   $("button").click(function(){
     $("#load").addClass('loader');
-    // $("button").disabled = true;
-    // $("button").form.firstElementChild.disabled = true;
-
     window.setTimeout(function() {
         $("#load").removeClass('loader');
-        // $("button").disabled = false;
-        // $("button").form.firstElementChild.disabled = false;
-    }, 8000)
+    }, 2000)
   });
 });
 

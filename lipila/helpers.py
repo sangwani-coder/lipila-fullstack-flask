@@ -166,7 +166,22 @@ def get_students(id):
     """ get all students information"""
     pass
 
-def send_email(email:str, subject:str, body:str, ms:str)-> str:
+def get_user(id):
+    """ get an admins information"""
+    conn = get_db()
+    db = conn.cursor()
+
+    db.execute(
+        "SELECT * FROM school WHERE id=%s", (id,)
+    )
+    data = db.fetchone()
+
+    if data is None:
+        apology("User not found", 404)
+
+    return data
+
+def send_email(email:str, subject:str, body:str, message:str)-> str:
     from flask import current_app
     from flask_mail import Mail, Message
 
@@ -179,4 +194,15 @@ def send_email(email:str, subject:str, body:str, ms:str)-> str:
         )
     msg.body = body
     mail.send(msg)
-    return ms
+    return message
+
+def search_email(email):
+    """ search for user email"""
+    conn = get_db()
+    db = conn.cursor()
+
+    db.execute(
+        "SELECT * FROM school WHERE email=%s",(email,)
+    )
+    user = db.fetchone()
+    return user

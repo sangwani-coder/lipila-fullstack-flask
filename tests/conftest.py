@@ -31,17 +31,9 @@ with open(os.path.join(os.path.dirname(__file__), 'data.sql'), 'rb') as f:
 
 @pytest.fixture
 def app():
-    if os.environ.get('PGDATABASE') != "postgres":
-        db_fd, db_path = tempfile.mkstemp()
-        app = create_app({
-            'TESTING': True,
-            'DATABASE': db_path,
-        })
-    else:
-        app = create_app({
-            'TESTING': True,
-            'DATABASE': os.environ.get('TESTDATABASE'),
-        })
+    app = create_app({
+        'TESTING': True,
+    })
 
     with app.app_context():
         init_db()
@@ -51,9 +43,6 @@ def app():
         conn.commit()
 
     yield app
-
-    # os.close(db_fd)
-    # os.unlink(db_path)
 
 
 @pytest.fixture

@@ -1,0 +1,21 @@
+{% extends "layout.html" %} {% block title %} Contact {% endblock %} {% block main %}
+<img src="{{url_for('static', filename='images/lipila.png')}}" alt="lipila-logo">
+<h2>Contact</h2>
+<P>Email: lipila.info@gmail.com</P>
+<p>Tel: +260 969 620 939</p>
+<h3>Send us a message</h3>
+<form action="{{url_for('site_admin.contact')}}" method="post" class="card" class="form-group">
+    <div class="form-group">
+        <input type='text' name="names" id="fn" placeholder="Your names" required>
+        <hr>
+        <input type='text' name="email" id="ln" placeholder="Your email" required>
+        <hr>
+        <input type='text' name="subject" id="ln" placeholder="Subject">
+        <hr>
+        <textarea name="message" rows="7" cols="60" placeholder="Message" maxlength="300" required></textarea>
+        <hr>
+        <input type="submit" class=" btn btn-primary" value="Send Email">
+    </div>
+</form>
+{% endblock %}
+
