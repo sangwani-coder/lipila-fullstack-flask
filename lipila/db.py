@@ -1,5 +1,10 @@
-import sqlite3
+"""
+    db.py
+    Lipila Fee Collection System
+    Creator: Sangwani P. Zyambo
 
+    Module that defines funcitons for datbase initialization and connection.
+"""
 import click
 from flask import current_app, g
 import os

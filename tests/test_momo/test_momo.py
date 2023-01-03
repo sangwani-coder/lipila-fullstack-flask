@@ -1,4 +1,10 @@
-from lipila.momo import mtn_momo, airtel_momo
+"""
+    test_momo.py
+    Lipila Fee Collection System
+    Creator: Sangwani P. Zyambo
+
+    unittests for the momo class.
+"""
 
 # test the Momo class
 def test_momo_class_passing_numbers(momo):
@@ -34,15 +40,3 @@ def test_momo_class_failing_numbers(momo):
     assert np3 == 'Unknown'
     np4 = network.get_network(m4)
     assert np4 == 'Unknown'
-
-# Test the mtn module
-def test_mtn_momo(momo):
-    pass
-
-def test_airtel_momo(momo):
-    network = momo
-    pass
-
-
-
-# Tests the airtel module

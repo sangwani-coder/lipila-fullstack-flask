@@ -1,4 +1,10 @@
-"""module that test the mtn_momo class and methods"""
+"""
+    test_mtn_momo.py
+    Lipila Fee Collection System
+    Creator: Sangwani P. Zyambo
+
+    unittests for the mtn_momo function.
+"""
 from lipila.momo.mtn_momo import MTN
 import pytest
 

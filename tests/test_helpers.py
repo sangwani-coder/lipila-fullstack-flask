@@ -1,6 +1,12 @@
+"""
+    test_helpers.py
+    Lipila Fee Collection System
+    Creator: Sangwani P. Zyambo
 
+    unittests for the helper functions.
+"""
 from lipila.helpers import (
-    generate_pdf, send_email,
+    send_email,
     get_student, get_user, search_email,
     get_payments
     )

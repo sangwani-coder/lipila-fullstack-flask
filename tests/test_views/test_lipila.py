@@ -1,6 +1,9 @@
 """
-    Test the lipila views
-    Auth: Peter S. Zyambo
+    test_lipila.py
+    Lipila Fee Collection System
+    Creator: Sangwani P. Zyambo
+
+    unittests for the lipila views.
 """
 from flask import session
 

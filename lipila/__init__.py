@@ -1,3 +1,10 @@
+"""
+    __init__.py
+    Lipila Fee Collection System
+    Creator: Sangwani P. Zyambo
+
+    The application factory.
+"""
 import os
 
 from flask import Flask, render_template, session

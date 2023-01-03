@@ -1,6 +1,9 @@
 """
-    Test the admin view
-    Auth: Peter S. Zyambo
+    test_admin.py
+    Lipila Fee Collection System
+    Creator: Sangwani P. Zyambo
+
+    unittests for the admin views.
 """
 import pytest
 from lipila.db import get_db

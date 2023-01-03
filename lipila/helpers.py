@@ -1,4 +1,22 @@
-""" HELPER METHODS"""
+""" 
+    helpers.py
+    Lipila Fee Collection System
+    Creator: Sangwani P. Zyambo
+
+    Module that defines helper functions for the views.
+
+    Functions:
+        generate_pdf: Function that generates a pdf invoice.
+        apology: Function that renders the apology page.
+        calculate_mount: Function that calculates the total payments received.
+        show_recent: Funciton that returns recent payments to the admin dashboard page
+        get_student: Function that selects a single student matching id from the database.
+        get_students: Function to selects all students from the database matching the user id.
+        get_user" Function that selects a user from the school table matching id.
+        send_email: Function that sends an email to the provided email parameter.
+        search_email: Function that searches if a submited email  exisrs in the database.
+        get_payments: Function that gets all payments from the database that match a student id.
+"""
 
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
@@ -8,7 +26,11 @@ from flask import render_template
 from lipila.db import current_app, get_db
 
 def generate_pdf(data):
-    """helper function to generate pdf"""
+    """
+       Function that generates a pdf format of the invoice.
+       param:
+        data: The data to put in the invoice.
+    """
     directory = os.path.join(current_app.root_path, 'receipts').replace('\\','/')
     filename = "receipt-{}.pdf".format(data[0])
     file_path = os.path.join(directory, filename).replace('\\', '/')
@@ -34,7 +56,12 @@ def generate_pdf(data):
     return file_path
 
 def apology(message, code=400):
-    """Render message as an apology to user."""
+    """
+        Render message as an apology to user.
+        params:
+            message: The message to render to user.
+            code: the error code to show on page.
+    """
     def escape(s):
         """
         Escape special characters.
@@ -49,7 +76,10 @@ def apology(message, code=400):
 
 def calculate_amount(period, id):
     """ 
-        Calculates the total payments made for each period
+        Calculates the total payments made for each period.
+        params:
+            period: the day, week or month to make calculations for.
+            id: The user id.
     """
     conn = get_db()
     db = conn.cursor()
@@ -96,7 +126,10 @@ def calculate_amount(period, id):
 
 def calculate_payments(period, id):
     """ 
-        calculates the total amount paid for each given period
+        calculates the total amount paid for each given period.
+        params:
+            period: the day, week or month to calculate payments.
+            id: the user id.
     """
     conn = get_db()
     db = conn.cursor()
@@ -130,7 +163,11 @@ def calculate_payments(period, id):
         return len(pays)
 
 def show_recent(id):
-    """ Show recent payments"""
+    """
+        Selects all recent payments for the user/school id.
+        params:
+            id: the school id.
+    """
     conn = get_db()
     db = conn.cursor()
 
@@ -148,7 +185,11 @@ def show_recent(id):
     return payment
 
 def get_student(id):
-    """ get a students information"""
+    """
+        get a students information from the student table.
+        parmas:
+            id: the student id.
+    """
     conn = get_db()
     db = conn.cursor()
 
@@ -163,11 +204,19 @@ def get_student(id):
     return data
 
 def get_students(id):
-    """ get all students information"""
+    """
+        get all students information from the student table
+        param:
+            id: the school id
+    """
     pass
 
 def get_user(id):
-    """ get an admins information"""
+    """
+        get an admin users information from the school table.
+        params:
+            id: the school id.
+    """
     conn = get_db()
     db = conn.cursor()
 
@@ -182,6 +231,14 @@ def get_user(id):
     return data
 
 def send_email(email:str, subject:str, body:str, message:str)-> str:
+    """ 
+        Sends an email to a user.
+        params:
+            email: the recievers email.
+            subject: the email subject.
+            body: the main message.
+            message: the message to flask to the user.
+    """
     from flask import current_app
     from flask_mail import Mail, Message
 
@@ -197,7 +254,11 @@ def send_email(email:str, subject:str, body:str, message:str)-> str:
     return message
 
 def search_email(email):
-    """ search for user email"""
+    """
+        search for user email.
+        params:
+            email: The email to look up in the school table.
+    """
     conn = get_db()
     db = conn.cursor()
 
@@ -208,7 +269,9 @@ def search_email(email):
     return user
 
 def get_payments(id):
-    """get all payments matching student id"""
+    """
+        get all payments matching student id.
+    """
     conn = get_db()
     db = conn.cursor()
     db.execute(

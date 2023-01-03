@@ -1,8 +1,13 @@
+"""
+    site_admin.py
+    Lipila Fee Collection System
+    Creator: Sangwani P. Zyambo
+
+    Module that defines views for the site administrator.
+"""
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for
 )
-
-from lipila.helpers import get_user, send_email, get_db
 
 bp = Blueprint('site_admin', __name__, url_prefix='/lipila')
 

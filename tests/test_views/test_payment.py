@@ -1,6 +1,9 @@
 """
-    Test the payment views
-    Auth: Peter S. Zyambo
+    test_payment.py
+    Lipila Fee Collection System
+    Creator: Sangwani P. Zyambo
+
+    unittests for views that handle payment.
 """
 from lipila.db import get_db
 from flask import g, session

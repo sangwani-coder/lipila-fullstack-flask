@@ -1,5 +1,11 @@
+"""
+    conftest.py
+    Lipila Fee Collection System
+    Creator: Sangwani P. Zyambo
+
+    configuration file for tests
+"""
 import os
-import tempfile
 
 import pytest
 from lipila import create_app

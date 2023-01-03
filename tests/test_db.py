@@ -1,5 +1,10 @@
-import sqlite3
+"""
+    test_db.py
+    Lipila Fee Collection System
+    Creator: Sangwani P. Zyambo
 
+    unittests for the db views.
+"""
 import pytest
 from lipila.db import get_db
 import psycopg2

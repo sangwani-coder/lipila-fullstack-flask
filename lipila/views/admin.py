@@ -1,3 +1,10 @@
+"""
+    helpers.py
+    Lipila Fee Collection System
+    Creator: Sangwani P. Zyambo
+
+    defines view functions for the school admin.
+"""
 from .auth import login_required
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, session, url_for

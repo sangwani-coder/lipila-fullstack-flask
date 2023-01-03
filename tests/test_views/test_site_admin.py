@@ -1,4 +1,10 @@
-"""Test the side_admin views"""
+"""
+    test_site_admin.py
+    Lipila Fee Collection System
+    Creator: Sangwani P. Zyambo
+
+    unittests for the site_admin views.
+"""
 
 def test_about(client):
     response = client.get('/lipila/about')

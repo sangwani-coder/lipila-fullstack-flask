@@ -1,6 +1,9 @@
 """
-    Test the Authentication view
-    Auth: Peter S. Zyambo
+    test_auth.py
+    Lipila Fee Collection System
+    Creator: Sangwani P. Zyambo
+
+    unittests for the auth views.
 """
 import pytest
 from flask import g, session

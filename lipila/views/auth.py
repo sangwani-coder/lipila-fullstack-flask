@@ -1,3 +1,10 @@
+"""
+    auth.py
+    Lipila Fee Collection System
+    Creator: Sangwani P. Zyambo
+
+    Module that defines the authentication views.
+"""
 import functools
 
 from flask import (
