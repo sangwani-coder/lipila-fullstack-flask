@@ -74,7 +74,7 @@ def show_payments():
             )
         payment = db.fetchall()
         
-        return render_template('school/payments.html', school=school[2], data=payment)
+        return render_template('school/payments.html', school=school[3], data=payment)
     
 
 @bp.route('/admin/add', methods = ['GET', 'POST'])
@@ -116,24 +116,6 @@ def create_student():
 
         flash(error)
     return render_template('school/create.html')
-
-
-@bp.route('/admin/update/<id>', methods = ['GET', 'POST'])
-@login_required
-def update_student(id):
-    return render_template('school/update.html')
-
-
-@bp.route('/admin/remove/<id>', methods = ['GET', 'POST'])
-@login_required
-def remove_student(id):
-    return render_template('school/remove.html')
-
-
-@bp.route('/admin/report', methods = ['GET', 'POST'])
-@login_required
-def report_student():
-    return render_template('school/report.html')
 
 
 # Update view
@@ -289,8 +271,10 @@ def profile():
             flash(msg)
             session['school'] = school
             user = get_user(id)
+            print(user)
             return render_template('admin/profile.html', user=user)
 
         flash(error)
     user = get_user(id)
+    print(user)
     return render_template('admin/profile.html', user=user)

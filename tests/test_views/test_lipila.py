@@ -35,12 +35,24 @@ def test_list_payments(client):
     """ Test ths route to return registered students"""
     with client:
         client.get('/lipila/payment/1')
+        assert session['student'] == 'sepi zed'
+        assert session['user-id'] == 1
+        assert client.get('/lipila/confirmed').status_code == 200
+        response = client.post(
+            '/lipila/confirmed',
+            data={
+                'amount':400,
+                'mobile':'0971893155'
+            }
+        )
+        assert client.get('/lipila/payment').status_code == 200
+        assert session['net'] == 'airtel'
+        response = client.post('/lipila/payment')
         response = client.get('/lipila/history')
         assert response.status_code == 200
         assert b'Payments' in response.data
         assert b'academy Payments' in response.data
-        assert session['student'] == 'sepi zed'
-        assert session['user-id'] == 1
+        assert b'sepi zed' in response.data
 
 def test_confirmed(client):
     """ Test the route to return student data"""

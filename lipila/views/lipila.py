@@ -5,7 +5,7 @@ from flask import (
 import os
 from lipila.db import get_db
 from lipila.db import current_app
-from lipila.helpers import generate_pdf, apology
+from lipila.helpers import generate_pdf, apology, get_payments, get_student
 
 from lipila.momo.momo import Momo
 from lipila.momo.mtn_momo import MTN
@@ -51,7 +51,7 @@ def get_student_data(id):
             session['firstname'] = student[1]
             session['lastname'] = student[2]
             session['school'] = school[0]
-            session['tuition'] = student[5]
+            session['tuition'] = student[6]
             session['student'] = student[1] + ' ' + student[2]
             session['school-id'] = school_id[0]
 
@@ -105,6 +105,8 @@ def payment():
     user = session['user-id']
     amount = str(session['amount'])
     externalId = '1234'
+    firstname = get_student(user)[1]
+    lastname = get_student(user)[2]
 
     error =  None
         
@@ -131,8 +133,8 @@ def payment():
             return apology('Amount must be greater than 20', 403)
         if payment.status_code == 202:
             try:
-                db.execute("INSERT INTO payment (student_id, amount, school, account_number) \
-                    VALUES(%s,%s,%s,%s)",(user, amount, session['school-id'], partyId),
+                db.execute("INSERT INTO payment (student_id, firstname, lastname, amount, school, account_number) \
+                    VALUES(%s,%s,%s,%s,%s,%s)",(user, firstname, lastname, amount, session['school-id'], partyId),
                     )
                 conn.commit()
                 
@@ -155,8 +157,8 @@ def payment():
         payment = sp.make_payment(partyId, amount)
         if payment:
             try:
-                db.execute("INSERT INTO payment (student_id, amount, school, account_number) \
-                    VALUES(%s,%s,%s,%s)",(user, amount, session['school-id'], partyId),
+                db.execute("INSERT INTO payment (student_id, firstname, lastname, amount, school, account_number) \
+                    VALUES(%s,%s,%s,%s,%s,%s)",(user, firstname, lastname, amount, session['school-id'], partyId),
                     )
                 db.execute(
                     "SELECT * FROM payment WHERE student_id=%s",(user,)
@@ -190,10 +192,7 @@ def show_history():
 
     user = session['user-id']
 
-    db.execute(
-        "SELECT * FROM payment WHERE student_id=%s",(user,)
-    )
-    payment = db.fetchall()
+    payment = get_payments(user)
 
     return render_template('payment/history.html', school=session['school'], data=payment)
 

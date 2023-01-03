@@ -206,3 +206,13 @@ def search_email(email):
     )
     user = db.fetchone()
     return user
+
+def get_payments(id):
+    """get all payments matching student id"""
+    conn = get_db()
+    db = conn.cursor()
+    db.execute(
+        "SELECT * FROM payment WHERE student_id =%s",(id,)
+    )
+    payments = db.fetchall()
+    return payments

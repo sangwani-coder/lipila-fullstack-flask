@@ -119,17 +119,15 @@ def login(users):
                 'SELECT * FROM school WHERE email = %s', (email,)
             )
             user = db.fetchone()
-
-            if user is None or not check_password_hash(user[8], password):
+            if user is None or not check_password_hash(user[9], password):
                 error = 'Incorrect credentials. Please check your details'
 
         if error is None:
-            session.clear()
             flash('Logged in')
             session['user'] = users
             session['user_id'] = user[0]
-            session['email'] = user[3]
-            session['school'] = user[2]
+            session['email'] = user[4]
+            session['school'] = user[3]
             return redirect(url_for('admin.dashboard'))
 
         flash(error)

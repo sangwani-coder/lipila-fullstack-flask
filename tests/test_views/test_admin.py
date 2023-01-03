@@ -7,6 +7,7 @@ from lipila.db import get_db
 from flask import g, session
 from werkzeug.security import check_password_hash
 from lipila.helpers import get_user, get_student
+from datetime import datetime
 
 def test_dashboard(client, auth):
     response = auth.login()
@@ -74,7 +75,6 @@ def test_show_students(client, auth):
         assert response.status_code == 200
         assert session['email'] == 'zyambo@icloud.com'
         assert b'pita' in response.data
-        assert b'pita' in response.data
         assert b'sepi' in response.data
         assert b'sangwa' not in response.data
         assert b'zed' in response.data
@@ -91,9 +91,9 @@ def test_list_payments(client, auth):
         assert b'<h4>academy Payments</h4>' in response.data
         assert session['email'] == 'zyambo@icloud.com'
         assert session['user_id'] == 1
-        assert b'2' in response.data # check code
         assert b'500' in response.data # check amount paid
         assert b'2023' in response.data # check date
+        assert b'sepi zed' in response.data
 
 
 def test_update_get(client, auth):
@@ -125,9 +125,11 @@ def test_update_post(client, auth, app):
     with app.app_context():
         data = get_student(2)
         assert data is not None
-        assert data[5] == 750
         assert data[1] == "Sepiso"
-        assert data[4] == "Medicine"
+        assert isinstance(data[3], datetime)
+        assert data[5] == "Medicine"
+        assert data[6] == 750
+        
     
 
 def test_update_password_get(client, auth):
@@ -196,12 +198,13 @@ def test_profile_post(
     with app.app_context():
         user = get_user(1)
         assert user[1] == "administrator"
-        assert user[2] == "academy"
-        assert user[3] == "zyambo@icloud.com"
-        assert user[4] == "369854200"
-        assert user[5] == "1245659"
-        assert user[6] == "pita"
-        assert user[7] == "zyambo"
+        assert isinstance(user[2], datetime)
+        assert user[3] == "academy"
+        assert user[4] == "zyambo@icloud.com"
+        assert user[5] == "369854200"
+        assert user[6] == "1245659"
+        assert user[7] == "pita"
+        assert user[8] == "zyambo"
 
     response = client.post(
         '/lipila/admin/profile', data={
@@ -214,8 +217,9 @@ def test_profile_post(
             'lastname':lastname
             }
     )
-    with app.app_context():
-        user = get_user(1)
-        assert user[4] == "0971892260"
     assert response.status_code == 200
     assert message in response.data
+    with app.app_context():
+        user = get_user(1)
+        assert user[5] == "0971892260"
+        assert user[4] == "school@email.com"

@@ -5,6 +5,7 @@
 from lipila.db import get_db
 from flask import g, session
 from datetime import datetime
+from lipila.helpers import get_payments
 
 def test_get_student_data(client):
     """ Test the route to return student data"""
@@ -26,14 +27,13 @@ def test_get_student_data(client):
         # Start a new payment session
         response = client.get('/lipila/payment/3')
         assert response.status_code == 200
-        assert b'sangwa' in response.data
-        assert b'a' in response.data
+        assert b'mule' in response.data
 
         # test session data
         assert session['user-id'] == 3
-        assert session['firstname'] == 'sangwa'
-        assert session['lastname'] == 'zed'
-        assert session['school'] == 'switch academy'
+        assert session['firstname'] == 'mule'
+        assert session['lastname'] == 'mule'
+        assert session['school'] == 'academy'
         assert session['tuition'] == 300
 
         # Create new sessions with different id
@@ -52,7 +52,7 @@ def test_get_student_data(client):
 
 def test_get__student_data_validate_input(client):
     with client:
-        response = client.get('/lipila/payment/5')
+        response = client.get('/lipila/payment/20')
         assert response.status_code == 200
         assert b'No student found!' in response.data
 
@@ -82,19 +82,12 @@ def test_payment_correct_mtn(client, app):
         response = client.post('/lipila/payment')
         assert response.headers['Location'] == '/lipila/history'
         with app.app_context():
-            conn = get_db()
-            db = conn.cursor()
-            db.execute(
-                "SELECT * FROM payment WHERE student_id = '1'",
-            )
-            payment = db.fetchone()
-            assert payment is not None
-            assert payment[3] == 500
-            assert payment[1] == 1
-            assert payment[5] == 1
+            payment  = get_payments(1)
+            assert payment[0][5] == 500
+            assert payment[2][5] == 600
             assert session['account'] == '0969620939'
             assert session['amount'] == 200
-            assert isinstance(payment[2], datetime)
+            assert isinstance(payment, list)
 
 def test_payment_wrong_details(client, app):
     """ test the payment route"""
@@ -130,7 +123,7 @@ def test_payment_wrong_details(client, app):
                 "SELECT * FROM payment WHERE student_id = '2'",
             )
             payment = db.fetchone()
-            assert payment[3] == 500
+            assert payment[5] == 500
             assert session['account'] == 'None'
             assert session['amount'] == 200
 
@@ -154,22 +147,15 @@ def test_payment_correct_airtel(client, app):
     
         assert client.get('/lipila/payment').status_code == 200
         assert session['net'] == 'airtel'
-        res = client.post('/lipila/payment')
     
     with client:
         response = client.post('/lipila/payment')
         assert response.headers['Location'] == '/lipila/history'
         with app.app_context():
-            conn = get_db()
-            db = conn.cursor()
-            db.execute(
-                "SELECT * FROM payment WHERE student_id = '2'",
-            )
-            payment = db.fetchone()
+            payment = get_payments(2)
             assert payment is not None
-            assert payment[3] != 400
-            assert payment[1] == 2
-            assert payment[5] == 2
+            assert payment[6][2] == 'pita'
+            assert payment[6][3] == 'zed'
+            assert payment[6][5] == 400
             assert session['account'] == '0971893155'
-            assert session['amount'] == 400
-            assert isinstance(payment[2], datetime)
+            assert isinstance(payment[0][4], datetime)

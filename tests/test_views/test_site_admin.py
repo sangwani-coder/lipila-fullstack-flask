@@ -29,9 +29,3 @@ def test_features(client):
     response = client.get('/lipila/features')
     assert response.status_code == 200
     assert b"Online School Fees Payment" in response.data
-
-
-def test_profile(client):
-    response = client.get('/lipila/profile')
-    assert response.status_code == 200
-    assert b"Edit Profile" in response.data

@@ -4,18 +4,18 @@
 <table style="width:100%" id="myTable">
     <tr class="header">
         <th scope="col">#</th>
-        <th scope="col" style="width:40%;">Student Names</th>
-        <th scope="col" style="width:40%;">Received</th>
+        <th scope="col" style="width:40%;">Names</th>
+        <th scope="col" style="width:40%;">Date</th>
         <th scope="col" style="width:40%;">Paid</th>
-        <th scope="col" style="width:40%;">Paid from</th>
+        <th scope="col" style="width:40%;">Account paid from</th>
     </tr>
     {% for student in data %}
     <tr>
         <th scope="row">{{loop.index}}</th>
-        <td>{{student[1]}}</td>
-        <td >{{student[2]}}</td>
-        <td>{{student[3]}}</td>
-        <td>{{student[4]}}</td>
+        <td>{{student[2]}} {{student[3]}}</td>
+        <td >{{student[4]}}</td>
+        <td>{{student[5]}}</td>
+        <td>{{student[6]}}</td>
     </tr>
     {% endfor %}
 </table>

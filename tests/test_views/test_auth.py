@@ -53,9 +53,10 @@ def test_register_validate_input(
 def test_login(client, auth):
     assert client.get('/auth/login/schools').status_code == 200
     response = auth.login()
+    assert response.headers['Location'] == "/lipila/admin/dashboard"
 
     with client:
-        client.get('/auth/login/schools')
+        client.get('/admin/dashboard')
         assert session['user_id'] == 1
         assert session['email'] == 'zyambo@icloud.com'
 
