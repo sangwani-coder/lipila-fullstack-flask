@@ -12,7 +12,7 @@ from flask import (
 import os
 from lipila.db import get_db
 from lipila.db import current_app
-from lipila.helpers import generate_pdf, apology, get_payments, get_student
+from lipila.helpers import generate_pdf, apology, get_payments, get_student, get_receipts
 
 from lipila.momo.momo import Momo
 from lipila.momo.mtn_momo import MTN
@@ -156,7 +156,6 @@ def payment():
             
                 flash(msg)
             except TypeError as e:
-                print(e)
                 flash('error')
     
     elif session['net'] == 'airtel':
@@ -184,7 +183,6 @@ def payment():
             
                 flash(msg)
             except Exception as e:
-                print(e)
                 flash('Exception')
     else:
         error = 'error occured'
@@ -194,9 +192,6 @@ def payment():
 
 @bp.route('/history', methods=['GET', 'POST'])
 def show_history():
-    conn = get_db()
-    db = conn.cursor()
-
     user = session['user-id']
 
     payment = get_payments(user)
@@ -207,12 +202,8 @@ def show_history():
 @bp.route('/download/<receipt>', methods=['GET', 'POST'])
 def download(receipt):
     """ downloads a pdf receipt"""
-    conn = get_db()
-    db = conn.cursor()
     path = current_app.root_path
-
-    db.execute('SELECT * FROM payment WHERE id=%s',(receipt,))
-    data = db.fetchone()
+    data = get_receipts(receipt)
     rec = generate_pdf(data)
     file_path = os.path.join(path, rec).replace('\\', '/')
   

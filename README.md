@@ -39,7 +39,7 @@ The application supports the following features for student/parent users:
 |[lipila/views/lipila](./lipila/views/lipila)|module with views to handle student payments|
 |[lipila/__init__.py](./lipila/__init__.py)| project factory, the entry point to the project|
 |[lipila/db.py](./lipila/db.py)| contains functions to initialize the database and creating database connections|
-|[lipila/schema.sql](./lipila/schema-pro.sql)| file defining the database tables|
+|[lipila/schema-pro.sql](./lipila/schema-pro.sql)| file defining the database tables|
 |[lipila/tests](./lipila/tests)| package containing unittests|
 
 ## Running The Application Locally

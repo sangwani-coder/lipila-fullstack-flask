@@ -16,6 +16,7 @@
         send_email: Function that sends an email to the provided email parameter.
         search_email: Function that searches if a submited email  exisrs in the database.
         get_payments: Function that gets all payments from the database that match a student id.
+        format_date: Function to forma the date.
 """
 
 from reportlab.lib.pagesizes import letter
@@ -24,6 +25,8 @@ import os
 from flask import render_template
 
 from lipila.db import current_app, get_db
+
+ALLOWED_EXTENSIONS = {'csv'}
 
 def generate_pdf(data):
     """
@@ -38,19 +41,37 @@ def generate_pdf(data):
     if not os.path.isdir(directory):
         os.mkdir(directory)
 
+    conn = get_db()
+    db = conn.cursor()
+
+    db.execute(
+        "SELECT school FROM school WHERE id=%s",(data[7],)
+    )
+    school = db.fetchone()
+
+    p_data = {
+        'id':data[0] ,
+        'student_id':data[1] ,
+        'firstname':data[2] ,
+        'lastname':data[3] ,
+        'created':data[4] ,
+        'amount':data[5] ,
+        'account_number':data[6] ,
+        'school':school[0].upper()
+    }
     my_canvas = canvas.Canvas(file_path, pagesize=letter)
     my_canvas.setLineWidth(.3)
     my_canvas.setFont('Helvetica', 12)
-    my_canvas.drawString(30, 750, 'PAYMENT RECEIPT {}'.format(data[0]))
-    my_canvas.drawString(30, 735, 'SCHOOL: {}'.format(data[5]))
-    my_canvas.drawString(500, 720, "{}".format(data[2]))
+    my_canvas.drawString(30, 750, 'PAYMENT RECEIPT {}'.format(p_data['student_id']))
+    my_canvas.drawString(30, 735, 'SCHOOL: {}'.format(p_data['school']))
+    my_canvas.drawString(500, 720, "{}".format(p_data['created']))
     my_canvas.line(480, 747, 580, 747)
-    my_canvas.drawString(275, 725, 'AMOUNT OWED:')
-    my_canvas.drawString(500, 725, "${}".format(data[3]))
+    my_canvas.drawString(275, 725, 'AMOUNT PAID:')
+    my_canvas.drawString(500, 725, "K{}".format(p_data['amount']))
     my_canvas.line(378, 723, 580, 723)
-    my_canvas.drawString(30, 703, 'RECEIVED BY:')
+    my_canvas.drawString(30, 703, 'RECEIVED BY: {}'.format(""))
     my_canvas.line(120, 700, 580, 700)
-    my_canvas.drawString(120, 703, "STUDENT ID: {}".format(data[1]))
+    my_canvas.drawString(120, 703, "STUDENT ID: {}".format(p_data['student_id']))
     my_canvas.save()
 
     return file_path
@@ -279,3 +300,39 @@ def get_payments(id):
     )
     payments = db.fetchall()
     return payments
+
+
+def get_receipts(id):
+    """
+        get single payments matching student id.
+    """
+    conn = get_db()
+    db = conn.cursor()
+    db.execute(
+        "SELECT * FROM payment WHERE id =%s",(id,)
+    )
+    payments = db.fetchone()
+    return payments
+
+def format_date(date):
+    """
+        string format a date object to readable format
+    """
+    f_date = date.strftime("%b %d %Y %H:%M:%S")
+
+    return f_date
+
+def upload(file):
+    """ reads and writes student data"""
+
+    import csv
+    with open('file.csv', 'r') as f:
+        reader = csv.reader(f)
+        for row in reader:
+            print(row)
+
+def allowed_file(filename):
+    """Checks if the uploaded file extension is suppoerted
+    """
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS

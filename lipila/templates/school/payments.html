@@ -1,6 +1,6 @@
 {% extends "layout.html" %} {% block title %} Payments {% endblock %} {% block main %}
 <h4>{{school}} Payments</h4>
-<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for student..">
+<input type="text" id="myInput" onkeyup="searchStudent()" placeholder="Search for student..">
 <table style="width:100%" id="myTable">
     <tr class="header">
         <th scope="col">#</th>
@@ -13,7 +13,7 @@
     <tr>
         <th scope="row">{{loop.index}}</th>
         <td>{{student[2]}} {{student[3]}}</td>
-        <td >{{student[4]}}</td>
+        <td >{{student[4].strftime("%d %b %Y, %H:%M:%S")}}</td>
         <td>{{student[5]}}</td>
         <td>{{student[6]}}</td>
     </tr>

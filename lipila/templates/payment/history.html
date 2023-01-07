@@ -9,14 +9,14 @@
         <!-- <th>Actions</th> -->
     </tr>
     {% for student in data %}
-    <form action="/lipila/download/{{student.id}}" class="form-group">
+    <form action="/lipila/download/{{student[0]}}" class="form-group">
         <tr>
             <input type="hidden", name="receipt" value={{student.id}}>
             <th scope="">{{loop.index}}</th>
-            <td>{{student[4]}}</td>
+            <td>{{student[4].strftime("%d %b %Y, %H:%M:%S")}}</td>
             <td>{{student[5]}}</td>
             <td>{{student[6]}}</td>
-            <!-- <td><input type="submit" value="download receipt"> -->
+            <td><input type="submit" value="download receipt">
         </tr>
     </form>
     {% endfor %}

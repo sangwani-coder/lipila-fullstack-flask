@@ -5,17 +5,24 @@
 
     defines view functions for the school admin.
 """
+import os
 from .auth import login_required
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for
+    Blueprint, flash, g, redirect, render_template, request, session, url_for,
+    current_app
 )
 from lipila.helpers import (
     get_student, get_user, send_email, search_email)
-from lipila.db import get_db
+from lipila.db import get_db, current_app
 import datetime as DT
+from werkzeug.utils import secure_filename
 
-from lipila.helpers import calculate_amount, calculate_payments, show_recent
+from lipila.helpers import (
+    calculate_amount, calculate_payments,
+    show_recent, allowed_file
+    )
 from werkzeug.security import generate_password_hash
+import csv
 
 bp = Blueprint('admin', __name__, url_prefix='/lipila')
 
@@ -124,7 +131,6 @@ def create_student():
         flash(error)
     return render_template('school/create.html')
 
-
 # Update view
 @bp.route('/admin/update/<int:id>', methods = ['GET', 'POST'])
 @login_required
@@ -231,6 +237,7 @@ def update_password(id):
             return redirect(url_for('landing'))
     return render_template('admin/reset_password.html')
 
+
 @bp.route('/admin/profile', methods = ['GET', 'POST'])
 @login_required
 def profile():
@@ -278,10 +285,36 @@ def profile():
             flash(msg)
             session['school'] = school
             user = get_user(id)
-            print(user)
             return render_template('admin/profile.html', user=user)
 
         flash(error)
     user = get_user(id)
-    print(user)
     return render_template('admin/profile.html', user=user)
+
+@bp.route('/admin/upload', methods=['GET', 'POST'])
+@login_required
+def upload_file():
+    """ uploads a cvs file list of students
+    """
+    if request.method == 'POST':
+        # check if the post request has the file part
+        if 'file' not in request.files:
+            flash('No file part')
+            return redirect(request.url)
+        file = request.files['file']
+        # If the user does not select a file, the browser submits an
+        # empty file without a filename.
+        if file.filename == '':
+            flash('No selected file')
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
+            with open(filename, 'rb') as file:
+                reader = csv.reader(file)
+                for row in reader:
+                    print(row)
+            
+            flash("Students added successfully")
+            return redirect(url_for('admin.show_students')), 201
+    return render_template('school/upload.html')

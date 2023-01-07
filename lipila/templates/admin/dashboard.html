@@ -369,7 +369,7 @@
 
                 <div class="card-body">
                   <h5 class="card-title">Recent Payments <span></span></h5>
-                  <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for student..">
+                  <input type="text" id="myInput" onkeyup="searchStudent()" placeholder="Search for student..">
                   <table class="table table-borderless datatable" id="myTable">
                     <thead>
                       <tr>
@@ -385,7 +385,7 @@
                       <tr>
                         <th scope="row">{{loop.index}}</th>
                         <td>{{pay[2]}} {{pay[3]}}</td>
-                        <td >{{pay[4]}}</td>
+                        <td >{{pay[4].strftime("%d %b %Y, %H:%M:%S")}}</td>
                         <td>{{pay[5]}}</td>
                         <td><span class="badge bg-success">Approved</span></td>
                       </tr>

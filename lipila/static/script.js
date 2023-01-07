@@ -1,4 +1,4 @@
-// function to add a spinner to the button element
+// function to add a loader to the button element
 $(document).ready(function(){
   $("button").click(function(){
     $("#load").addClass('loader');
@@ -9,7 +9,7 @@ $(document).ready(function(){
 });
 
 // Function to search for student by names
-function myFunction() {
+function searchStudent() {
   // Declare variables
   var input, filter, table, tr, td, i, txtValue;
   input = document.getElementById("myInput");

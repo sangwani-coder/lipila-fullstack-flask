@@ -42,7 +42,6 @@ def register(user):
                 error = 'Password is required.'
             
         if user == 'schools':
-            # admin other detaild
             job = request.form['job']
             school = request.form['school']
             reg_number = request.form['reg_number']
@@ -79,9 +78,9 @@ def register(user):
                 
                 # send registration confirmation email
                 email = email
-                sub = 'Registration Success'
-                body = '{} Welcome to Lipila Online Fee Collection System. Your \
-                        username: {}' .format(school, email)
+                sub = 'Welcome to Lipila!'
+                body = '{} Welcome to Lipila! Start Managing your fees Online like a Pro! \
+                    Your username: {}'.format(school, email)
                 subject = 'Registration Succesfull.'
 
                 msg = send_email(email, sub, body, subject)

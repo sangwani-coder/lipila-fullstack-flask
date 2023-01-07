@@ -8,10 +8,12 @@
 import os
 
 from flask import Flask, render_template, session
+UPLOAD_FOLDER = '/files/uploads'
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
     app.config['MAIL_SERVER']='smtp.gmail.com'
     app.config['MAIL_PORT'] = 465
     app.config['MAIL_USERNAME'] = 'lipila.info@gmail.com'

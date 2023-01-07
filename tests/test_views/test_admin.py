@@ -226,3 +226,40 @@ def test_profile_post(
         user = get_user(1)
         assert user[5] == "0971892260"
         assert user[4] == "school@email.com"
+
+def test_upload_get(client, auth):
+    """test the GET method fot the upload view"""
+    auth.login()
+    with client:
+        res = client.get('/lipila/admin/upload')
+        assert res.status_code == 200
+        assert b"form" in res.data
+
+def test_upload_post(client, auth):
+    """test the POST method for the upload view"""
+    auth.login()
+    import os
+    cwd = os.getcwd()  # Get the current working directory (cwd)
+
+    with client:
+        print(cwd)
+        student = os.path.join(cwd, 'tests', 'test_views', "student.csv")
+        data = {
+            'file': (open(student, 'rb'), student)
+        }
+        response = client.post('/lipila/admin/upload', data=data)
+        assert response.headers['Location'] == '/lipila/admin/students'
+        assert response.json['file'] == student
+
+def test_upload_stream(client, auth):
+    import io
+    auth.login()
+    file_name = "fake-file-stream.csv"
+
+    with client:
+        data = {
+            'file': (io.BytesIO(b"some random data"), file_name)
+        }
+        response = client.post('/lipila/admin/upload', data=data)
+        assert response.headers['Location'] == '/lipila/admin/students'
+        assert response.json['file'] == file_name
