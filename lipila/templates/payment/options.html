@@ -1,0 +1,15 @@
+{% extends "layout.html" %} {% block title %} Selection {% endblock %} {% block main %}
+<h4>Select items to pay for</h4>
+<form action="{{url_for('lipila.selection', id=session['std'])}}" class="form-group" method="post">
+    <label for="tuition">Tuition</label>
+    <input type="checkbox" id="tuition" name="tuition" value="Tuition"><br>
+    <label for="transport">Transport</label>
+    <input type="checkbox" id="transport" name="transport" value="Transport"><br>
+    <label for="extra">Extra lessons</label>
+    <input type="checkbox" id="extra" name="extra" value="Extra Lessons"><br>
+    <label for="uniform">Uniform</label>
+    <input type="checkbox" id="uniform" name="uniform" value="Uniform"><br>
+    <input type="submit" value="Submit">
+</form>
+
+{% endblock %}

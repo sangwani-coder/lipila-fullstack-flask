@@ -26,12 +26,19 @@ def test_download(client):
         response = client.get('/lipila/download/1')
         assert response.status_code == 200
     
-def test_get_student_data(client):
+def test_set_student_session(client):
     with client:
         response = client.get('/lipila/payment/1')
         assert response.status_code == 200
         assert session['user-id'] == 1
         assert session['school'] == 'academy'
+        assert session['school-id'] == 1
+
+        response = client.get('/lipila/payment/7')
+        assert response.status_code == 200
+        assert session['user-id'] == 7
+        assert session['school'] == 'switch academy'
+        assert session['school-id'] == 2
         
 
 def test_list_payments(client):
@@ -80,3 +87,15 @@ def test_confirmed(client):
             }
         )
         assert response.headers['Location'] == '/lipila/payment'
+
+def test_pay(client):
+    """ tests the GET request for the selection view function"""
+    assert client.get('lipila/pay').status_code == 200
+    with client:
+        response = client.post(
+            '/lipila/pay',
+             data={
+                'school':3
+                }
+            )
+        assert response.status_code == 200

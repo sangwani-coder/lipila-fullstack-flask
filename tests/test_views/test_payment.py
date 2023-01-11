@@ -9,8 +9,9 @@ from lipila.db import get_db
 from flask import g, session
 from datetime import datetime
 from lipila.helpers import get_payments
+import pytest
 
-def test_get_student_data(client):
+def test_set_student_session(client):
     """ Test the route to return student data"""
 
     with client:
@@ -162,3 +163,55 @@ def test_payment_correct_airtel(client, app):
             assert payment[6][5] == 400
             assert session['account'] == '0971893155'
             assert isinstance(payment[0][4], datetime)
+
+def test_selection_get(client, app):
+    """ tests the GET request for the selection view function"""
+    with client:
+        with app.app_context():
+            response = client.post(
+                '/lipila/pay',
+                data={
+                    'school':'7',
+                    }
+                )
+            assert response.status_code == 200
+            response = client.get('/lipila/selection')
+            assert response.status_code == 200
+            assert b'tuition' in response.data
+            assert b'transport' in response.data
+            assert b'extra' in response.data
+            assert b'uniform' in response.data
+            assert session['std'] == 7
+
+def test_selection_post(client, app):
+    """ tests the POST request for the selection view function"""
+    with client:
+        assert client.post('/lipila/pay', data={'school':9}).status_code == 200
+        response = client.post('/lipila/selection',
+                data = {
+                    'tuition':'tuition', 'transport':'transport', 
+                    'extra-lessons':'extra-lessons', 'uniform':'uniform'
+                    }
+                )
+        assert response.headers['Location'] == '/lipila/confirmed'
+        with app.app_context():
+            assert session['tuition'] == 'tuition'
+            assert session['transport'] == 'transport'
+            assert session['extra'] == 'extra-lessons'
+            assert session['uniform'] == 'uniform'
+
+        # test 2 choices
+        assert client.post('/lipila/pay', data = {'school':7}).status_code == 200
+        response = client.post('/lipila/selection',
+                data = {
+                    'tuition':'tuition', 'transport':'transport'
+                    }
+                )
+        assert response.headers['Location'] == '/lipila/confirmed'
+        with app.app_context():
+            assert session['tuition'] == 'tuition'
+            assert session['transport'] == 'transport'
+
+        with pytest.raises(KeyError) as e:
+            session['extra']
+            session['uniform']

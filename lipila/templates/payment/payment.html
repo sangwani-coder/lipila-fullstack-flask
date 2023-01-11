@@ -1,9 +1,13 @@
 {% extends "layout.html" %} {% block title %} Confirmation{% endblock %} {% block main %}
 <h4>Confirm details</h4>
 <div class="form-group">
-    <lable>School: {{session['school']}}</lable><br>
+  <p>Items Your Are Paying For:</p>
+    {% for item in session['items'] %}
+    <p>{{item}}</p>
+    {% endfor%}
+    <lable>School Name: {{session['school']}}</lable><br>
     <lable> {{session['net'].upper()}} MoMo Account Number: {{session['account']}} </lable><br>
-    <lable>Student: {{session['student']}}</lable><br>
+    <lable>Student Names: {{session['student']}}</lable><br>
     <lable>Amount: {{session['amount']}}</lable><br>
 </div>
 <div id="load"></div>

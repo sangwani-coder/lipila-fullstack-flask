@@ -111,7 +111,7 @@ def calculate_amount(period, id):
             "SELECT amount FROM payment WHERE school=%s",(id,)
         )
         pays = db.fetchall()
-        # pays = [()]
+        # fetchall() returns a list     of tuples [(),()]
         size = len(pays)
         for i in range(size):
             total = total + pays[i][0]
@@ -223,6 +223,24 @@ def get_student(id):
         apology("Student not found", 404)
 
     return data
+
+def get_students_school(student_id: int):
+    """
+        select a school from the school table
+        where the student with student-id belongs.
+    """
+    conn = get_db()
+    db = conn.cursor()
+    # find school id relate with the student
+    db.execute('SELECT school FROM student WHERE id=%s',(student_id,))
+    school_id = db.fetchone()
+    # find the school from the school table
+    db.execute('SELECT school FROM school WHERE id=%s',(school_id[0],))
+    data = db.fetchone()
+    if data is None:
+        apology("School not found", 404)
+
+    return [school_id, data]
 
 def get_students(id):
     """
