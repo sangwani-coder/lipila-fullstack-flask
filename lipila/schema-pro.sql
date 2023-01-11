@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS school (
 -- students information
 CREATE TABLE IF NOT EXISTS student (
   id SERIAL PRIMARY KEY NOT NULL,
+  payment_code VARCHAR(55),
   firstname VARCHAR(255),
   lastname VARCHAR(255),
   created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

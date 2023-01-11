@@ -1,15 +1,15 @@
 {% extends "layout.html" %} {% block title %} Update {% endblock %} {% block main %}
-<h3>Update {{student[1]}} {{student[2]}}'s details</h3>
+<h3>Update {{student[2]}} {{student[3]}}'s details</h3>
 <form action="{{ url_for('admin.update', id=student[0])}}" method="post" class="card" class="form-group">
     <div class="form-group">
         <input name="firstname" id="firstname" placeholder="Firstname"
-                value="{{request.form['firstname'] or student[1]}}">
+                value="{{request.form['firstname'] or student[2]}}">
         <input name="lastname" id="lastname" placeholder="Lastname"
-                value="{{request.form['lastname'] or student[2]}}">
+                value="{{request.form['lastname'] or student[3]}}">
         <input name="program" id="program" placeholder="Program"
-                value="{{request.form['program'] or student[5]}}">
+                value="{{request.form['program'] or student[6]}}">
         <input name="tuition" id="tuition" placeholder="Tuition"
-                value="{{request.form['tuition'] or student[6]}}">
+                value="{{request.form['tuition'] or student[7]}}">
         <input type="submit" class=" btn btn-primary" value="Update">
     </div>
 </form>

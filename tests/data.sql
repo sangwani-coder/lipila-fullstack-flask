@@ -3,22 +3,22 @@ VALUES
   ('administrator', 'academy', 'zyambo@icloud.com', '369854200','1245659', 'pita', 'zyambo', 'pbkdf2:sha256:260000$6gxuUEDjdUJnXzH5$83e1b2e1086c32d629d8f9de0b9a4ea3434fc3e8a48eefa086c696a12eff71bc'),
   ('director', 'switch academy', 'elsonpzyambo@gmail.com', '123456','123456', 'sangwani', 'zyambos', 'pbkdf2:sha256:260000$6gxuUEDjdUJnXzH5$83e1b2e1086c32d629d8f9de0b9a4ea3434fc3e8a48eefa086c696a12eff71bc');
 
-INSERT INTO student(firstname, lastname, school, program, tuition)
+INSERT INTO student(payment_code, firstname, lastname, school, program, tuition)
 VALUES 
-  ('sepi', 'zed', 1, 'IT', 300),
-  ('pita', 'zed', 1, 'IT', 300),
-  ('mule', 'mule', 1, 'IT', 300),
-  ('joe', 'kang', 1, 'IT', 300),
-  ('willi', 'zyambo', 1, 'IT', 300),
-  ('pita', 'zed', 1, 'IT', 300),
-  ('mabu', 'chizya', 1, 'IT', 300),
-  ('sepiso', 'muke', 1, 'IT', 300),
-  ('nasi', 'lishebo', 1, 'IT', 300),
-  ('nalishebo', 'zed', 1, 'IT', 300),
-  ('george', 'kangwa', 1, 'IT', 300),
-  ('papa', 'mumba', 1, 'IT', 300),
-  ('jameson', 'mwale', 1, 'IT', 300),
-  ('sangwa', 'zed', 2, 'MED', 300);
+  ('SZ23001','sepi', 'zed', 1, 'IT', 300),
+  ('PZ23002','pita', 'zed', 1, 'IT', 300),
+  ('MM23003','mule', 'mule', 1, 'IT', 300),
+  ('JK23004','joe', 'kang', 1, 'IT', 300),
+  ('WZ23005','willi', 'zyambo', 1, 'IT', 300),
+  ('PZ23006','pita', 'zed', 1, 'IT', 300),
+  ('MC23007','mabu', 'chizya', 1, 'IT', 300),
+  ('SM23008','sepiso', 'muke', 1, 'IT', 300),
+  ('NL23009','nasi', 'lishebo', 1, 'IT', 300),
+  ('NZ23010','nalishebo', 'zed', 1, 'IT', 300),
+  ('GK23011','george', 'kangwa', 1, 'IT', 300),
+  ('PM23012','papa', 'mumba', 1, 'IT', 300),
+  ('JM23013','jameson', 'mwale', 1, 'IT', 300),
+  ('SZ23014','sangwa', 'zed', 2, 'MED', 300);
 
   INSERT INTO payment(student_id, firstname, lastname, amount, school, account_number)
 VALUES 

@@ -32,7 +32,7 @@ def test_create_student(client, auth, app):
 
     response = client.post(
         '/lipila/admin/add', data={
-            'firstname':'ab', 'lastname':'b', 'school':1,
+            'firstname':'natasha', 'lastname':'zyambo', 'school':1,
             'program':'b', 'tuition':300,
             }
     )
@@ -42,10 +42,11 @@ def test_create_student(client, auth, app):
         conn = get_db()
         db = conn.cursor()
         db.execute(
-            "SELECT * FROM student WHERE firstname = 'ab'",
+            "SELECT * FROM student WHERE firstname = 'natasha'",
         )
-        assert db.fetchone() is not None
-
+        std =  db.fetchone()
+        assert std is not None
+        assert std[1] == 'NZ230015'
 
 @pytest.mark.parametrize((
     'firstname', 'lastname', 'school', 'program', 'tuition', 'message'), (
@@ -81,6 +82,7 @@ def test_show_students(client, auth):
         assert b'sepi' in response.data
         assert b'sangwa' not in response.data
         assert b'zed' in response.data
+        assert b'JM23013' in response.data
 
 
 def test_list_payments(client, auth):
@@ -128,12 +130,11 @@ def test_update_post(client, auth, app):
     with app.app_context():
         data = get_student(2)
         assert data is not None
-        assert data[1] == "Sepiso"
-        assert isinstance(data[3], datetime)
-        assert data[5] == "Medicine"
-        assert data[6] == 750
-        
-    
+        assert data[1] == "PZ23002"
+        assert data[2] == "Sepiso"
+        assert isinstance(data[4], datetime)
+        assert data[6] == "Medicine"
+        assert data[7] == 750
 
 def test_update_password_get(client, auth):
     """ Test the update view"""
@@ -242,7 +243,6 @@ def test_upload_post(client, auth):
     cwd = os.getcwd()  # Get the current working directory (cwd)
 
     with client:
-        print(cwd)
         student = os.path.join(cwd, 'tests', 'test_views', "student.csv")
         data = {
             'file': (open(student, 'rb'), student)

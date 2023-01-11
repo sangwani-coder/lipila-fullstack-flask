@@ -8,18 +8,20 @@
 import os
 from .auth import login_required
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, session, url_for,
+    Blueprint, flash, redirect, render_template, request, session, url_for,
     current_app
 )
 from lipila.helpers import (
-    get_student, get_user, send_email, search_email)
+    get_student, get_user, send_email, search_email,
+    generate_pay_code
+    )
 from lipila.db import get_db, current_app
 import datetime as DT
 from werkzeug.utils import secure_filename
 
 from lipila.helpers import (
     calculate_amount, calculate_payments,
-    show_recent, allowed_file
+    show_recent, allowed_file, get_number_of_students
     )
 from werkzeug.security import generate_password_hash
 import csv
@@ -101,6 +103,8 @@ def create_student():
         tuition = request.form.get('tuition')
         program = request.form.get('program')
 
+        available_id = get_number_of_students()
+        
         conn = get_db()
         db = conn.cursor()
         error = None
@@ -117,13 +121,20 @@ def create_student():
                 db.execute(
                     "INSERT INTO student (firstname, lastname, school, program,\
                          tuition)\
-                             VALUES (%s, %s, %s, %s, %s)",
+                             VALUES (%s, %s, %s, %s, %s) RETURNING id",
                     (firstname, lastname, school, program, tuition),
+                )
+                r_id = db.fetchone()[0]
+                conn.commit()
+                payment_code = generate_pay_code(firstname, lastname, r_id)
+                
+                db.execute(
+                    "UPDATE student SET payment_code=%s" 'WHERE id=%s', (payment_code, r_id),
                 )
                 conn.commit()
 
-            except Exception:
-                error = "already registered."
+            except Exception as e:
+                error = "an error occured!"
             else:
                 flash('student added successfully. Add another')
                 return redirect(url_for('admin.create_student'))

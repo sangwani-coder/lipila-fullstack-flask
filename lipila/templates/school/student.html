@@ -13,11 +13,11 @@
     {% for student in students %}
         <tr>
             <th scope="row">{{loop.index}}</th>
-            <td>{{student[1]}} {{student[2]}}</td>
-            <td>{{student[3].strftime("%d %b %Y, %H:%M:%S")}}</td>
-            <td>{{student[0]}}</td>
-            <td>{{student[5]}}</td>
+            <td>{{student[2]}} {{student[3]}}</td>
+            <td>{{student[4].strftime("%d %b %Y, %H:%M:%S")}}</td>
+            <td>{{student[1]}}</td>
             <td>{{student[6]}}</td>
+            <td>{{student[7]}}</td>
             <td><a href="{{url_for('admin.update', id=student[0])}}">Edit</a></td>
         </tr>
 {% endfor %}

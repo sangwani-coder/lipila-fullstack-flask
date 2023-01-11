@@ -12,7 +12,10 @@ from flask import (
 import os
 from lipila.db import get_db
 from lipila.db import current_app
-from lipila.helpers import generate_pdf, apology, get_payments, get_student, get_receipts
+from lipila.helpers import (
+    generate_pdf, apology, get_payments, get_student, get_receipts,
+    get_student_id
+    )
 
 from lipila.momo.momo import Momo
 from lipila.momo.mtn_momo import MTN
@@ -27,11 +30,22 @@ def index():
     
 @bp.route('/pay', methods = ['GET', 'POST'])
 def pay():
-    # return "Index"
     session.clear()
+    error = None
+
     if request.method == 'POST':
-        student = request.form['student']
-        return redirect(url_for('lipila.get_student_data', id=student))
+        code = request.form['student']
+
+        if not code:
+            error = "Provide student code"
+        if not isinstance(code, str):
+            error = "Invalid code"
+        if len(code) < 7:
+            error = "Invalid code"
+
+        if error is None:
+            student = get_student_id(code)
+            return redirect(url_for('lipila.get_student_data', id=student))
     return render_template('payment/pay.html')
 
 
@@ -42,8 +56,7 @@ def get_student_data(id):
     error = None
 
     if request.method == 'GET':
-        db.execute('SELECT * FROM student WHERE id=%s',(id,))
-        student = db.fetchone()
+        student = get_student(id)
 
         if student is None:
             error = 'No student found!'
@@ -55,16 +68,16 @@ def get_student_data(id):
             school = db.fetchone()
 
             session['user-id'] = int(id)
-            session['firstname'] = student[1]
-            session['lastname'] = student[2]
+            session['firstname'] = student[2]
+            session['lastname'] = student[3]
             session['school'] = school[0]
-            session['tuition'] = student[6]
-            session['student'] = student[1] + ' ' + student[2]
+            session['tuition'] = student[7]
+            session['student'] = student[2] + ' ' + student[3]
             session['school-id'] = school_id[0]
 
             return render_template('payment/confirm.html', student=student, school=school)
-    flash(error)
-    return render_template('payment/index.html')
+        flash(error)
+    return render_template('payment/pay.html')
 
     
 @bp.route('/confirmed', methods = ['GET', 'POST'])
@@ -112,8 +125,8 @@ def payment():
     user = session['user-id']
     amount = str(session['amount'])
     externalId = '1234'
-    firstname = get_student(user)[1]
-    lastname = get_student(user)[2]
+    firstname = get_student(user)[2]
+    lastname = get_student(user)[3]
 
     error =  None
         

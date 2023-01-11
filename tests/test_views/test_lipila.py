@@ -20,7 +20,7 @@ def test_download(client):
     response = client.get('/lipila/download/2')
     assert response.status_code == 200
     assert b'receipt no# 2' in response.data
-    assert b'download' in response.data
+    assert b'Download' in response.data
 
     with client:
         response = client.get('/lipila/download/1')
@@ -53,9 +53,9 @@ def test_list_payments(client):
         response = client.post('/lipila/payment')
         response = client.get('/lipila/history')
         assert response.status_code == 200
-        assert b'Payments' in response.data
         assert b'academy Payments' in response.data
-        assert b'sepi zed' in response.data
+        assert b'400' in response.data
+        assert b'0971893155' in response.data
 
 def test_confirmed(client):
     """ Test the route to return student data"""

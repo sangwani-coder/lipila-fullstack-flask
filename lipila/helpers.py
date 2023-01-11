@@ -224,6 +224,36 @@ def get_student(id):
 
     return data
 
+def get_student_id(code):
+    """
+        get a students id
+    """
+    conn = get_db()
+    db = conn.cursor()
+
+    db.execute(
+        "SELECT id FROM student WHERE payment_code=%s", (code,)
+    )
+    code = db.fetchone()
+
+    return code[0]
+
+def get_number_of_students():
+    """
+        get the whole number of students in the database.
+    """
+    conn = get_db()
+    db = conn.cursor()
+
+    db.execute(
+        "SELECT * FROM student"
+    )
+    data = db.fetchall()
+
+    size = len(data)
+
+    return size + 1
+
 def get_students(id):
     """
         get all students information from the student table
@@ -336,3 +366,25 @@ def allowed_file(filename):
     """
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def generate_pay_code(firstname: str, lastname:str, id: str)-> str:
+    """function that generates a students payment code"""
+    f_initial = firstname[0].upper()
+    l_initial = lastname[0].upper()
+    base = f_initial + l_initial + '23'
+    
+    pay_code = ''
+
+    if int(id) < 10:
+        pay_code =  base + '000' + str(id)
+
+    elif int(id) >= 10 or int(id) < 99:
+        pay_code =  base + '00' + str(id)
+
+    elif int(id) >= 100 or int(id) < 999:
+        pay_code = base + '0' + str(id)
+
+    elif int(id) >= 1000:
+        pay_code = base + str(id)
+   
+    return pay_code

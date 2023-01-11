@@ -53,9 +53,9 @@ def test_get_student_data(client):
         assert session['tuition'] == 300
 
 
-def test_get__student_data_validate_input(client):
+def test_get_student_data_validate_input(client):
     with client:
-        response = client.get('/lipila/payment/20')
+        response = client.get('/lipila/payment/50')
         assert response.status_code == 200
         assert b'No student found!' in response.data
 
