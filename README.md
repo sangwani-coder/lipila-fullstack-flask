@@ -45,7 +45,7 @@ The application supports the following features for student/parent users:
 ## Running The Application Locally
 Download the code by cloning this respository
 
-        git clone https://github.com/sangwani-coder/lipila.git
+        git clone git@github.com:sangwani-coder/Lipila.git
 
 ## MTN API
 In order to use the MTN momo API you must signup for the service at [momodeveloper](https://momodeveloper.mtn.com)
@@ -55,8 +55,8 @@ After creating an account you should subscribe to the collections product.
 
 Navigate into the project directory and make a copy of the example environment variables file.
 
-cd lipila
-cp env.example .env
+        cd lipila
+        cp env.example .env
 
 # API KEY
 SUB_KEY= _copy your secret api key from mtn and past it here_
@@ -80,7 +80,7 @@ You initialize the database by calling the init-db method that has been register
 
 Run the init-db command:
 
-**$ flask --app lipila init-db**
+        flask --app lipila init-db
 Initialized the database.
 
 There will now be a lipila.sqlite file in the instance folder in your project.
@@ -90,7 +90,7 @@ Now you can run your application using the flask command. From the terminal, tel
 
 Debug mode shows an interactive debugger whenever a page raises an exception, and restarts the server whenever you make changes to the code.
 
-**$ flask --app lipila --debug run**
+        flask --app lipila --debug run
 
 ### contributors
 Sangwani Peter Zyambo zyambo@icloud.com
