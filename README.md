@@ -45,7 +45,7 @@ The application supports the following features for student/parent users:
 ## Running The Application Locally
 Download the code by cloning this respository
 
-        git clone git@github.com:sangwani-coder/Lipila.git
+        git clone git@github.com:sangwani-coder/lipila.git
 
 ## MTN API
 In order to use the MTN momo API you must signup for the service at [momodeveloper](https://momodeveloper.mtn.com)
@@ -62,13 +62,13 @@ Navigate into the project directory and make a copy of the example environment v
 SUB_KEY= _copy your secret api key from mtn and past it here_
 LIP_ENV=db
 
-# database
+# database setup
 PGUSER=lipila_dev
 PGPASSWORD=lipila
 PGDATABASE=lipila
 PGHOST=localhost
 
-# email vars
+# email setup
 MAIL_USERNAME=_your gmail account_
 MAIL_PASSWORD=_your password associated with your email account_
 
