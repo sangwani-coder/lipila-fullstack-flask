@@ -47,33 +47,30 @@ Download the code by cloning this respository
 
         git clone git@github.com:sangwani-coder/lipila.git
 
-## MTN API
-In order to use the MTN momo API you must signup for the service at [momodeveloper](https://momodeveloper.mtn.com)
-After creating an account you should subscribe to the collections product.
-
-## Set environment variables
+# Set environment variables
 
 Navigate into the project directory and make a copy of the example environment variables file.
 
         cd lipila
         cp env.example .env
 
-# API KEY
-SUB_KEY= _copy your secret api key from mtn and past it here_
-LIP_ENV=db
+## MTN api key
+In order to use the MTN momo API you must signup for the service at [momodeveloper](https://momodeveloper.mtn.com)
+After creating an account you should subscribe to the collections product.
 
-# database setup
-PGUSER=lipila_dev
-PGPASSWORD=lipila
-PGDATABASE=lipila
-PGHOST=localhost
+## Env Vars
+* SUB_KEY= _copy your secret api key from mtn and paste it here_
+* LIP_ENV=db
 
-# email setup
-MAIL_USERNAME=_your gmail account_
-MAIL_PASSWORD=_your password associated with your email account_
+* PGUSER=lipila_dev
+* PGPASSWORD=lipila
+* PGDATABASE=lipila
+* PGHOST=localhost
 
+*MAIL_USERNAME=_your gmail account_
+*MAIL_PASSWORD=_your password associated with your email account_
 
-### Initializing the Database
+## Initializing the Database
 * create a postgres database named lipila
 
 You initialize the database by calling the init-db method that has been registered with the app, it can be called using the flask command.
