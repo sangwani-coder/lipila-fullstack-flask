@@ -1,7 +1,7 @@
 INSERT INTO school (job, school, email, mobile, reg_number, firstname, lastname, password)
 VALUES
-  ('administrator', 'academy', 'zyambo@icloud.com', '369854200','1245659', 'pita', 'zyambo', 'pbkdf2:sha256:260000$6gxuUEDjdUJnXzH5$83e1b2e1086c32d629d8f9de0b9a4ea3434fc3e8a48eefa086c696a12eff71bc'),
-  ('director', 'switch academy', 'elsonpzyambo@gmail.com', '123456','123456', 'sangwani', 'zyambos', 'pbkdf2:sha256:260000$6gxuUEDjdUJnXzH5$83e1b2e1086c32d629d8f9de0b9a4ea3434fc3e8a48eefa086c696a12eff71bc');
+  ('administrator', 'academy', 'admin@email.com', '369854200','1245659', 'pita', 'zyambo', 'pbkdf2:sha256:260000$6gxuUEDjdUJnXzH5$83e1b2e1086c32d629d8f9de0b9a4ea3434fc3e8a48eefa086c696a12eff71bc'),
+  ('director', 'switch academy', 'lipila@email.com', '123456','123456', 'sangwani', 'zyambos', 'pbkdf2:sha256:260000$6gxuUEDjdUJnXzH5$83e1b2e1086c32d629d8f9de0b9a4ea3434fc3e8a48eefa086c696a12eff71bc');
 
 INSERT INTO student(payment_code, firstname, lastname, school, program, tuition)
 VALUES 

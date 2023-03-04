@@ -47,7 +47,7 @@ def test_search_email(app):
     with app.app_context():
         email = search_email("pz@mail.com")
         assert email is None
-        email = search_email("zyambo@icloud.com")
+        email = search_email("admin@email.com")
         assert email is not None
 
 def test_get_payments(app):

@@ -19,7 +19,7 @@ def test_dashboard(client, auth):
     with client:
         res = client.get('/lipila/admin/dashboard')
         assert session['user_id'] == 1
-        assert session['email'] == 'zyambo@icloud.com'
+        assert session['email'] == 'admin@email.com'
         assert b'ACADEMY' in res.data
 
 
@@ -77,7 +77,7 @@ def test_show_students(client, auth):
     with client:
         response = client.get('/lipila/admin/students')
         assert response.status_code == 200
-        assert session['email'] == 'zyambo@icloud.com'
+        assert session['email'] == 'admin@email.com'
         assert b'pita' in response.data
         assert b'sepi' in response.data
         assert b'sangwa' not in response.data
@@ -94,7 +94,7 @@ def test_list_payments(client, auth):
         assert response.status_code == 200
         assert b'Payments' in response.data
         assert b'<h4>academy Payments</h4>' in response.data
-        assert session['email'] == 'zyambo@icloud.com'
+        assert session['email'] == 'admin@email.com'
         assert session['user_id'] == 1
         assert b'500' in response.data # check amount paid
         assert b'2023' in response.data # check date
@@ -182,7 +182,7 @@ def test_profile_get(client, auth):
         response = client.get('/lipila/admin/profile')
         assert response.status_code == 200
         assert b"Edit Profile Details" in response.data
-        assert b"zyambo@icloud.com" in response.data
+        assert b"admin@email.com" in response.data
         assert b"academy" in response.data
         assert b"zyambo" in response.data
         assert b'<button class="btn btn-primary" type="submit">Save</button>' in response.data
@@ -204,7 +204,7 @@ def test_profile_post(
         assert user[1] == "administrator"
         assert isinstance(user[2], datetime)
         assert user[3] == "academy"
-        assert user[4] == "zyambo@icloud.com"
+        assert user[4] == "admin@email.com"
         assert user[5] == "369854200"
         assert user[6] == "1245659"
         assert user[7] == "pita"

@@ -34,7 +34,7 @@ def test_register(client, app):
     'firstname', 'lastname', 'password', 'message'), (
     ('', '','','','','','','', b'School is required.'),
     ('admin', 'academy','','','','','','', b'Mobile is required.'),
-    ('director', 'switch academy', 'elsonpzyambo@gmail.com',
+    ('director', 'switch academy', 'lipila@email.com',
     '123456','123456', 'sangwani', 'zyambos',
     'pbkdf2:sha256:50000$kJPKsz6N$d2d4784f1b030a9761f5ccaeeaca413f27f2ecb76d6168407af962ddce849f79',
      b'already registered.'),
@@ -61,7 +61,7 @@ def test_login(client, auth):
     with client:
         client.get('/admin/dashboard')
         assert session['user_id'] == 1
-        assert session['email'] == 'zyambo@icloud.com'
+        assert session['email'] == 'admin@email.com'
 
 
 @pytest.mark.parametrize(('email', 'password', 'message'), (

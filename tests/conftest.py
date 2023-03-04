@@ -17,7 +17,7 @@ class AuthActions(object):
     def __init__(self, client):
         self._client = client
 
-    def login(self, email='zyambo@icloud.com', password='test'):
+    def login(self, email='admin@email.com', password='test'):
         return self._client.post(
             '/auth/login/schools',
             data={'email': email, 'password': password}

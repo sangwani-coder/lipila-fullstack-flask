@@ -82,12 +82,19 @@ Initialized the database.
 
 There will now be a lipila.sqlite file in the instance folder in your project.
 
-## Starting the web server
-Now you can run your application using the flask command. From the terminal, tell Flask where to find your application, then run it in debug mode. Remember, you should still be in the top-level directory, not the lipila package.
+Run the app
+Run the following commands in the project directory to install the dependencies and run the app.
+When running the commands, you may need to type python3/pip3 instead of python/pip depending on your setup.
+
+        python -m venv venv
+
+        . venv/bin/activate
+        
+        pip install -r requirements.txt
 
 Debug mode shows an interactive debugger whenever a page raises an exception, and restarts the server whenever you make changes to the code.
 
         flask --app lipila --debug run
 
 ### contributors
-Sangwani Peter Zyambo zyambo@icloud.com
+Sangwani Peter Zyambo admin@email.com

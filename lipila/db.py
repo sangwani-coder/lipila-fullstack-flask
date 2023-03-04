@@ -13,7 +13,7 @@ import psycopg2
 
 def get_db():
     if 'db' not in g:
-        if os.environ.get('LIP_ENV') == "db":
+        if os.environ.get('LIP_ENV') == "production":
             conn = psycopg2.connect(
                 host=os.environ.get('PGHOST'),
                 database=os.environ.get('PGDATABASE'),
@@ -25,7 +25,7 @@ def get_db():
             conn = psycopg2.connect(
                 host=os.environ.get('PGHOST'),
                 database=os.environ.get('TESTDATABASE'),
-                user=os.environ.get('PGUSER'),
+                user=os.environ.get('TESTUSER'),
                 password=os.environ.get('PGPASSWORD'))
             g.db = conn
 
@@ -41,13 +41,8 @@ def close_db(e=None):
 def init_db():
     conn = get_db()
     db = conn.cursor()
-    if os.environ.get('PGDATABASE') == "lipila":
-        with current_app.open_resource("schema-pro.sql") as f:
-            db.execute(f.read().decode('utf8'))
-
-    elif os.environ.get('PGDATABASE') != 'postgres':
-        with current_app.open_resource('schema.sql') as f:
-            db.executescript(f.read().decode('utf8'))
+    with current_app.open_resource("schema-pro.sql") as f:
+        db.execute(f.read().decode('utf8'))
     conn.commit()
 
 @click.command('init-db')
