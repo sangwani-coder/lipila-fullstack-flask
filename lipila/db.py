@@ -17,16 +17,16 @@ def get_db():
             conn = psycopg2.connect(
                 host=os.environ.get('PGHOST'),
                 database=os.environ.get('PGDATABASE'),
-                user=os.environ['PGUSER'],
-                password=os.environ['PGPASSWORD'])
+                user=os.environ.get('PGUSER'),
+                password=os.environ.get('PGPASSWORD'))
             g.db = conn
 
         else:
             conn = psycopg2.connect(
                 host=os.environ.get('PGHOST'),
                 database=os.environ.get('TESTDATABASE'),
-                user=os.environ['PGUSER'],
-                password=os.environ['PGPASSWORD'])
+                user=os.environ.get('PGUSER'),
+                password=os.environ.get('PGPASSWORD'))
             g.db = conn
 
     return g.db
@@ -41,7 +41,7 @@ def close_db(e=None):
 def init_db():
     conn = get_db()
     db = conn.cursor()
-    if os.environ.get('PGDATABASE') == "postgres":
+    if os.environ.get('PGDATABASE') == "lipila":
         with current_app.open_resource("schema-pro.sql") as f:
             db.execute(f.read().decode('utf8'))
 

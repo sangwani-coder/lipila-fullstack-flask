@@ -43,9 +43,39 @@ The application supports the following features for student/parent users:
 |[lipila/tests](./lipila/tests)| package containing unittests|
 
 ## Running The Application Locally
-Clone this repo and cd into `lipila` the top-level directory.
+Download the code by cloning this respository
+
+        git clone https://github.com/sangwani-coder/lipila.git
+
+## MTN API
+In order to use the MTN momo API you must signup for the service at [momodeveloper](https://momodeveloper.mtn.com)
+After creating an account you should subscribe to the collections product.
+
+## Set environment variables
+
+Navigate into the project directory and make a copy of the example environment variables file.
+
+cd lipila
+cp env.example .env
+
+# API KEY
+SUB_KEY= _copy your secret api key from mtn and past it here_
+LIP_ENV=db
+
+# database
+PGUSER=lipila_dev
+PGPASSWORD=lipila
+PGDATABASE=lipila
+PGHOST=localhost
+
+# email vars
+MAIL_USERNAME=_your gmail account_
+MAIL_PASSWORD=_your password associated with your email account_
+
 
 ### Initializing the Database
+* create a postgres database named lipila
+
 You initialize the database by calling the init-db method that has been registered with the app, it can be called using the flask command.
 
 Run the init-db command:
@@ -61,11 +91,6 @@ Now you can run your application using the flask command. From the terminal, tel
 Debug mode shows an interactive debugger whenever a page raises an exception, and restarts the server whenever you make changes to the code.
 
 **$ flask --app lipila --debug run**
-
-## MTN API
-In order to use the MTN momo API you must signup for the service at [momodeveloper](https://momodeveloper.mtn.com)
-After creating an account you should subscribe to the collections product.
-Checkout my tutorial on how to use the mtn momo api on [medium]()
 
 ### contributors
 Sangwani Peter Zyambo zyambo@icloud.com

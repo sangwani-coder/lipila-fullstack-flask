@@ -4,13 +4,18 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-flask = "*"
 flask-mail = "*"
 pytest = "*"
 reportlab = "*"
 requests = "*"
+pillow = "*"
+flask = "*"
+psycopg2 = "*"
+wheel = "*"
+gunicorn = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.10"
+python_version = "3.9"
