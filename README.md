@@ -67,8 +67,8 @@ After creating an account you should subscribe to the collections product.
 * PGDATABASE=lipila
 * PGHOST=localhost
 
-*MAIL_USERNAME=_your gmail account_
-*MAIL_PASSWORD=_your password associated with your email account_
+* MAIL_USERNAME=_your gmail account_
+* MAIL_PASSWORD=_your password associated with your email account_
 
 ## Initializing the Database
 * create a postgres database named lipila
