@@ -43,9 +43,12 @@ def pay():
         if len(code) < 7:
             error = "Invalid code"
 
-        if error is None:
-            student = get_student_id(code)
+        student = get_student_id(code)
+        if student is not None:
             return redirect(url_for('lipila.get_student_data', id=student))
+        else:
+            error = "Invalid code"
+        flash(error)
     return render_template('payment/pay.html')
 
 
@@ -58,8 +61,6 @@ def get_student_data(id):
     if request.method == 'GET':
         student = get_student(id)
 
-        if student is None:
-            error = 'No student found!'
         if error is None:
             db.execute('SELECT school FROM student WHERE id=%s',(id,))
             school_id = db.fetchone()

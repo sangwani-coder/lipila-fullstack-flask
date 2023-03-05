@@ -235,8 +235,9 @@ def get_student_id(code):
         "SELECT id FROM student WHERE payment_code=%s", (code,)
     )
     code = db.fetchone()
-
-    return code[0]
+    if code is not None:
+        return code[0]
+    return None
 
 def get_number_of_students():
     """

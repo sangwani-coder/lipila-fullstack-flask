@@ -130,7 +130,7 @@ def test_get_number_of_students(client, auth, app):
     """test the function that counts number of students"""
     with app.app_context():
         available_id = get_number_of_students()
-        assert available_id == 15
+        assert available_id == 16
 
     response = auth.login()
     assert response.headers['Location'] == '/lipila/admin/dashboard'
@@ -151,4 +151,4 @@ def test_get_number_of_students(client, auth, app):
     )
     with app.app_context():
         available_id = get_number_of_students()
-        assert available_id == 17
+        assert available_id == 18

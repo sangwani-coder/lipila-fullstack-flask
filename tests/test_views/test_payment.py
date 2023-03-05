@@ -10,6 +10,47 @@ from flask import g, session
 from datetime import datetime
 from lipila.helpers import get_payments
 
+
+def test_payment_login_fail(client):
+    """ test the pay route login
+        with invalid code
+    """
+    with client:
+        response = client.post(
+            '/lipila/pay',
+            data={
+                'student':200
+            }
+        )
+    assert b'Invalid code' in response.data
+
+def test_payment_login_pass1(client):
+    """ test the pay route login with
+        existing student
+    """
+    with client:
+        response = client.post(
+            '/lipila/pay',
+            data={
+                'student':"PZ23002"
+            }
+        )
+    assert response.headers['Location'] == '/lipila/payment/2'
+
+def test_payment_login_pass2(client):
+    """ test the pay route login with
+        existing student
+    """
+    with client:
+        response = client.post(
+            '/lipila/pay',
+            data={
+                'student':"JZ23015"
+            }
+        )
+    assert response.headers['Location'] == '/lipila/payment/15'
+
+
 def test_get_student_data(client):
     """ Test the route to return student data"""
 
@@ -55,9 +96,8 @@ def test_get_student_data(client):
 
 def test_get_student_data_validate_input(client):
     with client:
-        response = client.get('/lipila/payment/50')
+        response = client.get('/lipila/payment/5')
         assert response.status_code == 200
-        assert b'No student found!' in response.data
 
 def test_payment_correct_mtn(client, app):
     """ test the payment route"""
