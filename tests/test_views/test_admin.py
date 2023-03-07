@@ -112,7 +112,7 @@ def test_update_get(client, auth):
         assert b'sepi' in response.data
         assert b'zed' in response.data
         assert b'IT' in response.data
-        assert b'300' in response.data
+        assert b'800' in response.data
 
 
 def test_update_post(client, auth, app):

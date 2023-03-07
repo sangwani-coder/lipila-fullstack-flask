@@ -20,7 +20,7 @@ import datetime as DT
 from werkzeug.utils import secure_filename
 
 from lipila.helpers import (
-    calculate_amount, calculate_payments,
+    calculate_amount,
     show_recent, allowed_file, get_number_of_students
     )
 from werkzeug.security import generate_password_hash
@@ -32,33 +32,38 @@ bp = Blueprint('admin', __name__, url_prefix='/lipila')
 @bp.route('/admin/dashboard', methods=('GET', 'POST'))
 @login_required
 def dashboard():
-    conn = get_db()
-    db = conn.cursor()
-    
-    this_month = (DT.date(DT.date.today().isocalendar()[0], 1, 1))
-    this_week = (DT.date(DT.date.today().isocalendar()[0], 1, 1))
-    this_day = (DT.date(DT.date.today().isocalendar()[0], 1, 1))
-
+    """
+        School admin dashboard route
+    """    
     data = show_recent(session['user_id'])
-    # select year payments
-    data_all = calculate_payments('all', session['user_id'])
-    amount_all = calculate_amount('all', session['user_id'])
+    # select the whole years payments
+    data_all = calculate_amount('all', session['user_id'])
 
-    # select month payments
-    data_month = calculate_payments('month', session['user_id'])
-    amount_month = calculate_amount('month', session['user_id'])
+    # select current month payments
+    data_month = calculate_amount('month', session['user_id'])
 
-    #select week payments
-    data_week = calculate_payments('week', session['user_id'])
-    amount_week = calculate_amount('week', session['user_id'])
+    #select current week payments
+    data_week = calculate_amount('week', session['user_id'])
 
-    #select day payments
-    data_day = calculate_payments('day', session['user_id'])
-    amount_day = calculate_amount('day', session['user_id'])
+    #select todays payments
+    data_day = calculate_amount('day', session['user_id'])
     
-    payments = {'year':data_all, 'month':data_month, 'week':data_week, 'day':data_day}
-    total = {'year':amount_all, 'month':amount_month, 'week':amount_week, 'day':amount_day}
-    return render_template('admin/dashboard.html', data=data, total=total, payments=payments)
+    total_amount_paid = {
+        'year':data_all[0],
+        'month':data_month[0],
+        'week':data_week[0],
+        'day':data_day[0]
+        }
+    total_payments = {
+        'year':data_all[1],
+        'month':data_month[1],
+        'week':data_week[1],
+        'day':data_day[1]
+        }
+
+    return render_template('admin/dashboard.html',
+                           data=data, total=total_amount_paid,
+                           payments=total_payments)
 
 @bp.route('/admin/students', methods=('GET', 'POST'))
 @login_required
@@ -102,8 +107,6 @@ def create_student():
         school = session['user_id']
         tuition = request.form.get('tuition')
         program = request.form.get('program')
-
-        available_id = get_number_of_students()
         
         conn = get_db()
         db = conn.cursor()

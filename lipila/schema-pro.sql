@@ -49,6 +49,8 @@ CREATE TABLE payment (
   lastname VARCHAR(150),
   created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   amount INTEGER,
+  term VARCHAR(15),
+  years VARCHAR(6),
   account_number VARCHAR(255),
   school INTEGER,
   FOREIGN KEY (student_id) REFERENCES student (id) on delete cascade on update cascade,

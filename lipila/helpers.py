@@ -25,6 +25,7 @@ import os
 from flask import render_template
 
 from lipila.db import current_app, get_db
+from datetime import datetime
 
 ALLOWED_EXTENSIONS = {'csv'}
 
@@ -45,33 +46,33 @@ def generate_pdf(data):
     db = conn.cursor()
 
     db.execute(
-        "SELECT school FROM school WHERE id=%s",(data[7],)
+        "SELECT school FROM school WHERE id=%s",(data[9],)
     )
     school = db.fetchone()
-
-    p_data = {
+    print(school)
+    student_payment_data = {
         'id':data[0] ,
         'student_id':data[1] ,
         'firstname':data[2] ,
         'lastname':data[3] ,
         'created':data[4] ,
         'amount':data[5] ,
-        'account_number':data[6] ,
+        'account_number':data[8] ,
         'school':school[0].upper()
     }
     my_canvas = canvas.Canvas(file_path, pagesize=letter)
     my_canvas.setLineWidth(.3)
     my_canvas.setFont('Helvetica', 12)
-    my_canvas.drawString(30, 750, 'PAYMENT RECEIPT {}'.format(p_data['student_id']))
-    my_canvas.drawString(30, 735, 'SCHOOL: {}'.format(p_data['school']))
-    my_canvas.drawString(500, 720, "{}".format(p_data['created']))
+    my_canvas.drawString(30, 750, 'PAYMENT RECEIPT {}'.format(student_payment_data['student_id']))
+    my_canvas.drawString(30, 735, 'SCHOOL: {}'.format(student_payment_data['school']))
+    my_canvas.drawString(500, 720, "{}".format(student_payment_data['created']))
     my_canvas.line(480, 747, 580, 747)
     my_canvas.drawString(275, 725, 'AMOUNT PAID:')
-    my_canvas.drawString(500, 725, "K{}".format(p_data['amount']))
+    my_canvas.drawString(500, 725, "K{}".format(student_payment_data['amount']))
     my_canvas.line(378, 723, 580, 723)
     my_canvas.drawString(30, 703, 'RECEIVED BY: {}'.format(""))
     my_canvas.line(120, 700, 580, 700)
-    my_canvas.drawString(120, 703, "STUDENT ID: {}".format(p_data['student_id']))
+    my_canvas.drawString(120, 703, "STUDENT ID: {}".format(student_payment_data['student_id']))
     my_canvas.save()
 
     return file_path
@@ -104,7 +105,8 @@ def calculate_amount(period, id):
     """
     conn = get_db()
     db = conn.cursor()
-    total = 0
+    total_paid = 0
+    size = 0 
 
     if period == "all":
         db.execute(
@@ -114,74 +116,52 @@ def calculate_amount(period, id):
         # pays = [()]
         size = len(pays)
         for i in range(size):
-            total = total + pays[i][0]
+            total_paid = total_paid + pays[i][0]
 
     elif period == "month":
+        month = datetime.now().strftime("%m")
+        year = datetime.now().strftime("%Y")
         db.execute(
-        "SELECT * FROM payment WHERE school=%s AND created=date('now')",(id,)
-    )
+            "SELECT * FROM payment WHERE school=%s AND\
+                  extract(year from created)=%s AND \
+                    extract(month from created)=%s",(id, year, month)
+        )
         data_month = db.fetchall()
         size = len(data_month)
         for i in range(size):
-            total = total + data_month[i][0]
+            total_paid = total_paid + data_month[i][5]
 
     elif period == "week":
+        year = datetime.now().strftime("%Y")
+        week = datetime.now().strftime("%U")
         db.execute(
-        "SELECT * FROM payment WHERE school=%s AND created=date('now')",(id,)
-    )
+            "SELECT * FROM payment WHERE school=%s AND\
+                  extract(year from created)=%s AND \
+                    extract(week from created)=%s",(id, year, week)
+        )
         data_week = db.fetchall()
         size = len(data_week)
         for i in range(size):
-            total = total + data_week[i][0]
+            total_paid = total_paid + data_week[i][5]
 
     elif period == "day":
+        year = datetime.now().strftime("%Y")
+        month = datetime.now().strftime("%m")
+        day = datetime.now().strftime("%d")
+        
         db.execute(
-            "SELECT * FROM payment WHERE school=%s AND created=date('now')",(id,)
-    )
+            "SELECT * FROM payment WHERE school=%s AND\
+                  extract(year from created)=%s AND \
+                  extract(month from created)=%s AND \
+                    extract(day from created)=%s",(id, year, month, day)
+        )
         data_day = db.fetchall()
         size = len(data_day)
         for i in range(size):
-            total = total + data_day[i][0]
+            total_paid = total_paid + data_day[i][5]
 
-    return total
+    return [total_paid, size]
 
-def calculate_payments(period, id):
-    """ 
-        calculates the total amount paid for each given period.
-        params:
-            period: the day, week or month to calculate payments.
-            id: the user id.
-    """
-    conn = get_db()
-    db = conn.cursor()
-
-    if period == "all":
-        db.execute(
-            "SELECT * FROM payment WHERE school=%s",(id,)
-        )
-        pays = db.fetchall()
-        return len(pays)
-
-    if period == "month":
-        db.execute(
-            "SELECT * FROM payment WHERE school=%s AND created=date('now')",(id,)
-        )
-        pays = db.fetchall()
-        return len(pays)
-
-    elif period == "week":
-        db.execute(
-            "SELECT * FROM payment WHERE school=%s AND created=date('now')",(id,)
-        )
-        pays = db.fetchall()
-        return len(pays)
-
-    elif period == "day":
-        db.execute(
-            "SELECT * FROM payment WHERE school=%s AND created=date('now')",(id,)
-        )
-        pays = db.fetchall()
-        return len(pays)
 
 def show_recent(id):
     """

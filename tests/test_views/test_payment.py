@@ -66,7 +66,7 @@ def test_get_student_data(client):
         assert session['firstname'] == 'sepi'
         assert session['lastname'] == 'zed'
         assert session['school'] == 'academy'
-        assert session['tuition'] == 300
+        assert session['tuition'] == 800
 
         # Start a new payment session
         response = client.get('/lipila/payment/3')
@@ -78,7 +78,7 @@ def test_get_student_data(client):
         assert session['firstname'] == 'mule'
         assert session['lastname'] == 'mule'
         assert session['school'] == 'academy'
-        assert session['tuition'] == 300
+        assert session['tuition'] == 800
 
         # Create new sessions with different id
         response = client.get('/lipila/payment/2')
@@ -91,7 +91,7 @@ def test_get_student_data(client):
         assert session['firstname'] == 'pita'
         assert session['lastname'] == 'zed'
         assert session['school'] == 'academy'
-        assert session['tuition'] == 300
+        assert session['tuition'] == 800
 
 
 def test_get_student_data_validate_input(client):
@@ -127,7 +127,7 @@ def test_payment_correct_mtn(client, app):
         with app.app_context():
             payment  = get_payments(1)
             assert payment[0][5] == 500
-            assert payment[2][5] == 600
+            assert payment[3][5] == 200
             assert session['account'] == '0969620939'
             assert session['amount'] == 200
             assert isinstance(payment, list)
@@ -197,8 +197,8 @@ def test_payment_correct_airtel(client, app):
         with app.app_context():
             payment = get_payments(2)
             assert payment is not None
-            assert payment[6][2] == 'pita'
-            assert payment[6][3] == 'zed'
-            assert payment[6][5] == 400
+            assert payment[4][2] == 'pita'
+            assert payment[4][3] == 'zed'
+            assert payment[4][5] == 400
             assert session['account'] == '0971893155'
             assert isinstance(payment[0][4], datetime)

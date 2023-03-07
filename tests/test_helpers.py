@@ -33,7 +33,7 @@ def test_get_student(app):
         assert student[2] == 'pita'
         assert student[3] == 'zed'
         assert student[6] == 'IT'
-        assert student[7] == 300
+        assert student[7] == 800
 
 def test_get_user(app):
     """ test the function that gets an admins data"""
@@ -79,13 +79,14 @@ def test_get_receipts(app):
         assert payment[2] == 'sepi'
         assert payment[3] == 'zed'
         assert payment[5] == 500
-        assert payment[6] == '0971892260'
+        assert payment[8] == '0971892260'
 
         payment  = get_receipts(10)
         assert payment[2] == 'sangwa'
         assert payment[3] == 'zed'
-        assert payment[5] == 300
-        assert payment[6] == '0966698594'
+        assert payment[5] == 800
+        assert payment[6] == "one"
+        assert payment[8] == '0966698594'
 
 def test_allowed_files():
     """Tests the allowed_files function"""
