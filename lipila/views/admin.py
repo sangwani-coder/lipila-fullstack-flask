@@ -9,19 +9,21 @@ import os
 from .auth import login_required
 from flask import (
     Blueprint, flash, redirect, render_template, request, session, url_for,
-    current_app
+    current_app, send_from_directory
 )
 from lipila.helpers import (
     get_student, get_user, send_email, search_email,
     generate_pay_code
     )
-from lipila.db import get_db, current_app
+
+from lipila.db import get_db
 import datetime as DT
 from werkzeug.utils import secure_filename
 
 from lipila.helpers import (
-    calculate_amount,
-    show_recent, allowed_file, get_number_of_students
+    calculate_amount, upload_excel_file,
+    show_recent, allowed_file, get_number_of_students,
+    add_uploaded_data
     )
 from werkzeug.security import generate_password_hash
 import csv
@@ -308,8 +310,9 @@ def profile():
 @bp.route('/admin/upload', methods=['GET', 'POST'])
 @login_required
 def upload_file():
-    """ uploads a cvs file list of students
+    """ uploads a cvs/xlsx file with student data
     """
+    error = None
     if request.method == 'POST':
         # check if the post request has the file part
         if 'file' not in request.files:
@@ -323,12 +326,14 @@ def upload_file():
             return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
-            file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], filename))
-            with open(filename, 'rb') as file:
-                reader = csv.reader(file)
-                for row in reader:
-                    print(row)
             
-            flash("Students added successfully")
-            return redirect(url_for('admin.show_students')), 201
+            basedir = os.path.abspath(os.path.dirname(__file__))
+            file.save(os.path.join(basedir, current_app.config['UPLOAD_FOLDER'], filename))
+            data = upload_excel_file('/home/pita/lipila/lipila/views/static/uploads/students.xlsx')
+            msg = add_uploaded_data(data)
+            if msg == 'students added successfully.':
+                flash(msg)
+                return redirect(url_for('admin.show_students')), 201
+        return redirect(request.url)
+
     return render_template('school/upload.html')

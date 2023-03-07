@@ -8,7 +8,7 @@
 import os
 
 from flask import Flask, render_template, session
-UPLOAD_FOLDER = '/files/uploads'
+UPLOAD_FOLDER = 'static/uploads'
 
 def create_app(test_config=None):
     # create and configure the app

@@ -14,6 +14,8 @@ psycopg2 = "*"
 wheel = "*"
 gunicorn = "*"
 python-dotenv = "*"
+pandas = "*"
+openpyxl = "*"
 
 [dev-packages]
 

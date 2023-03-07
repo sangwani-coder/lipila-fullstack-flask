@@ -22,12 +22,12 @@
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 import os
-from flask import render_template
+from flask import render_template, session
 
 from lipila.db import current_app, get_db
 from datetime import datetime
 
-ALLOWED_EXTENSIONS = {'csv'}
+ALLOWED_EXTENSIONS = {'csv', 'xlsx',}
 
 def generate_pdf(data):
     """
@@ -333,14 +333,20 @@ def format_date(date):
 
     return f_date
 
-def upload(file):
-    """ reads and writes student data"""
+def upload_excel_file(file):
+    """
+        Function to upload and read spreadsheet or csv data
+    """
 
     import csv
-    with open('file.csv', 'r') as f:
-        reader = csv.reader(f)
-        for row in reader:
-            print(row)
+    import pandas
+
+    f = file.split(".")[1]
+    if f == "xlsx":
+        with open(file, 'rb') as f:
+            excel_data_df = pandas.read_excel(f, sheet_name='students')
+            # print whole sheet data
+        return excel_data_df.to_dict(orient='record')
 
 def allowed_file(filename):
     """Checks if the uploaded file extension is suppoerted
@@ -369,3 +375,46 @@ def generate_pay_code(firstname: str, lastname:str, id: str)-> str:
         pay_code = base + str(id)
    
     return pay_code
+
+def add_uploaded_data(data):
+    conn = get_db()
+    db = conn.cursor()
+    error = None
+    for student in range(len(data)):
+        firstname = data[student]['firstname']
+        lastname = data[student]['lastname']
+        school = session['user_id']
+        tuition = data[student]['tuition']
+        program = data[student]['program']
+
+        if not firstname:
+            error = "firstname is required"
+        elif  not lastname:
+            error = "lastname is required"
+        elif not tuition:
+            error = 'tuition is required'
+
+        if error is None:
+            try:
+                db.execute(
+                    "INSERT INTO student (firstname, lastname, school, program,\
+                            tuition)\
+                                VALUES (%s, %s, %s, %s, %s) RETURNING id",
+                    (firstname, lastname, school, program, tuition),
+                )
+                r_id = db.fetchone()[0]
+                conn.commit()
+                payment_code = generate_pay_code(firstname, lastname, r_id)
+                
+                db.execute(
+                    "UPDATE student SET payment_code=%s" 'WHERE id=%s', (payment_code, r_id),
+                )
+                conn.commit()
+
+            except Exception as e:
+                error = "an error occured!"
+            else:
+                msg = 'students added successfully.'
+                
+        # msg = error
+    return msg
