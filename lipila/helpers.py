@@ -3,22 +3,30 @@
     Lipila Fee Collection System
     Creator: Sangwani P. Zyambo
 
-    Module that defines helper functions for the views.
+    Module that defines helper functions for various views.
 
     Functions:
-        generate_pdf: Function that generates a pdf invoice.
-        apology: Function that renders the apology page.
-        calculate_mount: Function that calculates the total payments received.
-        show_recent: Funciton that returns recent payments to the admin dashboard page
-        get_student: Function that selects a single student matching id from the database.
-        get_students: Function to selects all students from the database matching the user id.
-        get_user" Function that selects a user from the school table matching id.
-        send_email: Function that sends an email to the provided email parameter.
-        search_email: Function that searches if a submited email  exisrs in the database.
-        get_payments: Function that gets all payments from the database that match a student id.
-        format_date: Function to forma the date.
+        1. generate_pdf: Function that generates a pdf invoice.
+        2. apology: Function that renders the apology page.
+        3. calculate_mount: Function that calculates the total payments received.
+        4. show_recent: Funciton that returns recent payments to the admin dashboard page
+        5. get_student: Function that selects a single student matching id from the database.
+        6. get_student_id: gets a students id.
+        7. get_number_of_students: gets the total number of students
+        8. get_students: Function to selects all students from the database matching the user id.
+        9. get_user" Function that selects a user from the school table matching id.
+        10. send_email: Function that sends an email to the provided email parameter.
+        11. search_email: Function that searches if a submited email  exisrs in the database.
+        12. get_payments: Function that gets all payments from the database that match a student id.
+        13. get_receipts: Creates a pdf receipt from data.
+        14. format_date: Function to forma the date.
+        15. upload_excel_file: Uploads excel spreadsheet data and parses it to python dict.
+        16. allowed_file: Checks file extension.
+        17. generate_pay_code: Generates a students pay code.
+        18. save_uploaded_data_to_db: Function to save uploaded data.
 """
-
+import csv
+import pandas
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 import os
@@ -27,13 +35,14 @@ from flask import render_template, session
 from lipila.db import current_app, get_db
 from datetime import datetime
 
+from typing import Dict
+
 ALLOWED_EXTENSIONS = {'csv', 'xlsx',}
 
-def generate_pdf(data):
+def generate_pdf(data: list):
     """
-       Function that generates a pdf format of the invoice.
-       param:
-        data: The data to put in the invoice.
+    Function that generates a pdf format of the invoice.
+    param: The data to put in the invoice.
     """
     directory = os.path.join(current_app.root_path, 'receipts').replace('\\','/')
     filename = "receipt-{}.pdf".format(data[0])
@@ -370,19 +379,17 @@ def format_date(date):
 
     return f_date
 
-def upload_excel_file(file):
+def upload_excel_file(file: str)-> Dict:
     """
-        Function to upload and read spreadsheet or csv data
+        Helper Function to upload and read an excel spreadsheet.
+        file: an excel file uploaded by user
+        returns: a python dictionary
     """
-
-    import csv
-    import pandas
 
     f = file.split(".")[1]
     if f == "xlsx":
         with open(file, 'rb') as f:
             excel_data_df = pandas.read_excel(f, sheet_name='students')
-            # print whole sheet data
         return excel_data_df.to_dict(orient='record')
 
 def allowed_file(filename):
@@ -392,7 +399,9 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def generate_pay_code(firstname: str, lastname:str, id: str)-> str:
-    """function that generates a students payment code"""
+    """
+    Helper function that auto generates a students payment code.
+    """
     f_initial = firstname[0].upper()
     l_initial = lastname[0].upper()
     base = f_initial + l_initial + '23'
@@ -413,28 +422,44 @@ def generate_pay_code(firstname: str, lastname:str, id: str)-> str:
    
     return pay_code
 
-def add_uploaded_data(data):
+def save_uploaded_data_to_db(
+        firstnames: list,
+        lastnames: list,
+        programs: list,
+        tuition: list
+        )-> str:
+    """
+    Helper function to save student data in the database
+    params: Lists of firstnames, lastnames, programs, tuition.
+    return: a string message "students added successfully."
+    """
+    # connect database
     conn = get_db()
     db = conn.cursor()
     error = None
-    for student in range(len(data)):
-        firstname = data[student]['firstname']
-        lastname = data[student]['lastname']
+    # itereate through the four lists to
+    # get data
+    for (f, l, p, t) in zip(firstnames, lastnames, programs, tuition):
+        firstname = f
+        lastname = l
         school = session['user_id']
-        tuition = data[student]['tuition']
-        program = data[student]['program']
+        tuition = t
+        program = p
 
         if not firstname:
             error = "firstname is required"
         elif  not lastname:
             error = "lastname is required"
+        elif  not program:
+            error = "program is required"
         elif not tuition:
             error = 'tuition is required'
 
         if error is None:
             try:
                 db.execute(
-                    "INSERT INTO student (firstname, lastname, school, program,\
+                    "INSERT INTO student (firstname, \
+                        lastname, school, program,\
                             tuition)\
                                 VALUES (%s, %s, %s, %s, %s) RETURNING id",
                     (firstname, lastname, school, program, tuition),
@@ -444,7 +469,8 @@ def add_uploaded_data(data):
                 payment_code = generate_pay_code(firstname, lastname, r_id)
                 
                 db.execute(
-                    "UPDATE student SET payment_code=%s" 'WHERE id=%s', (payment_code, r_id),
+                    "UPDATE student SET payment_code=%s" \
+                        'WHERE id=%s', (payment_code, r_id),
                 )
                 conn.commit()
 
@@ -452,6 +478,6 @@ def add_uploaded_data(data):
                 error = "an error occured!"
             else:
                 msg = 'students added successfully.'
-                
-        # msg = error
+        else:
+            msg = error      
     return msg

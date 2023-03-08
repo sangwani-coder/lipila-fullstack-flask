@@ -1,7 +1,20 @@
+<!-- template where user confirms uploaded data -->
+<!-- rendered by admin/verification route -->
 {% extends "layout.html" %} {% block title %} Add multiple student {% endblock %} {% block main %}
 <h3>Confirm student data</h3>
-<form action="{{url_for('admin.upload_file')}}" method=post>
-    <p>{{data}}</p>
-    <input type=submit value=Upload>
+<form action="{{url_for('admin.verify_data')}}" method=post>
+    {% for std in range(size) %}
+    <div class="form-group">
+      <input name="firstname" id="firstname" placeholder="Firstname"
+              value="{{request.form['firstname'] or data[std]['firstname']}}">
+      <input name="lastname" id="lastname" placeholder="Lastname"
+              value="{{request.form['lastname'] or data[std]['lastname']}}">
+      <input name="program" id="program" placeholder="Program"
+              value="{{request.form['program'] or data[std]['program']}}">
+      <input name="tuition" id="tuition" placeholder="Tuition"
+              value="{{request.form['tuition'] or data[std]['tuition']}}">
+  </div>
+    {% endfor %}
+    <input type='submit' value='Confirm'>
   </form>
 {% endblock %}

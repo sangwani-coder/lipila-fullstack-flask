@@ -1,15 +1,15 @@
 """
-    helpers.py
+    admin.py
     Lipila Fee Collection System
     Creator: Sangwani P. Zyambo
 
-    defines view functions for the school admin.
+    Defines views to handle school admins tasks.
 """
 import os
 from .auth import login_required
 from flask import (
     Blueprint, flash, redirect, render_template, request, session, url_for,
-    current_app, send_from_directory
+    current_app,
 )
 from lipila.helpers import (
     get_student, get_user, send_email, search_email,
@@ -22,21 +22,21 @@ from werkzeug.utils import secure_filename
 
 from lipila.helpers import (
     calculate_amount, upload_excel_file,
-    show_recent, allowed_file, get_number_of_students,
-    add_uploaded_data
+    show_recent, allowed_file,
+    save_uploaded_data_to_db
     )
 from werkzeug.security import generate_password_hash
-import csv
+
 
 bp = Blueprint('admin', __name__, url_prefix='/lipila')
-
 
 @bp.route('/admin/dashboard', defaults={'filter':None})
 @bp.route('/admin/dashboard/<filter>')
 @login_required
 def dashboard(filter):
     """
-        School admin dashboard route
+    view function handling school admin dashboard
+    requests.
     """
     if filter == "all":
         data = show_recent(session['user_id'], 'all')
@@ -85,10 +85,13 @@ def dashboard(filter):
                            data=data, total=total_amount_paid,
                            payments=total_payments, filter=filter)
 
-
 @bp.route('/admin/students', methods=('GET', 'POST'))
 @login_required
 def show_students():
+    """
+    view function to list all students for a
+    single school.
+    """
     conn = get_db()
     db = conn.cursor()
     if request.method == 'GET':
@@ -101,6 +104,9 @@ def show_students():
 @bp.route('/admin/payments', methods=('GET', 'POST'))
 @login_required
 def show_payments():
+    """
+    view function to list payment history.
+    """
     conn = get_db()
     db = conn.cursor()
 
@@ -118,10 +124,13 @@ def show_payments():
         
         return render_template('school/payments.html', school=school[3], data=payment)
     
-
 @bp.route('/admin/add', methods = ['GET', 'POST'])
 @login_required
 def create_student():
+    """
+    view function which creates a new student
+    in the system.
+    """
     if request.method == 'POST':
         firstname = request.form.get('firstname')
         lastname = request.form.get('lastname')
@@ -171,7 +180,7 @@ def create_student():
 @login_required
 def update(id):
     """
-        Updates a students information
+    view functyion that Updates a students information.
     """
     student = get_student(id)
 
@@ -212,6 +221,9 @@ def update(id):
 @bp.route('/delete/<int:id>', methods=('POST',))
 @login_required
 def delete(id):
+    """
+    view function to delete a student from database.
+    """
     get_student(id)
     conn = get_db()
     db = conn.cursor()
@@ -223,7 +235,7 @@ def delete(id):
 @bp.route('/admin/resetpassword', methods = ['GET', 'POST'])
 def reset_password():
     """
-        returns a from for the user to confirm registration
+    view function to get users email for password reset
     """
     if request.method == 'POST':
         error = None
@@ -241,13 +253,12 @@ def reset_password():
             return redirect(url_for('landing'))
     return render_template('admin/reset.html')
 
-
 # Update admin password view
 @bp.route('/admin/changepassword/<int:id>', methods = ['GET', 'POST'])
 @login_required
 def update_password(id):
     """
-        Resets the users password
+    view function to reset the users forgotten password
     """
 
     if request.method == 'POST':
@@ -272,11 +283,12 @@ def update_password(id):
             return redirect(url_for('landing'))
     return render_template('admin/reset_password.html')
 
-
 @bp.route('/admin/profile', methods = ['GET', 'POST'])
 @login_required
 def profile():
-    """View to edit the users profile"""
+    """
+    View function to edit the users profile
+    """
     id = session['user_id']
     if request.method == 'POST':
         email = request.form['email']
@@ -329,7 +341,8 @@ def profile():
 @bp.route('/admin/upload', methods=['GET', 'POST'])
 @login_required
 def upload_file():
-    """ uploads a cvs/xlsx file with student data
+    """
+    view funciton that uploads a .xlsx file
     """
     error = None
     if request.method == 'POST':
@@ -349,10 +362,34 @@ def upload_file():
             basedir = os.path.abspath(os.path.dirname(__file__))
             file.save(os.path.join(basedir, current_app.config['UPLOAD_FOLDER'], filename))
             data = upload_excel_file('/home/pita/lipila/lipila/views/static/uploads/students.xlsx')
-            msg = add_uploaded_data(data)
-            if msg == 'students added successfully.':
-                flash(msg)
-                return redirect(url_for('admin.show_students')), 201
+
+            if data:
+                flash("Confirm information")
+                import json
+                return redirect(url_for('admin.verify_data', data=json.dumps(data))), 201
         return redirect(request.url)
 
     return render_template('school/upload.html')
+
+@bp.route('/admin/verification', defaults={'data':None}, methods=['GET', 'POST'])
+@bp.route('/admin/verification/<data>',methods=['GET', 'POST'])
+def verify_data(data):
+    """
+    view functyion that verifys data
+    before adding to database
+    """
+    if request.method == "GET":
+        import json
+        parse_data = json.loads(data)
+        size = len(parse_data)
+        return render_template('admin/student_upload.html', data=parse_data, size=size)
+    
+    firstnames = request.form.getlist('firstname')
+    lastnames = request.form.getlist('lastname')
+    programs = request.form.getlist('program')
+    tuition = request.form.getlist('tuition')
+
+    msg = save_uploaded_data_to_db(firstnames, lastnames, programs, tuition)
+    if msg == 'students added successfully.':
+        flash(msg)
+    return redirect(url_for('admin.show_students')), 201
