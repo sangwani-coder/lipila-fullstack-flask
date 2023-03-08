@@ -163,24 +163,61 @@ def calculate_amount(period, id):
     return [total_paid, size]
 
 
-def show_recent(id):
+def show_recent(user_id, filter):
     """
         Selects all recent payments for the user/school id.
+        Select payments within the current month
         params:
             id: the school id.
     """
     conn = get_db()
     db = conn.cursor()
 
+    # find the schools id
     db.execute(
-            "SELECT * from school WHERE id=%s",(id,)
+            "SELECT * from school WHERE id=%s",(user_id,)
         )
-    school = db.fetchone()
+    data = db.fetchone()
+    school_id = str(data[0])
 
-    id = str(school[0])
-    db.execute(
-            "SELECT * FROM payment WHERE school=%s",(id,)
+    # filter
+    if filter == "all":
+        db.execute(
+            "SELECT * FROM payment WHERE school=%s",(school_id,)
         )
+               
+    elif filter == "month":
+        month = datetime.now().strftime("%m")
+        year = datetime.now().strftime("%Y")
+        db.execute(
+            "SELECT * FROM payment WHERE school=%s AND\
+                  extract(year from created)=%s AND \
+                    extract(month from created)=%s",(school_id, year, month)
+        )
+        
+
+    elif filter == "week":
+        year = datetime.now().strftime("%Y")
+        week = datetime.now().strftime("%U")
+        db.execute(
+            "SELECT * FROM payment WHERE school=%s AND\
+                  extract(year from created)=%s AND \
+                    extract(week from created)=%s",(school_id, year, week)
+        )
+        
+
+    elif filter == "today":
+        year = datetime.now().strftime("%Y")
+        month = datetime.now().strftime("%m")
+        day = datetime.now().strftime("%d")
+        
+        db.execute(
+            "SELECT * FROM payment WHERE school=%s AND\
+                  extract(year from created)=%s AND \
+                  extract(month from created)=%s AND \
+                    extract(day from created)=%s",(school_id, year, month, day)
+        )
+        
     payment = db.fetchall()
 
     return payment

@@ -31,13 +31,31 @@ import csv
 bp = Blueprint('admin', __name__, url_prefix='/lipila')
 
 
-@bp.route('/admin/dashboard', methods=('GET', 'POST'))
+@bp.route('/admin/dashboard', defaults={'filter':None})
+@bp.route('/admin/dashboard/<filter>')
 @login_required
-def dashboard():
+def dashboard(filter):
     """
         School admin dashboard route
-    """    
-    data = show_recent(session['user_id'])
+    """
+    if filter == "all":
+        data = show_recent(session['user_id'], 'all')
+        filter = ""
+
+    elif filter == "month":
+        data = show_recent(session['user_id'], 'month')
+        filter = "This Months"
+
+    elif filter == "week":
+        data = show_recent(session['user_id'], 'week')
+        filter = "This Weeks"
+    elif filter == "today":
+        data = show_recent(session['user_id'], 'today')
+        filter = "Todays"
+    else:
+        data = show_recent(session['user_id'], 'week')
+        filter = "This weeks"
+    
     # select the whole years payments
     data_all = calculate_amount('all', session['user_id'])
 
@@ -65,7 +83,8 @@ def dashboard():
 
     return render_template('admin/dashboard.html',
                            data=data, total=total_amount_paid,
-                           payments=total_payments)
+                           payments=total_payments, filter=filter)
+
 
 @bp.route('/admin/students', methods=('GET', 'POST'))
 @login_required

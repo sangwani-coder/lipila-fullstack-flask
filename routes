@@ -1,0 +1,32 @@
+Endpoint                 Methods    Rule
+-----------------------  ---------  -------------------------------------
+admin.create_student     GET, POST  /lipila/admin/add
+admin.dashboard          GET        /lipila/admin/dashboard
+admin.dashboard          GET        /lipila/admin/dashboard/<filter>
+admin.delete             POST       /lipila/delete/<int:id>
+admin.profile            GET, POST  /lipila/admin/profile
+admin.reset_password     GET, POST  /lipila/admin/resetpassword
+admin.show_payments      GET, POST  /lipila/admin/payments
+admin.show_students      GET, POST  /lipila/admin/students
+admin.update             GET, POST  /lipila/admin/update/<int:id>
+admin.update_password    GET, POST  /lipila/admin/changepassword/<int:id>
+admin.upload_file        GET, POST  /lipila/admin/upload
+auth.login               GET, POST  /auth/login/<users>
+auth.logout              GET        /auth/logout
+auth.register            GET, POST  /auth/register/<user>
+index                    GET, POST  /lipila/<task>
+landing                  GET, POST  /
+lipila.confirmed         GET, POST  /lipila/confirmed
+lipila.download          GET, POST  /lipila/download/<receipt>
+lipila.get_student_data  GET, POST  /lipila/payment/<id>
+lipila.index             GET, POST  /lipila/home
+lipila.pay               GET, POST  /lipila/pay
+lipila.payment           GET, POST  /lipila/payment
+lipila.show_history      GET, POST  /lipila/history
+site_admin.about         GET        /lipila/about
+site_admin.contact       GET, POST  /lipila/contact
+site_admin.faqs          GET        /lipila/faqs
+site_admin.features      GET        /lipila/features
+site_admin.privacy       GET        /lipila/privacy-policy
+site_admin.terms         GET        /lipila/terms-conditions
+static                   GET        /static/<path:filename>

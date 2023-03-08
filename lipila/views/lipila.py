@@ -164,7 +164,7 @@ def payment():
                 )
                 student = db.fetchone()
                 
-                names =  student[1] + ' ' + student[2]
+                names =  student[2] + ' ' + student[3]
 
                 msg = 'Success Payment for' + ' ' + names
             
@@ -191,7 +191,7 @@ def payment():
                 )
                 student = db.fetchone()
 
-                names =  student[1] + ' ' + student[2]
+                names =  student[2] + ' ' + student[3]
 
                 msg = 'Success! Payment for' + ' ' + names
             

@@ -212,25 +212,13 @@
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card">
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Week</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                  </ul>
-                </div>
-
                 <div class="card-body">
+                  <a class="dropdown-item" href="{{url_for('admin.dashboard', filter='today')}}">
                   <h5 class="card-title">Today <span>| Payments</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-cart"></i>
+                      <i class="bi bi-cash-coin"></i>
                     </div>
                     <div class="ps-3">
                       <h6>{{payments['day']}}</h6>
@@ -238,7 +226,10 @@
 
                     </div>
                   </div>
+                  </a>
+          
                 </div>
+              
 
               </div>
             </div><!-- End Payments Card -->
@@ -247,25 +238,13 @@
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card">
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Week</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                  </ul>
-                </div>
-
                 <div class="card-body">
+                
                   <h5 class="card-title">This Week <span>| Payments</span></h5>
-
+                  <a class="dropdown-item" href="{{url_for('admin.dashboard', filter='week')}}">
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-cart"></i>
+                      <i class="bi bi-cash-coin"></i>
                     </div>
                     <div class="ps-3">
                       <h6>{{payments['week']}}</h6>
@@ -273,6 +252,7 @@
 
                     </div>
                   </div>
+                  </a>
                 </div>
 
               </div>
@@ -282,25 +262,13 @@
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card">
 
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Week</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                  </ul>
-                </div>
-
                 <div class="card-body">
+                  <a class="dropdown-item" href="{{url_for('admin.dashboard', filter='month')}}">
                   <h5 class="card-title">This Month <span>| Payments</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-cart"></i>
+                      <i class="bi bi-cash-coin"></i>
                     </div>
                     <div class="ps-3">
                       <h6>{{payments['month']}}</h6>
@@ -308,6 +276,7 @@
 
                     </div>
                   </div>
+                  </a>
                 </div>
 
               </div>
@@ -315,26 +284,14 @@
             <!-- Payments Card -->
             <div class="col-xxl-4 col-md-6">
               <div class="card info-card revenue-card">
-
-                <div class="filter">
-                  <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                  <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                      <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Week</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                  </ul>
-                </div>
-
+                
                 <div class="card-body">
+                  <a class="dropdown-item" href="{{url_for('admin.dashboard', filter='all')}}">
                   <h5 class="card-title">This year <span>| Payments</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                      <i class="bi bi-cart"></i>
+                      <i class="bi bi-cash-coin"></i>
                     </div>
                     <div class="ps-3">
                       <h6>{{payments['year']}}</h6>
@@ -342,13 +299,14 @@
 
                     </div>
                   </div>
+                  </a>
                 </div>
 
               </div>
             </div><!-- End Payments Card -->
 
             </div><!-- End Customers Card -->
-
+            <hr>
             {% block Rsales%}
             <!-- Recent Sales -->
             <div class="col-12">
@@ -360,15 +318,15 @@
                     <li class="dropdown-header text-start">
                       <h6>Filter</h6>
                     </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Week</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                    <li><a class="dropdown-item" href="{{url_for('admin.dashboard', filter='all')}}">Show all</a></li>
+                    <li><a class="dropdown-item" href="{{url_for('admin.dashboard', filter='today')}}">Today</a></li>
+                    <li><a class="dropdown-item" href="{{url_for('admin.dashboard', filter='week')}}">This Week</a></li>
+                    <li><a class="dropdown-item" href="{{url_for('admin.dashboard', filter='month')}}">This Month</a></li>
                   </ul>
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Recent Payments <span></span></h5>
+                  <h5 class="card-title">{{filter}} Payments Summary <span></span></h5>
                   <input type="text" id="myInput" onkeyup="searchStudent()" placeholder="Search for student..">
                   <table class="table table-borderless datatable" id="myTable">
                     <thead>
