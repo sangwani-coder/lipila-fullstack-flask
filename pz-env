@@ -1,0 +1,16 @@
+# API KEY
+SUB_KEY=47d15957a260416889b69c6b882c87c4
+LIP_ENV=development
+
+#database vars
+PGUSER=postgres
+PGPASSWORD=lipila
+PGDATABASE=lipila
+PGHOST=localhost
+
+TESTUSER=lipila_dev
+TESTDATABASE=lipila_dev
+
+# email vars
+MAIL_USERNAME=lipila.info@gmail.com
+MAIL_PASSWORD=dev#200Connect
