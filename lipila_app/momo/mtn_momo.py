@@ -1,7 +1,7 @@
 """ MTN momo api handler"""
 
-from momo.momo import Momo
-from helpers import apology
+from lipila_app.momo.momo import Momo
+from lipila_app.helpers import apology
 
 import requests
 import json

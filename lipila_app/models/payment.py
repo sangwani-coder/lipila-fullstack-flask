@@ -1,10 +1,4 @@
-# from sqlalchemy import Column
-# from sqlalchemy import Integer
-# from sqlalchemy import String
-# from sqlalchemy import ForeignKey
-# from sqlalchemy.orm import relationship
-# from models.base_model import BaseModel, Base
-
+# from lipila_app import db
 
 # class Payment(BaseModel, Base):
 #     """

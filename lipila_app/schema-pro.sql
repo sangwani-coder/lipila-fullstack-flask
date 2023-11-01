@@ -4,18 +4,18 @@ DROP TABLE IF EXISTS school;
 DROP TABLE IF EXISTS users;
 
 -- Create user table to store a students information
-CREATE TABLE IF NOT EXISTS users(
+CREATE TABLE IF NOT EXISTS User(
   id SERIAL PRIMARY KEY NOT NULL,
   email VARCHAR(255) UNIQUE,
   mobile VARCHAR(255),
   firstname VARCHAR(255),
   lastname VARCHAR(255),
-  password VARCHAR(255) 
+  password VARCHAR(255)
 );
 
 -- Create school table to store admin user details and 
 -- Details of the school
-CREATE TABLE IF NOT EXISTS school (
+CREATE TABLE IF NOT EXISTS School (
   id SERIAL PRIMARY KEY,
   job VARCHAR(255),
   created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

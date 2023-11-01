@@ -12,8 +12,8 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from db import get_db
-from helpers import send_email
+from lipila_app import db
+from lipila_app.helpers import send_email
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 

@@ -1,20 +1,22 @@
-# from sqlalchemy import Column
-# from sqlalchemy import Integer
-# from sqlalchemy import String
-# from sqlalchemy import ForeignKey
-# from sqlalchemy.orm import relationship
-# from models.base_model import BaseModel, Base
+import datetime
 
+from lipila_app import db
+from .school import Schools
 
-# class Student(BaseModel, Base):
-#     """
-#         Representation of a student
-#     """
-#     __tablename__ = 'student'
+class Students(db.Model):
+    """
+        Representation of a students
+    """
+    __tablename__ = 'student'
 
-#     id = Column(Integer, primary_key=True)
-#     firstname = Column(String(50), nullable=False)
-#     lastname = Column(String(50), nullable=False)
-#     school_id = Column(Integer, ForeignKey("school.id"), nullable=False)
-#     program = Column(String(255))
-#     tuition = Column(Integer)
+    id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.Unicode(64))
+    middle_name = db.Column(db.Unicode(64))
+    last_name = db.Column(db.Unicode(64))
+    email = db.Column(db.Unicode(64))
+    active = db.Column(db.Boolean, default=True)
+    # school = db.relationship(Schools, backref="student", cascade="all, delete-orphan")
+    created_at = db.Column(db.DateTime, default=datetime.datetime.now)
+
+    def __unicode__(self):
+        return self.first_name

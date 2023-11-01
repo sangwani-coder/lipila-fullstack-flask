@@ -11,16 +11,16 @@ from flask import (
 
 import os
 
-from db import get_db, current_app
+from lipila_app import db
 
-from helpers import (
+from lipila_app.helpers import (
     generate_pdf, apology, get_payments, get_student, get_receipts,
     get_student_id
     )
 
-from momo.momo import Momo
-from momo.mtn_momo import MTN
-from momo.airtel_momo import Airtel
+from lipila_app.momo.momo import Momo
+from lipila_app.momo.mtn_momo import MTN
+from lipila_app.momo.airtel_momo import Airtel
 
 bp = Blueprint('lipila', __name__, url_prefix='/lipila')
 
@@ -55,8 +55,6 @@ def pay():
 
 @bp.route('payment/<id>', methods = ['GET', 'POST'])
 def get_student_data(id):
-    conn = get_db()
-    db = conn.cursor()
     error = None
 
     if request.method == 'GET':
@@ -121,8 +119,6 @@ def confirmed():
 
 @bp.route('/payment', methods=['GET', 'POST'])
 def payment():
-    conn = get_db()
-    db = conn.cursor()
     partyId = session['account']
     user = session['user-id']
     amount = str(session['amount'])
@@ -158,7 +154,7 @@ def payment():
                 db.execute("INSERT INTO payment (student_id, firstname, lastname, amount, school, account_number) \
                     VALUES(%s,%s,%s,%s,%s,%s)",(user, firstname, lastname, amount, session['school-id'], partyId),
                     )
-                conn.commit()
+               
                 
                 db.execute(
                     "SELECT * FROM student WHERE id=%s",(user,)
@@ -186,7 +182,6 @@ def payment():
                     )
                 payment = db.fetchone()
 
-                conn.commit()
                 db.execute(
                     "SELECT * FROM student WHERE id=%s",(user,)
                 )
@@ -214,13 +209,13 @@ def show_history():
     return render_template('payment/history.html', school=session['school'], data=payment)
 
 
-@bp.route('/download/<receipt>', methods=['GET', 'POST'])
-def download(receipt):
-    """ downloads a pdf receipt"""
-    path = current_app.root_path
-    data = get_receipts(receipt)
-    rec = generate_pdf(data)
-    file_path = os.path.join(path, rec).replace('\\', '/')
+# @bp.route('/download/<receipt>', methods=['GET', 'POST'])
+# def download(receipt):
+#     """ downloads a pdf receipt"""
+#     path = current_app.root_path
+#     data = get_receipts(receipt)
+#     rec = generate_pdf(data)
+#     file_path = os.path.join(path, rec).replace('\\', '/')
   
 
-    return render_template('payment/download.html', id=receipt, file_path=file_path)
+    # return render_template('payment/download.html', id=receipt, file_path=file_path)
