@@ -5,7 +5,7 @@
 
     unittests for views that handle payment.
 """
-from lipila.db import get_db
+from db import get_db
 from flask import g, session
 from datetime import datetime
 from lipila.helpers import get_payments

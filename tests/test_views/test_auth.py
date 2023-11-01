@@ -7,7 +7,7 @@
 """
 import pytest
 from flask import g, session
-from lipila.db import get_db
+from db import get_db
 
 # test register route
 def test_register(client, app):

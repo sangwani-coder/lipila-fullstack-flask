@@ -10,16 +10,15 @@ from flask import (
 )
 
 import os
-from lipila.db import get_db
-from lipila.db import current_app
-from lipila.helpers import (
+from lipila.db import get_db, current_app
+from helpers import (
     generate_pdf, apology, get_payments, get_student, get_receipts,
     get_student_id
     )
 
-from lipila.momo.momo import Momo
-from lipila.momo.mtn_momo import MTN
-from lipila.momo.airtel_momo import Airtel
+from momo.momo import Momo
+from momo.mtn_momo import MTN
+from momo.airtel_momo import Airtel
 
 bp = Blueprint('lipila', __name__, url_prefix='/lipila')
 

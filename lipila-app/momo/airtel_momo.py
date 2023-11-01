@@ -1,4 +1,4 @@
-from lipila.momo.momo import Momo
+from momo.momo import Momo
 
 
 class Airtel(Momo):

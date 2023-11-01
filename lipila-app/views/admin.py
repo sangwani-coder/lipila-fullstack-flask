@@ -11,15 +11,15 @@ from flask import (
     Blueprint, flash, redirect, render_template, request, session, url_for,
     current_app
 )
-from lipila.helpers import (
+from helpers import (
     get_student, get_user, send_email, search_email,
     generate_pay_code
     )
-from lipila.db import get_db, current_app
+from db import get_db, current_app
 import datetime as DT
 from werkzeug.utils import secure_filename
 
-from lipila.helpers import (
+from helpers import (
     calculate_amount, calculate_payments,
     show_recent, allowed_file, get_number_of_students
     )

@@ -3,7 +3,7 @@
     Lipila Fee Collection System
     Creator: Sangwani P. Zyambo
 
-    Module that defines funcitons for datbase initialization and connection.
+    Module that defines funcitons for database initialization and connection.
 """
 import click
 from flask import current_app, g

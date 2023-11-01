@@ -24,7 +24,7 @@ from reportlab.pdfgen import canvas
 import os
 from flask import render_template
 
-from lipila.db import current_app, get_db
+from db import current_app, get_db
 
 ALLOWED_EXTENSIONS = {'csv'}
 

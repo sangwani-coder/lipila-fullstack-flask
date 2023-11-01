@@ -8,7 +8,7 @@ import json
 import os
 
 API_KEY = ''
-
+print("SUB KEY", os.environ.get("SUB_KEY"))
 if not os.environ.get("SUB_KEY"):
     raise RuntimeError("SUB_KEY not set")
 
