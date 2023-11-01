@@ -10,7 +10,7 @@ from flask import (
 )
 
 import os
-from lipila.db import get_db, current_app
+from lipila_app.db import get_db, current_app
 from helpers import (
     generate_pdf, apology, get_payments, get_student, get_receipts,
     get_student_id
