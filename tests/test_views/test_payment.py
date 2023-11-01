@@ -8,7 +8,7 @@
 from db import get_db
 from flask import g, session
 from datetime import datetime
-from lipila.helpers import get_payments
+from lipila_app.helpers import get_payments
 
 
 def test_payment_login_fail(client):

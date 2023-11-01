@@ -5,7 +5,7 @@
 
     unittests for the helper functions.
 """
-from lipila.helpers import (
+from lipila_app.helpers import (
     send_email,
     get_student, get_user, search_email,
     get_payments, format_date, get_receipts,

@@ -5,7 +5,7 @@
 
     unittests for the mtn_momo function.
 """
-from lipila.momo.mtn_momo import MTN
+from lipila_app.momo.mtn_momo import MTN
 import pytest
 
 

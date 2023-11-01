@@ -6,10 +6,10 @@
     unittests for the admin views.
 """
 import pytest
-from lipila.db import get_db
+from lipila_app.db import get_db
 from flask import g, session
 from werkzeug.security import check_password_hash
-from lipila.helpers import get_user, get_student
+from lipila_app.helpers import get_user, get_student
 from datetime import datetime
 
 def test_dashboard(client, auth):

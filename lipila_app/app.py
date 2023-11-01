@@ -16,7 +16,7 @@ from models.school import School
 
 from views import auth
 from views import admin
-from lipila.views import lipila
+from views import lipila
 from views import site_admin
 
 UPLOAD_FOLDER = '/files/uploads'

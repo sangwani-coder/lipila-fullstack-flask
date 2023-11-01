@@ -6,7 +6,7 @@
     unittests for the db views.
 """
 import pytest
-from lipila.db import get_db
+from lipila_app.db import get_db
 import psycopg2
 
 

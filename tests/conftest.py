@@ -9,9 +9,9 @@ import os
 
 import pytest
 from lipila import create_app
-from lipila.db import get_db, init_db
+from lipila_app.db import get_db, init_db
 
-from lipila.momo.momo import Momo
+from lipila_app.momo.momo import Momo
 
 class AuthActions(object):
     def __init__(self, client):
