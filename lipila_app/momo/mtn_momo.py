@@ -1,14 +1,15 @@
 """ MTN momo api handler"""
 
-from lipila_app.momo.momo import Momo
-from lipila_app.helpers import apology
+from momo.momo import Momo
+from helpers import apology
 
 import requests
 import json
 import os
 
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
 API_KEY = ''
-print("SUB KEY", os.environ.get("SUB_KEY"))
 if not os.environ.get("SUB_KEY"):
     raise RuntimeError("SUB_KEY not set")
 

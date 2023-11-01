@@ -11,13 +11,14 @@ from flask_admin.contrib.sqla import ModelView
 from flask_sqlalchemy import SQLAlchemy
 
 from flask import Flask, session, render_template
-from models.user import User
 from models.school import School
+import datetime
 
 from views import auth
 from views import admin
 from views import lipila
 from views import site_admin
+
 
 UPLOAD_FOLDER = '/files/uploads'
 
@@ -46,14 +47,11 @@ app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
 
 admin = Admin(app, name='microblog', template_mode='bootstrap3')
 
-# Flask and Flask-SQLAlchemy initialization here
-admin.add_view(ModelView(User, db.session))
-admin.add_view(ModelView(School, db.session))
 
 # register blueprints
 app.register_blueprint(auth.bp)
 app.register_blueprint(lipila.bp)
-app.register_blueprint(admin.bp)
+# app.register_blueprint(admin.bp)
 app.register_blueprint(site_admin.bp)
 
 # if test_config is None:
@@ -65,6 +63,20 @@ app.register_blueprint(site_admin.bp)
 # else:
 #     # load the test config if passed in
 #     app.config.from_mapping(test_config)
+
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.Unicode(64))
+    email = db.Column(db.Unicode(64))
+    active = db.Column(db.Boolean, default=True)
+    created_at = db.Column(db.DateTime, default=datetime.datetime.now)
+
+    def __unicode__(self):
+        return self.name
+    
+# Flask and Flask-SQLAlchemy initialization here
+admin.add_view(ModelView(User, db.session))
+admin.add_view(ModelView(School, db.session))
 
 @app.route('/', methods = ['GET', 'POST'])
 def landing():
@@ -92,4 +104,6 @@ if __name__ == '__main__':
     #         build_sample_db()
 
     # Start app
+    
+    
     app.run(debug=True)
