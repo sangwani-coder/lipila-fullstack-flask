@@ -2,7 +2,7 @@
 Lipila is an Online Fees Collection System suitable for businesses to collect fees online. Lipila is a powerful combination of Fee Management Software + Online Payment Gateway.
 
 ### Description 
-Lipila is software focused to provide solutions to schools, colleges, universities, coaching institutes, academies, etc.
+Lipila is software focused to provide solutions to School, colleges, universities, coaching institutes, academies, etc.
 
 ### benefits
 - fast and secure payments

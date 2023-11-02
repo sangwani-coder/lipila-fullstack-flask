@@ -19,7 +19,7 @@ class AuthActions(object):
 
     def login(self, email='admin@email.com', password='test'):
         return self._client.post(
-            '/auth/login/schools',
+            '/auth/login/School',
             data={'email': email, 'password': password}
         )
 

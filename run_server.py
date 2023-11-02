@@ -3,20 +3,17 @@ from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 
 from lipila_app.models.school import (
-    Schools, Administrators, Parents,
+    School, Administrator, Parents,
     SchoolFees, Students, OtherFees, Payments,
 )
 from lipila_app.models.user import User
 from flask import render_template
 
-from lipila_app.views import auth
 from lipila_app.views import lipila
 from lipila_app.views import site_admin
 
 # register blueprints
-app.register_blueprint(auth.bp)
 app.register_blueprint(lipila.bp)
-# app.register_blueprint(admin.bp)
 app.register_blueprint(site_admin.bp)
 
 
@@ -30,12 +27,12 @@ if __name__ == '__main__':
     # Lipila Admin views
     admin = Admin(app, name='Lipila', template_mode='bootstrap3')
     admin.add_view(ModelView(User, db.session))
-    admin.add_view(ModelView(Schools, db.session))
-    admin.add_view(ModelView(Administrators, db.session))
+    admin.add_view(ModelView(School, db.session))
+    admin.add_view(ModelView(Administrator, db.session))
 
     # school admin views
     schooladmin = Admin(app, name='School', url="/schooladmin",
-                   endpoint="schooladmin", template_mode='bootstrap3')
+                   endpoint="schooladmin", template_mode='babel')
     schooladmin.add_view(ModelView(Parents, db.session))
     schooladmin.add_view(ModelView(Students, db.session))
     schooladmin.add_view(ModelView(SchoolFees, db.session))

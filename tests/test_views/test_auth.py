@@ -11,14 +11,14 @@ from db import get_db
 
 # test register route
 def test_register(client, app):
-    assert client.get('/auth/register/schools').status_code == 200
+    assert client.get('/auth/register/School').status_code == 200
     response = client.post(
-        '/auth/register/schools', data={
+        '/auth/register/School', data={
             'job':'ab', 'school':'b', 'email':'b',
             'mobile':'b', 'reg_number':'b', 'firstname':'b',
             'lastname':'b', 'password':'b'}
     )
-    assert response.headers["Location"] == "/auth/login/schools"
+    assert response.headers["Location"] == "/auth/login/School"
 
     with app.app_context():
         conn = get_db()
@@ -43,7 +43,7 @@ def test_register_validate_input(
     client, job, school, email, mobile, reg_number,
     firstname, lastname, password, message):
     response = client.post(
-        '/auth/register/schools',
+        '/auth/register/School',
         data={
             'job':job, 'school':school, 'email':email,
             'mobile':mobile, 'reg_number':reg_number, 'firstname':firstname,
@@ -54,7 +54,7 @@ def test_register_validate_input(
 
 # test login route
 def test_login(client, auth):
-    assert client.get('/auth/login/schools').status_code == 200
+    assert client.get('/auth/login/School').status_code == 200
     response = auth.login()
     assert response.headers['Location'] == "/lipila/admin/dashboard"
 

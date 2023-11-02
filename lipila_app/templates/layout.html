@@ -32,74 +32,18 @@
 <body id="body-bk-color">
 
     <nav class="navbar navbar-expand-md navbar-light bg-light border">
-        <a class="navbar-brand" href="{{url_for('index')}}"><span class="blue">L</span><span class="red">i</span><span class="yellow">p</span><span class="yellow">i</span><span class="green">la</span> <span class="red">HOME</span></a>
-        <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbar" data-toggle="collapse" type="button">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+        <a class="navbar-brand" href="{{url_for('index')}}"><span class="blue">L</span><span class="red">i</span><span
+                class="yellow">p</span><span class="yellow">i</span><span class="green">la</span> <span
+                class="red">HOME</span></a>
+        <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+            data-target="#navbar" data-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbar">
-            {% if session['user'] == "schools" %}
-            <ul class="navbar-nav mr-auto mt-2" id="head">
-                <li class="nav-item"><a class="nav-link" href="{{url_for('admin.create_student')}}">Add Student</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{url_for('admin.show_students')}}">Students</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{url_for('admin.show_payments')}}">Payments</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{url_for('admin.dashboard')}}">Dashboard</a></li>
-            </ul>
-            <ul class="navbar-nav ml-auto mt-2">
-                <li class="nav-item nav-link">{{session['school'].upper()}}</li>
-            </ul>
-            <ul class="navbar-nav ml-auto mt-2">
-                <li class="nav-item"><a class="nav-link" href="{{url_for('auth.logout')}}">Log Out</a></li>
-            </ul>
-            </ul class="navbar-nav ml-auto mt-2">
-                <div class="dropdown">
-                    <button class="dropbtn nav-link">About
-                    <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a class="nav-link" href="{{ url_for('site_admin.about')}}">About</a>
-                        <a class="nav-link" href="{{ url_for('site_admin.contact')}}">Contact</a>
-                        <a class="nav-link" href="{{ url_for('site_admin.privacy')}}">Privacy Policy</a>
-                        <a class="nav-link" href="{{ url_for('site_admin.terms')}}">Ts & Cs</a>
-                        <a class="nav-link" href="{{ url_for('site_admin.features')}}">Features</a>
-                    </div>
-                </div>
-            <ul>
-            {% elif session['user'] == "payments" %}
-            <ul class="navbar-nav mr-auto mt-2" id="head">
-                <li class="nav-item"><a class="nav-link" href="#">Promise</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Pay</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">History</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">DEPOSIT</a></li>
-            </ul>
-            <ul class="navbar-nav ml-auto mt-2">
-                <li class="nav-item"><a class="nav-link" href="{{url_for('auth.logout')}}">Log Out</a></li>
-            </ul>
-            {% elif session['user-id'] %}
-            <ul class="navbar-nav mr-auto mt-2" id="head">
-                <li class="nav-item"><a class="nav-link" href="{{url_for('lipila.show_history')}}">Payment History</a></li>
-            </ul>
-            <ul class="navbar-nav ml-auto mt-2">
-                <li class="nav-item"><a class="nav-link" href="{{url_for('index', task='login')}}">{{session['school'].upper()}}</a></li>
-            </ul>
-            </ul class="navbar-nav ml-auto mt-2">
-                <div class="dropdown">
-                    <button class="dropbtn">About
-                    <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a class="nav-link" href="{{ url_for('site_admin.about')}}">About</a>
-                        <a class="nav-link" href="{{ url_for('site_admin.contact')}}">Contact</a>
-                        <a class="nav-link" href="{{ url_for('site_admin.privacy')}}">Privacy Policy</a>
-                        <a class="nav-link" href="{{ url_for('site_admin.terms')}}">Ts & Cs</a>
-                        <a class="nav-link" href="{{ url_for('site_admin.features')}}">Features</a>
-                    </div>
-                </div>
-            <ul>
-            {% else %}
             <ul class="navbar-nav ml-auto mt-2">
                 <div class="dropdown">
                     <button class="dropbtn">Already on Lipila?
-                      <i class="fa fa-caret-down"></i>
+                        <i class="fa fa-caret-down"></i>
                     </button>
                     <div class="dropdown-content">
                         <a class="nav-link" href="/schooladmin">Admin</a>
@@ -108,23 +52,7 @@
                     </div>
                 </div>
             </ul>
-            </ul class="navbar-nav ml-auto mt-2">
-                <div class="dropdown">
-                    <button class="dropbtn">About
-                    <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a class="nav-link" href="{{ url_for('site_admin.about')}}">About</a>
-                        <a class="nav-link" href="{{ url_for('site_admin.contact')}}">Contact</a>
-                        <a class="nav-link" href="{{ url_for('site_admin.privacy')}}">Privacy Policy</a>
-                        <a class="nav-link" href="{{ url_for('site_admin.terms')}}">Ts & Cs</a>
-                        <a class="nav-link" href="{{ url_for('site_admin.faqs')}}">FAQ's</a>
-                        <a class="nav-link" href="{{ url_for('site_admin.features')}}">Features</a>
-                    </div>
-                </div>
-            <ul>
-            {% endif %}
-            
+
         </div>
     </nav>
 
@@ -143,13 +71,17 @@
     <footer class="small text-center text-muted">
         <dib class="footer">
             <div class="credits">
-                © PTECH 2023. ALL RIGHTS RESERVED Created By <a class="creator" href="https://zyambo.pythonanywhere.com" target="blank">Peter Zyambo | ptech</a>
+                © Lipila 2023. ALL RIGHTS RESERVED
             </div>
             <div class="credits">
-                Background Image by <a class="credits" href="https://www.freepik.com/free-vector/realistic-background-futuristic-style_19256531.htm#query=website%20background&position=49&from_view=keyword" target="blank">Freepik</a> 
+                Background Image by <a class="credits"
+                    href="https://www.freepik.com/free-vector/realistic-background-futuristic-style_19256531.htm#query=website%20background&position=49&from_view=keyword"
+                    target="blank">Freepik</a>
             </div>
             <div>
-                <h6 class="credits"> | <a href="{{url_for('site_admin.terms')}}">Terms and Conditions</a> | <a href="{{url_for('site_admin.privacy')}}">Privacy Policy</a> | <a href="{{url_for('site_admin.faqs')}}">FAQ's</a> |</h6>
+                <h6 class="credits"> | <a href="{{url_for('site_admin.terms')}}">Terms and Conditions</a> | <a
+                        href="{{url_for('site_admin.privacy')}}">Privacy Policy</a> | <a
+                        href="{{url_for('site_admin.faqs')}}">FAQ's</a> |</h6>
             </div>
         </dib>
     </footer>
