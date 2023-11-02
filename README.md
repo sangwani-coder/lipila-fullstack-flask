@@ -1,5 +1,5 @@
-# lipila
-Lipila is an Online Fees Collection System suitable for educational institutes of all sizes. Lipila is a powerful combination of Fee Management Software + Online Payment Gateway by which you can collect fees from your students online & manage everything like a Pro!
+# Lipila
+Lipila is an Online Fees Collection System suitable for businesses to collect fees online. Lipila is a powerful combination of Fee Management Software + Online Payment Gateway.
 
 ### Description 
 Lipila is software focused to provide solutions to schools, colleges, universities, coaching institutes, academies, etc.
@@ -63,24 +63,19 @@ After creating an account you should subscribe to the collections product.
 * LIP_ENV=db
 
 * PGUSER=lipila_dev
-* PGPASSWORD=lipila
-* PGDATABASE=lipila
+* PGPASSWORD=password
+* PGDATABASE=lipiladb
 * PGHOST=localhost
 
 * MAIL_USERNAME=_your gmail account_
 * MAIL_PASSWORD=_your password associated with your email account_
 
 ## Initializing the Database
-* create a postgres database named lipila
+* create a postgres database named lipiladb
 
 You initialize the database by calling the init-db method that has been registered with the app, it can be called using the flask command.
 
-Run the init-db command:
-
-        flask --app lipila init-db
-Initialized the database.
-
-There will now be a lipila.sqlite file in the instance folder in your project.
+The databasse tables will be created once you start the application.
 
 Run the app
 Run the following commands in the project directory to install the dependencies and run the app.
@@ -92,9 +87,9 @@ When running the commands, you may need to type python3/pip3 instead of python/p
         
         pip install -r requirements.txt
 
-Debug mode shows an interactive debugger whenever a page raises an exception, and restarts the server whenever you make changes to the code.
+Make sure you are in the root directory containing thr run_server.py file, and run:
 
-        flask --app lipila --debug run
+        python run_server.py
 
 ### contributors
-Sangwani Peter Zyambo admin@email.com
+Sangwani Peter Zyambo zyambopeter1@gmail.com
