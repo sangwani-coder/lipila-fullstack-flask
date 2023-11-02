@@ -30,9 +30,10 @@ class Parents(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.Unicode(64))
     email = db.Column(db.Unicode(64))
+    mobile = db.Column(db.Unicode(64))
     active = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=datetime.datetime.now)
-    # school = db.relationship(Schools, backref="student", cascade="all, delete-orphan")
+    # wards = db.relationship(Students, backref="student", cascade="all, delete-orphan")
 
 
     def __unicode__(self):
