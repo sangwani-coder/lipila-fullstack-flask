@@ -20,7 +20,7 @@ app.register_blueprint(site_admin.bp)
 @app.route('/')
 def index():
     # session.clear()
-    return render_template('homepage.html')
+    return render_template('index.html')
 
 if __name__ == '__main__':
     # Create admin

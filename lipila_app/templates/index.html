@@ -1,19 +1,6 @@
-{% extends "layout.html" %} {% block title %} Login {% endblock %} {% block main %}
-<div class="scroll-left">
-    <h5>Receive students fees faster, quicker and safer like a Pro!</h5>
-</div>
-<img src="{{url_for('static', filename='images/lipila.png')}}" alt="lipila-logo">
-<h3>ADMINISTRATION</h3>
-<div id="login-form">
-    <form action="{{url_for('auth.login', users='schools')}}" method="post" class="card">
-        <div class="form-group">
-            <input autocomplete="off" autofocus class="form-control" name="email" placeholder="Username" type="text">
-        </div>
-        <div class="form-group">
-            <input class="form-control" name="password" placeholder="Password" type="password">
-        </div>
-        <button class="btn btn-primary" type="submit">Log In</button>
-        <a href="{{url_for('admin.reset_password')}}">Forgot Password</a>
-    </form>
-</div>
+{% extends "layout.html" %} {% block title %}Homepage{% endblock %} {% block main %}
+<h2>Collect Fees Online From Students</h2>
+<h5>Lipila is an Online Fees Collection System suitable for educational institutes of all sizes.<br>
+    Lipila is a powerful combination of Fee Management Software + Online Payment Gateway <br>
+    by which you can collect fees from your students online & manage everything like a Pro!</h5>
 {% endblock %}
