@@ -1,91 +1,45 @@
-<!DOCTYPE html>
+{% import 'admin/layout.html' as layout with context -%}
+{% extends 'admin/base.html' %}
 
-<html lang="en">
+{% block head_tail %}
+{{ super() }}
+<link href="{{ url_for('static', filename='layout.css') }}" rel="stylesheet">
+{% endblock %}
 
-<head>
-
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='signin.css') }}" rel="stylesheet">
-    <link href="{{ url_for('static', filename='spinner.css') }}" rel="stylesheet">
-
-    <!-- documentation at http://getbootstrap.com/docs/4.1/, alternative themes at https://bootswatch.com/ -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-
-    <!-- LOGO-->
-    <link href="../static/lippila.ico" rel="icon">
-
-    <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-    {% block head %} {% endblock %}
-
-    <title>Lipila::{% block title %}{% endblock %}</title>
-
-</head>
-
-<body id="body-bk-color">
-
-    <nav class="navbar navbar-expand-md navbar-light bg-light border">
-        <a class="navbar-brand" href="{{url_for('index')}}"><span class="blue">L</span><span class="red">i</span><span
-                class="yellow">p</span><span class="yellow">i</span><span class="green">la</span> <span
-                class="red">HOME</span></a>
-        <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
-            data-target="#navbar" data-toggle="collapse" type="button">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbar">
-            <ul class="navbar-nav ml-auto mt-2">
-                <div class="dropdown">
-                    <button class="dropbtn">Already on Lipila?
-                        <i class="fa fa-caret-down"></i>
-                    </button>
-                    <div class="dropdown-content">
-                        <a class="nav-link" href="/schooladmin">Admin</a>
-                        <a class="nav-link" href="{{url_for('index', task='login')}}">Sign In</a>
-                        <a class="nav-link" href="{{ url_for('lipila.pay', user='user')}}">Make a Payment</a>
-                    </div>
-                </div>
-            </ul>
-
+{% block page_body %}
+{% if current_user.is_authenticated %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-2" role="navigation">
+      <ul class="nav nav-pills nav-stacked">
+        {{ layout.menu() }}
+        {{ layout.menu_links() }}
+      </ul>
+    </div>
+    <div class="col-md-10">
+      <div id="content" class="row">
+        {% block brand %}
+        {% endblock %}
+        <div class="dropdown show">
+          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="icon-user"></i> {{ current_user.login }} <span class="caret"></span>
+          </a>
+        
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <a class="btn" href="{{ url_for('admin.logout_view') }}">Log out</a>
+          </div>
         </div>
-    </nav>
+        {% else %}
+        <h>Lipila administration</h>
 
-    {% if get_flashed_messages() %}
-    <header>
-        <div class="alert alert-primary border text-center" role="alert">
-            {{ get_flashed_messages() | join(" ") }}
-        </div>
-    </header>
-    {% endif %}
+        {% endif %}
+        {{ layout.messages() }}
 
-    <main class="container p-5">
-        {% block main %}{% endblock %}
-    </main>
+        {% set render_ctx = h.resolve_ctx() %}
 
-    <footer class="small text-center text-muted">
-        <dib class="footer">
-            <div class="credits">
-                © Lipila 2023. ALL RIGHTS RESERVED
-            </div>
-            <div class="credits">
-                Background Image by <a class="credits"
-                    href="https://www.freepik.com/free-vector/realistic-background-futuristic-style_19256531.htm#query=website%20background&position=49&from_view=keyword"
-                    target="blank">Freepik</a>
-            </div>
-            <div>
-                <h6 class="credits"> | <a href="{{url_for('site_admin.terms')}}">Terms and Conditions</a> | <a
-                        href="{{url_for('site_admin.privacy')}}">Privacy Policy</a> | <a
-                        href="{{url_for('site_admin.faqs')}}">FAQ's</a> |</h6>
-            </div>
-        </dib>
-    </footer>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
-
-</html>
+        {% block body %}{% endblock %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

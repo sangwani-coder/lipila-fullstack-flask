@@ -12,8 +12,8 @@ class Administrator(db.Model):
     active = db.Column(db.Boolean, default=True)
     created_at = db.Column(db.DateTime, default=datetime.datetime.now)
     # related school
-    school_id = db.Column(db.Integer, db.ForeignKey('school.id'))
-    school = db.relationship('School', foreign_keys=[school_id])
+    # school_id = db.Column(db.Integer, db.ForeignKey('school.id'))
+    # school = db.relationship('School', foreign_keys=[school_id])
 
     def __unicode__(self):
         return self.name
@@ -31,8 +31,8 @@ class School(db.Model):
     city = db.Column(db.String(55), nullable=False, unique=False)
     short_name = db.Column(db.String(55), nullable=True, unique=True)
 
-    admin_id = db.Column(UUIDType(binary=False), db.ForeignKey(Administrator.id))
-    admin = db.relationship(Administrator, foreign_keys=[admin_id], backref='zyambo')
+    # admin_id = db.Column(UUIDType(binary=False), db.ForeignKey(Administrator.id))
+    # admin = db.relationship(Administrator, foreign_keys=[admin_id], backref='zyambo')
 
 
 class Parents(db.Model):

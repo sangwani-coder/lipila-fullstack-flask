@@ -1,4 +1,4 @@
-{% extends "layout.html" %} {% block title %} Payment {% endblock %} {% block main %} 
+{% extends "frontend_layout.html" %} {% block title %} Payment {% endblock %} {% block main %} 
 <h3>Enter your student payment code</h3>
 <div id="login-form">
     <form action="{{url_for('lipila.pay')}}" method="post" class="card">

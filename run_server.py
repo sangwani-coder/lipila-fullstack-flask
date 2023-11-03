@@ -6,7 +6,7 @@ from lipila_app.models.school import (
     School, Administrator, Parents,
     SchoolFees, Students, OtherFees, Payments,
 )
-from lipila_app.models.user import User
+from lipila_app.models.user import User, MyAdminIndexView, MyModelView, init_login, build_sample_db
 from flask import render_template
 
 from lipila_app.views import lipila
@@ -25,21 +25,29 @@ def index():
 
 if __name__ == '__main__':
     # Lipila Admin views
-    admin = Admin(app, name='Lipila', template_mode='bootstrap3')
-    admin.add_view(ModelView(User, db.session))
-    admin.add_view(ModelView(School, db.session))
-    admin.add_view(ModelView(Administrator, db.session))
+    # Initialize flask-login
+    init_login()
 
-    # school admin views
-    schooladmin = Admin(app, name='School', url="/schooladmin",
-                   endpoint="schooladmin", template_mode='babel')
-    schooladmin.add_view(ModelView(Parents, db.session))
-    schooladmin.add_view(ModelView(Students, db.session))
-    schooladmin.add_view(ModelView(SchoolFees, db.session))
-    schooladmin.add_view(ModelView(OtherFees, db.session))
-    schooladmin.add_view(ModelView(Payments, db.session))
+    # Create admin
+    admin = Admin(app, name='Lipila', index_view=MyAdminIndexView(), base_template='layout.html', template_mode='bootstrap4')
+
+    # Add view
+    admin.add_view(MyModelView(User, db.session))
+
+    # admin = Admin(app, name='Lipila', template_mode='bootstrap3')
+    # admin.add_view(ModelView(User, db.session))
+    admin.add_view(MyModelView(School, db.session))
+    admin.add_view(MyModelView(Administrator, db.session))
+
+    
+    admin.add_view(MyModelView(Parents, db.session))
+    admin.add_view(ModelView(Students, db.session))
+    admin.add_view(MyModelView(SchoolFees, db.session))
+    admin.add_view(MyModelView(OtherFees, db.session))
+    admin.add_view(MyModelView(Payments, db.session))
 
     with app.app_context():
         db.create_all()
+        build_sample_db()
 
     app.run(debug=True)
